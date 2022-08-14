@@ -13,14 +13,12 @@ public class CompanyServiceImpl implements CompanyService{
 	private CompanyDAO companyDAO;
 	
 	public boolean checkDupCompanyName(String company_name) throws Exception {
-		System.out.println(companyDAO.checkDupCompanyName(company_name));
+		
 		if(companyDAO.checkDupCompanyName(company_name) != 0) {
 			// 업체명이 중복이면 false
-			System.out.println("false");
 			return false;
 		}
 		// 업체명이 중복되지 않으면 true
-		System.out.println("true");
 		return true;
 	}
 	

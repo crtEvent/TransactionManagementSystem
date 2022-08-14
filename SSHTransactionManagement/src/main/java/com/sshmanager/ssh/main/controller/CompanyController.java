@@ -35,8 +35,6 @@ public class CompanyController {
 	@ResponseBody
 	public boolean checkCompanyName(String company_name) throws Exception {
 		
-		System.out.println("company_name: "+company_name);
-		
 		// 업체명이 중복이면 false, 업체명이 중복되지 않으면 true
 		return companyService.checkDupCompanyName(company_name)? true:false;
 	}

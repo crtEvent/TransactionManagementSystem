@@ -8,17 +8,6 @@
 		SELECT 
 			COMPANY_IDX
 		    , COMPANY_NAME
-    		, COMPANY_REG_NUM
-    		, REPRESENTATIVE
-    		, ADDRESS_1
-    		, ADDRESS_2
-    		, BUSINESS_CONDITIONS
-    		, BUSINESS_ITEM
-    		, TEL
-    		, FAX
-    		, MOBILE
-    		, EMAIL
-    		, REG_DATE
 		FROM 
 			COMPANY
 		]]>

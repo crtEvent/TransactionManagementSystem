@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="company">
+	
+	<select id="checkDupCompanyName" parameterType="String" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM COMPANY
+		WHERE COMPANY_NAME = #{company_name}
+		]]>
+	</select>
+	
+	<insert id="insertCompany" parameterType="companyDTO">
+		<![CDATA[
+		INSERT INTO COMPANY
+			(COMPANY_NAME
+			, COMPANY_REG_NUM
+			, REPRESENTATIVE
+			, ADDRESS_1
+			, ADDRESS_2
+			, TEL
+			, FAX
+			, MOBILE
+			, ECT)
+		VALUES
+			(#{company_name}
+			, #{company_reg_num}
+			, #{representative}
+			, #{address_1}
+			, #{address_2}
+			, #{tel}
+			, #{fax}
+			, #{mobile}
+			, #{ect})
+		]]>
+	</insert>
+	
+	
+</mapper>

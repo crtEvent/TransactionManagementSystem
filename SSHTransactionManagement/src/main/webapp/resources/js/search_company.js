@@ -1,6 +1,8 @@
-
+/**
+ *  업체명 검색
+ */
 	
-// 거래처명검색
+// 업체명 검색
 $('input[name=company_name_keyword]').keyup(function() {
 	$.ajax({
 		url: "/ssh/main/search_co",

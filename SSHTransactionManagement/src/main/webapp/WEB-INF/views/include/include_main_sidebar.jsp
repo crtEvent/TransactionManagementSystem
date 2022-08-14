@@ -15,11 +15,19 @@
 	<div class="sidebar">
 
 		<div class="form-inline">
-		
+			<!-- Search Bar -->
 			<div class="input-group mb-3">
 				<input name="company_name_keyword" class="form-control" type="search" placeholder="거래처 검색" autocomplete="off">
 			</div>
 			
+			<!-- Insert Company -->
+			<div class="input-group">
+				<button type="button" 
+						class="btn btn-block btn-default text-bold"
+						name="open_insert_company_modal">업체 등록</button>
+			</div>
+			
+			<!-- Company List Table -->
 			<div class="w-100 bg-light rounded">
 				<table id="searchCompanyListTable" class="table table-sm table-hover text-nowrap w-100 table-bordered rounded">
                   <thead>
@@ -37,8 +45,7 @@
                     </c:forEach>
                   </tbody>
                 </table>
-				
-				
+
 			</div>
 			
 		</div>

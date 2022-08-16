@@ -16,4 +16,6 @@
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/dist/css/adminlte.min.css" />">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />">
-  
+  <!-- jsGrid -->
+  <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/jsGrid/jsgrid.min.css"/>">
+  <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/jsGrid/jsgrid-theme.min.css"/>">

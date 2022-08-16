@@ -1,8 +1,5 @@
 package com.sshmanager.ssh.main.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +19,7 @@ public class SearchCompanyController {
 	SearchCompanyService searchCompanyService;
 	
 	@PostMapping(value = "/search_co")
-	public String search_company(Model model
+	public String searchCompany(Model model
 								, RedirectAttributes ridirectAttr
 								, String company_name_keyword) throws Exception {
 		
@@ -32,7 +29,7 @@ public class SearchCompanyController {
 	}
 	
 	@GetMapping(value = "/search_co_result")
-	public String search_company_result(Model model
+	public String searchCompanyResult(Model model
 										, String company_name_keyword) throws Exception {
 		
 		model.addAttribute("searchCompanyList"

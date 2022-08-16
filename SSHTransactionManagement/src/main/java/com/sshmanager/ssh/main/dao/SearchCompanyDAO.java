@@ -15,9 +15,8 @@ public class SearchCompanyDAO {
     private SqlSession session;
 	private static String namespace = "searchCompany.";
 	
-	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> searchCompanyList(String company_name_keyword, int limit) throws Exception {
-		Map map = new HashMap();
+		Map<String, String> map = new HashMap<String, String>();
     	map.put("keyword", company_name_keyword);
     	map.put("limit", Integer.toString(limit));
 		return session.selectList(namespace+"searchCompanyList", map);

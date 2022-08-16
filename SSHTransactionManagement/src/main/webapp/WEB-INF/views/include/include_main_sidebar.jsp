@@ -38,7 +38,7 @@
                   </thead>
                   <tbody>
                   	<c:forEach var="row_company" items="${searchCompanyList}">
-                   		<tr class="text-center">
+                   		<tr class="text-center" onclick="fn_getCompanyDetails(${row_company.COMPANY_IDX})">
                     		<td>${row_company.COMPANY_IDX }</td>
                     		<td>${row_company.COMPANY_NAME }</td>
                     	</tr>

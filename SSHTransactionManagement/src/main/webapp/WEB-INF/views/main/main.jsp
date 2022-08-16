@@ -16,7 +16,7 @@
 		
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper" id="contentWrapper">
-			<!-- transaction_details.jsp가 들어갈 자리 -->
+			<!-- main_details.jsp 들어갈 자리 -->
 		</div>
 		<!-- /.content wrapper -->
 		
@@ -29,5 +29,6 @@
 	<%@include file="../include/include_main_plugins.jsp" %>
 	<script type="text/javascript" src="<c:url value="/resources/js/search_company.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/insert_company.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/resources/js/main_details.js"/>"></script>
 </body>
 </html>

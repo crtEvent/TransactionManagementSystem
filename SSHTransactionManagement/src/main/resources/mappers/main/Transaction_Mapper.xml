@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="transaction">
+	
+	<select id="selectTransactionList" parameterType="String" resultType="transactionDTO">
+		<![CDATA[
+		SELECT 
+			TRANSACTION_IDX
+			, COMPANY_IDX
+			, DATE
+			, SUBJECT
+		FROM 
+			TRANSACTION
+		WHERE 
+			COMPANY_IDX = #{company_idx}
+		]]>
+	</select>
+	<!-- 나중에 날짜도 포함해야 함 -->
+	
+	<select id="selectTransaction" parameterType="String" resultType="transactionDTO">
+		<![CDATA[
+		SELECT 
+			TRANSACTION_IDX
+			, COMPANY_IDX
+			, DATE
+			, SUBJECT
+		FROM 
+			TRANSACTION
+		WHERE 
+			TRANSACTION_IDX = #{transaction_idx}
+		]]>
+	</select>
+	
+	<select id="selectItemList" parameterType="String" resultType="itemDTO">
+		<![CDATA[
+		SELECT 
+			ITEM_IDX
+			, TRANSACTION_IDX
+			, CONTENT
+			, AMOUNT
+			, UNIT
+			, UNIT_PRICE
+			, SUPPLY_PRICE
+			, TAX_PRICE
+			, TOTAL_PRICE
+		FROM
+			ITEM
+		WHERE
+			TRANSACTION_IDX = #{transaction_idx}
+		]]>
+	</select>
+	
+	<select id="selectFileList" parameterType="String" resultType="fileDTO">
+		<![CDATA[
+		SELECT 
+			FILE_IDX
+			, TRANSACTION_IDX
+			, CLASSIFICATION
+			, FILE_NAME
+			, FILE_PATH
+		FROM
+			FILE
+		WHERE
+			TRANSACTION_IDX = #{transaction_idx}
+		]]>
+	</select>
+	
+</mapper>

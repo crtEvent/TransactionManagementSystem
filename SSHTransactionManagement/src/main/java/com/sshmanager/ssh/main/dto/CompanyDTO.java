@@ -12,6 +12,7 @@ public class CompanyDTO {
 	private String fax;
 	private String mobile;
 	private String ect;
+	private String reg_date;
 	
 	public String getCompany_idx() {
 		return company_idx;
@@ -72,6 +73,12 @@ public class CompanyDTO {
 	}
 	public void setEct(String ect) {
 		this.ect = ect;
+	}
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
 	}
 	
 }

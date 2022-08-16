@@ -12,6 +12,10 @@ public class CompanyServiceImpl implements CompanyService{
 	@Autowired
 	private CompanyDAO companyDAO;
 	
+	public CompanyDTO getCompany(String company_idx) throws Exception {
+		return companyDAO.selectCompany(company_idx);
+	}
+	
 	public boolean checkDupCompanyName(String company_name) throws Exception {
 		
 		if(companyDAO.checkDupCompanyName(company_name) != 0) {

@@ -11,3 +11,5 @@
 	<script src="<c:url value="/resources/adminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"/>"></script>
 	<!-- AdminLTE App -->
 	<script src="<c:url value="/resources/adminLTE/dist/js/adminlte.min.js"/>"></script>
+	<!-- jsGrid -->
+	<script src="<c:url value="/resources/adminLTE/plugins/jsGrid/jsgrid.min.js"/>"></script>

@@ -8,5 +8,12 @@
         SELECT NOW()
         ]]>
     </select>
+    
+    <select id="testEnum" parameterType="fileDTO" resultType="String">
+    	<![CDATA[
+    	select #{file_type}
+    	from dual
+    	]]>
+    </select>
 
 </mapper>

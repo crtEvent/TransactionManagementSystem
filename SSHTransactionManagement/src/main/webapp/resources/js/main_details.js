@@ -17,6 +17,8 @@ function fn_getCompanyDetails(company_idx) {
 		success: function(result){
 			$("#contentWrapper").html(result);
 			fn_loadTransactionListTable(company_idx);
+			fn_resetTransactionModal('insert');
+			//fn_resetTransactionModal('update');
 		},
 		error: function(){
 			alert("에러");
@@ -62,7 +64,7 @@ function fn_loadTransactionListTable(company_idx) {
       	  	}
 		}); // jsGrid end
 	}); // .done() end
-	
+
 }; // function end
 
 /* 거래 세부내역 불러오기 */

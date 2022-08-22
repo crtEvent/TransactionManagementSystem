@@ -1,12 +1,14 @@
 package com.sshmanager.ssh.main.dto;
 
+import com.sshmanager.ssh.main.domain.FileType;
+
 public class FileDTO {
 	
 	private String file_idx;
 	private String transaction_idx;
-	private String classification;
 	private String file_name;
 	private String file_path;
+	private FileType file_type;
 	
 	public String getFile_idx() {
 		return file_idx;
@@ -20,12 +22,6 @@ public class FileDTO {
 	public void setTransaction_idx(String transaction_idx) {
 		this.transaction_idx = transaction_idx;
 	}
-	public String getClassification() {
-		return classification;
-	}
-	public void setClassification(String classification) {
-		this.classification = classification;
-	}
 	public String getFile_name() {
 		return file_name;
 	}
@@ -38,11 +34,15 @@ public class FileDTO {
 	public void setFile_path(String file_path) {
 		this.file_path = file_path;
 	}
-	
+	public FileType getFile_type() {
+		return file_type;
+	}
+	public void setFile_type(FileType file_type) {
+		this.file_type = file_type;
+	}
 	@Override
 	public String toString() {
-		return "FileDTO [file_idx=" + file_idx + ", transaction_idx=" + transaction_idx + ", classification="
-				+ classification + ", file_name=" + file_name + ", file_path=" + file_path + "]";
+		return "FileDTO [file_idx=" + file_idx + ", transaction_idx=" + transaction_idx + ", file_name=" + file_name
+				+ ", file_path=" + file_path + ", file_type=" + file_type + "]";
 	}
-	
 }

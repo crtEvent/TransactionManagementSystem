@@ -6,6 +6,7 @@
 		<typeAlias type="com.sshmanager.ssh.main.dto.CompanyDTO" alias="companyDTO"/>
 		<typeAlias type="com.sshmanager.ssh.main.dto.TransactionDTO" alias="transactionDTO"/>
 		<typeAlias type="com.sshmanager.ssh.main.dto.ItemDTO" alias="itemDTO"/>
+		<typeAlias type="com.sshmanager.ssh.main.dto.MemoDTO" alias="memoDTO"/>
 		<typeAlias type="com.sshmanager.ssh.main.dto.FileDTO" alias="fileDTO"/>
 	</typeAliases>
 </configuration>

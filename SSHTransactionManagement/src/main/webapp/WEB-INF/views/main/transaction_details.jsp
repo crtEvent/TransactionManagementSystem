@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <!-- Card -->
 <div class="card  sticky-top">
@@ -38,13 +40,23 @@
 							<c:forEach var="row_item" varStatus="status"
 										items="${itemList}">
 								<tr>
-									<td></td>
+									<td class="text-center">${status.index + 1}</td>
 									<td>${row_item.content}</td>
-									<td class="text-right">${row_item.amount}</td>
-									<td class="text-right">${row_item.unit_price}</td>
-									<td class="text-right">${row_item.supply_price}</td>
-									<td class="text-right">${row_item.tax_price}</td>
-									<td class="text-right">${row_item.total_price}</td>
+									<td class="text-right">
+										<fmt:formatNumber value="${row_item.amount}" pattern="#,###" />
+									</td>
+									<td class="text-right">
+										<fmt:formatNumber value="${row_item.unit_price}" pattern="#,###" />
+									</td>
+									<td class="text-right">
+										<fmt:formatNumber value="${row_item.supply_price}" pattern="#,###" />
+									</td>
+									<td class="text-right">
+										<fmt:formatNumber value="${row_item.tax_price}" pattern="#,###" />
+									</td>
+									<td class="text-right">
+										<fmt:formatNumber value="${row_item.total_price}" pattern="#,###" />
+									</td>
 								</tr>
 							</c:forEach>
 						</c:when>

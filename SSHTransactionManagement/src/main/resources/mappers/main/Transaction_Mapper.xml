@@ -16,7 +16,6 @@
 			COMPANY_IDX = #{company_idx}
 		]]>
 	</select>
-	<!-- 나중에 날짜도 포함해야 함 -->
 	
 	<select id="selectTransaction" parameterType="String" resultType="transactionDTO">
 		<![CDATA[
@@ -39,7 +38,6 @@
 			, TRANSACTION_IDX
 			, CONTENT
 			, AMOUNT
-			, UNIT
 			, UNIT_PRICE
 			, SUPPLY_PRICE
 			, TAX_PRICE
@@ -51,19 +49,82 @@
 		]]>
 	</select>
 	
-	<select id="selectFileList" parameterType="String" resultType="fileDTO">
+	<select id="selectMemoList" parameterType="String" resultType="memoDTO">
 		<![CDATA[
 		SELECT 
-			FILE_IDX
+			MEMO_IDX
 			, TRANSACTION_IDX
-			, CLASSIFICATION
-			, FILE_NAME
-			, FILE_PATH
+			, CONTENT
 		FROM
-			FILE
+			MEMO
 		WHERE
 			TRANSACTION_IDX = #{transaction_idx}
 		]]>
 	</select>
+	
+	<select id="selectFileList" parameterType="map" resultType="fileDTO">
+		<![CDATA[
+		SELECT 
+			FILE_IDX
+			, TRANSACTION_IDX
+			, FILE_NAME
+		FROM
+			${file_type}_FILE
+		WHERE
+			TRANSACTION_IDX = #{transaction_idx}
+		]]>
+	</select>
+	
+	<insert id="insertTransaction" useGeneratedKeys="true" keyProperty="transaction_idx" parameterType="transactionDTO">
+		<![CDATA[
+		INSERT INTO 
+			TRANSACTION(COMPANY_IDX
+						, DATE
+						, SUBJECT)
+		VALUES
+			(#{company_idx}
+			,#{date}
+			,#{subject})
+		]]>
+	</insert>
+	
+	<insert id="insertItem" parameterType="itemDTO">
+		<![CDATA[
+		INSERT INTO 
+			ITEM(TRANSACTION_IDX
+				, CONTENT
+				, AMOUNT
+				, UNIT_PRICE
+				, SUPPLY_PRICE
+				, TAX_PRICE
+				, TOTAL_PRICE)
+		VALUES 
+			(#{transaction_idx}
+			, #{content}
+			, #{amount}
+			, #{unit_price}
+			, #{supply_price}
+			, #{tax_price}
+			, #{total_price})
+		]]>
+	</insert>
+	
+	<insert id="insertMemo" parameterType="memoDTO">
+		<![CDATA[
+		INSERT INTO 
+			MEMO(TRANSACTION_IDX, CONTENT)
+		VALUES 
+			(#{transaction_idx}, #{content})
+		]]>
+	</insert>
+	
+	<insert id="insertFile" parameterType="fileDTO">
+		<![CDATA[
+		INSERT INTO 
+			${file_type}_FILE(TRANSACTION_IDX, FILE_NAME)
+		VALUES 
+			(#{transaction_idx}, #{file_name})
+		]]>
+	</insert>
 	
 </mapper>

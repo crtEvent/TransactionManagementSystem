@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sshmanager.ssh.main.service.TransactionService;
 import com.sshmanager.ssh.main.dao.TransactionDAO;
+import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.dto.TransactionDTO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,16 +24,25 @@ public class TransactionServiceTest {
 	TransactionService transactionService;
 	
 	@Test
-	public void selectTransactionTest() throws Exception {
+	public void testSelectTransaction() throws Exception {
 		
 		String transaction_idx = "ee1d";
 		
 		TransactionDTO dto;
 		dto = transactionDAO.selectTransaction(transaction_idx);
 		
-		System.out.println(dto.toString());
+		System.out.println("dto.toString(): "+dto.toString());
 		
 		assertTrue(dto != null);
+	}
+	
+	@Test
+	public void testInsertFile() {
+		
+		FileDTO fileDTO = new FileDTO();
+		
+		transactionService.insertOrderFile(fileDTO);
+		
 	}
 	
 	

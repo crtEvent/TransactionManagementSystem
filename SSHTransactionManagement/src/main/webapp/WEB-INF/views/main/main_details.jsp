@@ -11,13 +11,14 @@
 		<div class="row">
 			<div class="col-12">
 				<!-- Card -->
-				<div class="card my-2">
+				<div class="card my-2" id="mainDetailsCard">
 					<!-- Card-body -->
 					<div class="card-body py-2">
 					
 						<div class="row">
 							<div class="col-4">
 								<span class="align-middle h3 text-bold">${companyDTO.company_name }</span>
+								<input type="hidden" name="company_idx" value="${companyDTO.company_idx}">
 								<button class="btn btn-primary btn-sm" title="수정" name="">
 									<i class="fas fa-pencil-alt"></i>
 								</button>

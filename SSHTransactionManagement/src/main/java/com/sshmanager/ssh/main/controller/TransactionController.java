@@ -15,6 +15,8 @@ import com.sshmanager.ssh.main.dto.TransactionDTO;
 import com.sshmanager.ssh.main.service.CompanyService;
 import com.sshmanager.ssh.main.service.TransactionService;
 
+import net.sf.json.JSONArray;
+
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -52,8 +54,20 @@ public class TransactionController {
 	
 		model.addAttribute("transactionDTO", transactionService.getTransaction(transaction_idx));
 		model.addAttribute("itemList", transactionService.getItemList(transaction_idx));
-		model.addAttribute("fileList", transactionService.getFileList(transaction_idx));
+		//model.addAttribute("fileList", transactionService.getFileList(transaction_idx));
 		
 		return "/main/transaction_details";
+	}
+	
+	/* 거래 내역 입력 */
+	@RequestMapping("/insert-transaction")
+	@ResponseBody
+	public boolean insertTransaction(TransactionDTO transactionDTO, String itemJsonData, String memoJsonData) throws Exception {
+		
+		transactionService.insertTransactionDetails(transactionService.insertTransaction(transactionDTO)
+				, JSONArray.fromObject(itemJsonData)
+				, JSONArray.fromObject(memoJsonData));
+		
+		return true;
 	}
 }

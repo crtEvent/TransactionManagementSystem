@@ -6,7 +6,6 @@ public class ItemDTO {
 	private String transaction_idx;
 	private String content;
 	private String amount;
-	private String unit;
 	private String unit_price;
 	private String supply_price;
 	private String tax_price;
@@ -36,12 +35,6 @@ public class ItemDTO {
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
-	public String getUnit() {
-		return unit;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
 	public String getUnit_price() {
 		return unit_price;
 	}
@@ -70,7 +63,7 @@ public class ItemDTO {
 	@Override
 	public String toString() {
 		return "ItemDTO [item_idx=" + item_idx + ", transaction_idx=" + transaction_idx + ", content=" + content
-				+ ", amount=" + amount + ", unit=" + unit + ", unit_price=" + unit_price + ", supply_price="
+				+ ", amount=" + amount + ", unit_price=" + unit_price + ", supply_price="
 				+ supply_price + ", tax_price=" + tax_price + ", total_price=" + total_price + "]";
 	}
 	

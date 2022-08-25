@@ -2,6 +2,8 @@ package com.sshmanager.ssh.main.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.dto.ItemDTO;
 import com.sshmanager.ssh.main.dto.MemoDTO;
@@ -65,4 +67,11 @@ public interface TransactionService {
 	/* INSERT - 아이템+메모 입력 */
 	public boolean insertTransactionDetails(String transaction_idx
 			, JSONArray itemJsonArray, JSONArray memoJsonArray);
+	
+	/* INSERT - 파일업로드 */
+	public void insesrtTransactionFiles(String date, String company_idx, String transaction_idx
+			, MultipartHttpServletRequest multipartRequest) throws Exception;
+	
+	/* 중복된 파일의 이름을 변경*/
+	public String replaceDuplicateFileName(String path, String storedFileName);
 }

@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sshmanager.ssh.main.service.TransactionService;
 import com.sshmanager.ssh.main.dao.TransactionDAO;
+import com.sshmanager.ssh.main.domain.FileType;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.dto.TransactionDTO;
 
@@ -43,6 +44,12 @@ public class TransactionServiceTest {
 		
 		transactionService.insertOrderFile(fileDTO);
 		
+	}
+	
+	@Test
+	public void testFileType() {
+		
+		System.out.println(FileType.QUOTE.getFolder_name());
 	}
 	
 	

@@ -121,9 +121,9 @@
 	<insert id="insertFile" parameterType="fileDTO">
 		<![CDATA[
 		INSERT INTO 
-			${file_type}_FILE(TRANSACTION_IDX, FILE_NAME)
+			${file_type}_FILE(TRANSACTION_IDX, FILE_NAME, FILE_PATH)
 		VALUES 
-			(#{transaction_idx}, #{file_name})
+			(#{transaction_idx}, #{file_name}, #{file_path})
 		]]>
 	</insert>
 	

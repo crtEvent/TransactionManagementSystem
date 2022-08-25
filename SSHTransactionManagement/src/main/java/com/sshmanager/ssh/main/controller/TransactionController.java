@@ -1,14 +1,19 @@
 package com.sshmanager.ssh.main.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sshmanager.ssh.main.dto.TransactionDTO;
@@ -59,15 +64,31 @@ public class TransactionController {
 		return "/main/transaction_details";
 	}
 	
-	/* 거래 내역 입력 */
+	/* 거래 내역 입력 - item, memo file */
 	@RequestMapping("/insert-transaction")
 	@ResponseBody
-	public boolean insertTransaction(TransactionDTO transactionDTO, String itemJsonData, String memoJsonData) throws Exception {
+	public ResponseEntity<?> insertTransaction(MultipartHttpServletRequest multipartRequest
+			, TransactionDTO transactionDTO
+			, String itemJsonData
+			, String memoJsonData) {
+			
+		try {
+			String transaction_idx = transactionService.insertTransaction(transactionDTO);
+			
+			transactionService.insertTransactionDetails(transaction_idx
+					, JSONArray.fromObject(itemJsonData)
+					, JSONArray.fromObject(memoJsonData));
 		
-		transactionService.insertTransactionDetails(transactionService.insertTransaction(transactionDTO)
-				, JSONArray.fromObject(itemJsonData)
-				, JSONArray.fromObject(memoJsonData));
+			transactionService.insesrtTransactionFiles(transactionDTO.getDate()
+					, transactionDTO.getCompany_idx()
+					, transaction_idx
+					, multipartRequest);
+			
+			return new ResponseEntity<>("Success", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
 		
-		return true;
 	}
+	
 }

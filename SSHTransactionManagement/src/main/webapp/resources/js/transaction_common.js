@@ -263,10 +263,15 @@ function fn_inputTotalPrice(obj) {
 /* [거래 내역 입력]************************************************************************************** */
 function fn_insertTransaction() {
 
-	// transaction 정보
+	var formData = new FormData();
+	
+	/* [transaction 정보] */
+	var date = insertTransactionModal.find('input[name=date]').val();
 	var company_idx = insertTransactionModal.find('input[name=company_idx]').val();
+	formData.append('date', date);
+	formData.append('company_idx', company_idx);
 
-	// item 넣기
+	/* [item 넣기] */
 	var itemList = new Array() ;
 	var item = insertTransactionModal.find('input[name=amount]');
 	
@@ -283,9 +288,9 @@ function fn_insertTransaction() {
 		itemList.push(itemData);
 	}
 	
-	var itemJsonData = JSON.stringify(itemList);
-	
-	// memo 넣기
+	formData.append('itemJsonData', JSON.stringify(itemList));
+
+	/* [memo 넣기] */
 	var memoList = new Array();
 	var memo = insertTransactionModal.find('input[name=memo]');
 	
@@ -299,28 +304,39 @@ function fn_insertTransaction() {
 	
 	var memoJsonData = JSON.stringify(memoList);
 	
+	formData.append('memoJsonData', JSON.stringify(memoList));
+
+	/* [file 넣기] */
+	var inputFiles = insertTransactionModal.find('input[type=file]'); // input[type=file] 여러개 다 가져옴
 	
-	var insertData = {"company_idx":insertTransactionModal.find('input[name=company_idx]').val()
-					  , "date":insertTransactionModal.find('input[name=date]').val()
-					  , "subject":insertTransactionModal.find('input[name=subject]').val()
-					  , "itemJsonData":itemJsonData
-					  , "memoJsonData":memoJsonData};
+	//console.log("inputFiles name"+inputFiles[0].attr('name'));
 	
+	// input[type=file] tag가 있는 경우
+	if(inputFiles.length != 0) {
+		for(var i = 0; i < inputFiles.length; i++) {
+			// 파일 값이 없는 input[type=file] tag는 제거
+			if(inputFiles[i].files[0] == null){
+				inputFiles[i].parentElement.remove();
+				continue;
+			}
+			formData.append(inputFiles.eq(i).attr('name'), inputFiles[i].files[0]);
+		} // .for
+	} // .if
 	
+	/* Ajax 전송 */
 	$.ajax({
 		url: '/ssh/transaction/insert-transaction',
 		type: 'post',
-		//processData: false,
-		//contentType: false,
-		traditional :true, 
-		data: insertData,
-		success: function(result){
+		data: formData,
+		contentType: false,
+		processData: false,
+		enctype : 'multipart/form-data',
+		success: function() {
 			fn_resetTransactionModal('insert');
 			fn_loadTransactionListTable(company_idx);
 		},
-		error: function(){
-			alert("fn_insertTransaction() 에러");
+		error: function(error) {
+			alert('[에러]\n'+error.status+'\n'+error.responseText);
 		}
-	})
-	
+	});
 }

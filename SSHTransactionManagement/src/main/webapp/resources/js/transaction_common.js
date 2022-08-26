@@ -122,7 +122,7 @@ function fn_addFile(insertOrUpdate, fileType) {
 			'<div class="input-group-prepend">'+
 				'<span class="input-group-text"><i class="fas fa-paperclip"></i></span>'+
 			'</div>'+
-			'<input type="text" name="'+fileType+'FileName'+fileCnt+'"class="form-control bg-white" readonly>'+
+			'<input type="text" name="'+fileType+'FileName'+fileCnt+'" class="form-control bg-white" readonly>'+
 			'<button type="button" class="btn btn-sm" onclick="fn_deleteFile($(this))">'+
 				'<i class="fas fa-times-circle"></i>'+
 			'</button>'+

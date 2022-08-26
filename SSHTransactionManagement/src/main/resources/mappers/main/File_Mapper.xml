@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="file">
+
+	<select id="selectFile" parameterType="map" resultType="FileDTO">
+		<![CDATA[
+		SELECT 
+			FILE_IDX
+			, TRANSACTION_IDX
+			, FILE_NAME
+			, FILE_PATH
+		FROM
+			${file_type}_FILE
+		WHERE
+			FILE_IDX = #{file_idx}
+		]]>
+	</select>
+	
+</mapper>

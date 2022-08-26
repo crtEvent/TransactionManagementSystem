@@ -59,7 +59,11 @@ public class TransactionController {
 	
 		model.addAttribute("transactionDTO", transactionService.getTransaction(transaction_idx));
 		model.addAttribute("itemList", transactionService.getItemList(transaction_idx));
-		//model.addAttribute("fileList", transactionService.getFileList(transaction_idx));
+		model.addAttribute("memoList", transactionService.getMemoList(transaction_idx));
+		model.addAttribute("quoteFileList", transactionService.getQuoteFileList(transaction_idx));
+		model.addAttribute("orderFileList", transactionService.getOrderFileList(transaction_idx));
+		model.addAttribute("imageFileList", transactionService.getImageFileList(transaction_idx));
+		model.addAttribute("otherFileList", transactionService.getOtherFileList(transaction_idx));
 		
 		return "/main/transaction_details";
 	}

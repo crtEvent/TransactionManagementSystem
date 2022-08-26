@@ -68,6 +68,7 @@
 			FILE_IDX
 			, TRANSACTION_IDX
 			, FILE_NAME
+			, FILE_PATH
 		FROM
 			${file_type}_FILE
 		WHERE

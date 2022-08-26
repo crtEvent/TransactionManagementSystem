@@ -83,3 +83,9 @@ function fn_getTransactionDetails(transaction_idx) {
 	});
 	
 }
+
+/* 파일 다운로드 */
+function fn_downloadFile(file_type, file_idx) {
+	var url = '/ssh/file/download?file_type='+file_type+'&file_idx='+file_idx;
+	window.open(url, '_blank');
+}

@@ -6,7 +6,7 @@
 
 
 <!-- Card -->
-<div class="card  sticky-top">
+<div class="card sticky-top">
 	<!-- <!-- Card-header -->
 	<div class="card-header py-2">
 		<span class="align-middle text-bold">${transactionDTO.date} [${transactionDTO.subject}]</span>
@@ -21,7 +21,7 @@
 		<!-- Item Table -->
 		<div class="row table-responsive-sm">
 			<table
-				class="table table-sm table-hover table-bordered text-nowrap  mb-1"
+				class="table table-sm table-hover table-bordered text-nowrap mb-1"
 				style="font-size: 14px;">
 				<thead>
 					<tr>
@@ -70,5 +70,141 @@
 			</table>
 		</div>
 		<!-- /.item Table -->
-	</div>
-</div>
+		
+		<!-- Memo Table -->
+		<div class="row table-responsive-sm">
+			<table
+				class="table table-sm table-hover table-bordered text-nowrap" style="font-size:14px;">
+				<tbody>
+					<c:choose>
+						<c:when test="${fn:length(memoList) > 0}">
+							<c:forEach var="row_memo" varStatus="status"
+										items="${memoList}">
+										
+								<tr>
+									<td class="text-center bg-warning" style="width: 4%">
+										메모
+									</td>
+									<td>
+										${row_memo.content}
+									</td>
+								</tr>
+					
+							</c:forEach>
+						</c:when>
+					</c:choose>
+				</tbody>
+			</table>
+		</div>
+		<!-- /.memo Table -->
+		
+		<!-- Quote File Download -->
+		<h5 class="mb-1">견적서 파일</h5>
+		<c:choose>
+			<c:when test="${fn:length(quoteFileList) > 0}">
+				<c:forEach var="row_quoteFile" varStatus="status"
+										items="${quoteFileList}">
+					
+					<div class="row">
+						<div class="col-8">
+							<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-paperclip"></i></span>
+							</div>
+							<input type="text" class="form-control bg-white" readonly 
+								value="${row_quoteFile.file_name }" onclick="fn_downloadFile('quote',${row_quoteFile.file_idx})" 
+								style="cursor:pointer">
+						</div>
+						</div>
+						<div class="col-4">
+							<a href="/ssh/file/download?file_type=quote&file_idx=${row_quoteFile.file_idx}" target="_blank">다운로드</a>
+						</div>
+					</div>
+					
+				</c:forEach>
+			</c:when>
+		</c:choose><!-- /.quote file download -->
+		
+		<!-- Order File Download -->
+		<h5 class="mb-1 mt-2">지시서 파일</h5>
+		<c:choose>
+			<c:when test="${fn:length(orderFileList) > 0}">
+				<c:forEach var="row_orderFile" varStatus="status"
+										items="${orderFileList}">
+					
+					<div class="row">
+						<div class="col-8">
+							<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-paperclip"></i></span>
+							</div>
+							<input type="text" class="form-control bg-white" readonly 
+								value="${row_orderFile.file_name }" onclick="fn_downloadFile('order',${row_orderFile.file_idx})" 
+								style="cursor:pointer">
+						</div>
+						</div>
+						<div class="col-4">
+							<a href="/ssh/file/download?file_type=order&file_idx=${row_orderFile.file_idx}" target="_blank">다운로드</a>
+						</div>
+					</div>
+					
+				</c:forEach>
+			</c:when>
+		</c:choose><!-- /.order file download -->
+		
+		<!-- Image File Download -->
+		<h5 class="mb-1 mt-2">이미지 파일</h5>
+		<c:choose>
+			<c:when test="${fn:length(imageFileList) > 0}">
+				<c:forEach var="row_imagerFile" varStatus="status"
+										items="${imageFileList}">
+					
+					<div class="row">
+						<div class="col-8">
+							<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-paperclip"></i></span>
+							</div>
+							<input type="text" class="form-control bg-white" readonly 
+								value="${row_imageFile.file_name }" onclick="fn_downloadFile('image',${row_imageFile.file_idx})" 
+								style="cursor:pointer">
+						</div>
+						</div>
+						<div class="col-4">
+							<a href="/ssh/file/download?file_type=image&file_idx=${row_imageFile.file_idx}" target="_blank">다운로드</a>
+						</div>
+					</div>
+					
+				</c:forEach>
+			</c:when>
+		</c:choose><!-- /.image file download -->
+		
+		<!-- Other File Download -->
+		<h5 class="mb-1 mt-2">기타 파일</h5>
+		<c:choose>
+			<c:when test="${fn:length(otherFileList) > 0}">
+				<c:forEach var="row_otherFile" varStatus="status"
+										items="${otherFileList}">
+					
+					<div class="row">
+						<div class="col-8">
+							<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-paperclip"></i></span>
+							</div>
+							<input type="text" class="form-control bg-white" readonly 
+								value="${row_otherFile.file_name }" onclick="fn_downloadFile('other',${row_otherFile.file_idx})" 
+								style="cursor:pointer">
+						</div>
+						</div>
+						<div class="col-4">
+							<a href="/ssh/file/download?file_type=other&file_idx=${row_otherFile.file_idx}" target="_blank">다운로드</a>
+						</div>
+					</div>
+					
+				</c:forEach>
+			</c:when>
+		</c:choose><!-- /.other file download -->
+		
+	</div><!-- /.card-body -->
+</div><!-- /.card -->

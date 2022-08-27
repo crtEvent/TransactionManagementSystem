@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sshmanager.ssh.main.dao.PathDAO;
 import com.sshmanager.ssh.main.domain.FileType;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.service.FileService;
@@ -31,7 +32,7 @@ public class FileDownloadController {
 	}
 
 	@Autowired
-	TransactionService transactionService;
+	PathDAO pathDAO;
 
 	@Autowired
 	FileService fileService;
@@ -67,6 +68,7 @@ public class FileDownloadController {
 			String ext = file_name.substring(file_name.lastIndexOf(".")+1).toLowerCase();
 			String disposition;
 			MediaType mediaType;
+			String filePath = fileDTO.getFile_path()+"/"+file_name;
 			
 			switch(ext) {
 			case "jpeg":
@@ -95,7 +97,7 @@ public class FileDownloadController {
 			}
 			
 
-			Resource resource = resourceLoader.getResource("file:/"+fileDTO.getFile_path()+"/"+file_name);
+			Resource resource = resourceLoader.getResource("file:/"+filePath);
 			File file = resource.getFile();
 
 			return ResponseEntity.ok()

@@ -3,6 +3,8 @@ package com.sshmanager.ssh.main.service;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -237,14 +239,10 @@ public class TransactionServiceimpl implements TransactionService {
 			, MultipartHttpServletRequest multipartRequest) throws Exception {
 		
 		CompanyDTO companyDTO = companyDAO.selectCompany(company_idx);
+		String companyFolderName = companyDTO.getCompany_name()+"["+company_idx+"]";
 		
-		// 파일이 저장될 최상위 경로
-		String file_root = pathDAO.selectFileRootPath().replace("\\", "\\\\")
-				 + File.separator
-				 + companyDTO.getCompany_name()
-				 + "["+company_idx+"]"
-				 + File.separator
-				 + date.substring(0, 4);
+		// 파일이 저장될 경로
+		String file_root = pathDAO.selectFileRootPath().replace("\\", "\\\\"); // 파일 저장소
 		
 		// FileDTO - DB에 저장할 떄 사용
 		FileDTO fileDTO = new FileDTO();
@@ -261,8 +259,9 @@ public class TransactionServiceimpl implements TransactionService {
 			String fileName = fileNames.next(); // front단에서 받아온 input[type=file]의 name속성 값
 			MultipartFile multiFile = multipartRequest.getFile(fileName); // 업로드 된 파일 하나를 MultipartFile 객체에 임시 저장
 			
-			//String originalFileName = multiFile.getOriginalFilename(); // 실제 파일 이름
-			String storedFileName = date+" "+multiFile.getOriginalFilename(); // 저장될 이미지 파일명
+			// 저장될 파일명 지정
+			String storedFileName = prependDateToFileName(multiFile.getOriginalFilename(), date);
+			String middle_root = date.substring(0, 4); // yyyy -> 후에 yyyy/fileType으로 변경됨
 			
 			String fileType = fileName.substring(0, 5);
 			String path = null; // 파일이 저장될 경로
@@ -270,19 +269,23 @@ public class TransactionServiceimpl implements TransactionService {
 			// 파일이 저장될 경로 지정
 			switch(fileType) {
 			case "quote":
-				path = file_root + File.separator + FileType.QUOTE.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.QUOTE.getFolder_name();
+				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.QUOTE);
 				break;
 			case "order":
-				path = file_root + File.separator + FileType.ORDER.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.ORDER.getFolder_name();
+				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.ORDER);
 				break;
 			case "image":
-				path = file_root + File.separator + FileType.IMAGE.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.IMAGE.getFolder_name();
+				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.IMAGE);
 				break;
 			case "other":
-				path = file_root + File.separator + FileType.OTHER.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.OTHER.getFolder_name();
+				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.OTHER);
 				break;
 			default :
@@ -293,12 +296,10 @@ public class TransactionServiceimpl implements TransactionService {
 			if(path == null) {
 				continue;
 			}
-			
-			//File file = new File(path+"\\"+ storedFileName);
-			
+	
 			if(multiFile.getSize()!=0) { // file이 null이 아닌 경우
 				
-				// 중복된 팡리 이름 변경
+				// 중복된 파일 이름 변경
 				storedFileName = replaceDuplicateFileName(path, storedFileName);
 				
 				//경로에 해당하는 디렉토리들을 생성
@@ -309,7 +310,7 @@ public class TransactionServiceimpl implements TransactionService {
 				multiFile.transferTo(file);
 				
 				// fileDTO set
-				fileDTO.setFile_path(path);
+				fileDTO.setFile_path(middle_root);
 				fileDTO.setFile_name(storedFileName);
 				
 				// DB에 저장
@@ -342,5 +343,26 @@ public class TransactionServiceimpl implements TransactionService {
 		
 		return replaceDuplicateFileName(path, fileName);
 		
+	}
+	
+	/** 파일명 앞에 날짜(yyyy-Mm-dd)를 붙이는 메서드
+	 *  파일명(fileName)앞에 날짜가 없으면 매개변수로 입력된 날짜(date)를 붙인다
+	 *  파일명(fileName)앞에 이미 날짜가 붙어 있으면 날짜 제거 후 매개변수로 입력된 날짜(date)를 붙인다
+	 */
+	public String prependDateToFileName(String fileName, String date) {
+		
+		String[] splitFileName = new String[2];
+		splitFileName = fileName.split(" ", 2);
+		
+		Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+		Matcher matcher = pattern.matcher(splitFileName[0]);
+		
+		if(matcher.matches()) {
+			// 파일명(fileName)앞에 이미 날짜가 붙어 있으면 날짜 제거 후 매개변수로 입력된 날짜(date)를 붙인다
+			return date+" "+splitFileName[1];
+		}
+		
+		// 파일명(fileName)앞에 날짜가 없으면 매개변수로 입력된 날짜(date)를 붙인다
+		return date+" "+fileName;
 	}
 }

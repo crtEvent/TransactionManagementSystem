@@ -113,7 +113,7 @@
 							</div>
 							<input type="text" class="form-control bg-white" readonly 
 								value="${row_quoteFile.file_name }" onclick="fn_downloadFile('quote',${row_quoteFile.file_idx})" 
-								style="cursor:pointer">
+								>
 						</div>
 						</div>
 						<div class="col-4">
@@ -156,7 +156,7 @@
 		<h5 class="mb-1 mt-2">이미지 파일</h5>
 		<c:choose>
 			<c:when test="${fn:length(imageFileList) > 0}">
-				<c:forEach var="row_imagerFile" varStatus="status"
+				<c:forEach var="row_imageFile" varStatus="status"
 										items="${imageFileList}">
 					
 					<div class="row">

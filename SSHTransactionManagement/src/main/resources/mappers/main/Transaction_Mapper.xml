@@ -65,14 +65,29 @@
 	<select id="selectFileList" parameterType="map" resultType="fileDTO">
 		<![CDATA[
 		SELECT 
-			FILE_IDX
-			, TRANSACTION_IDX
-			, FILE_NAME
-			, FILE_PATH
+			T1.FILE_IDX
+			, T1.TRANSACTION_IDX
+			, T1.FILE_NAME
+			, CONCAT(
+				(SELECT PATH FROM PATH WHERE PATH_NAME='FILE_ROOT')
+				, "\\"
+        		, T3.COMPANY_NAME
+        		, "["
+        		, T3.COMPANY_IDX
+        		, "]\\"
+        		, T1.FILE_PATH) AS FILE_PATH
 		FROM
-			${file_type}_FILE
+			${file_type}_FILE T1
+		JOIN 
+			TRANSACTION T2
+		ON 
+			T1.TRANSACTION_IDX = T2.TRANSACTION_IDX
+		JOIN 
+			COMPANY T3
+		ON 
+			T2.COMPANY_IDX = T3.COMPANY_IDX
 		WHERE
-			TRANSACTION_IDX = #{transaction_idx}
+			T1.TRANSACTION_IDX = #{transaction_idx}
 		]]>
 	</select>
 	

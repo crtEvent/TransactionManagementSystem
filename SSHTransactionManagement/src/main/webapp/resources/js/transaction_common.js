@@ -268,8 +268,10 @@ function fn_insertTransaction() {
 	/* [transaction 정보] */
 	var date = insertTransactionModal.find('input[name=date]').val();
 	var company_idx = insertTransactionModal.find('input[name=company_idx]').val();
+	var subject = insertTransactionModal.find('input[name=subject]').val();
 	formData.append('date', date);
 	formData.append('company_idx', company_idx);
+	formData.append('subject', subject);
 
 	/* [item 넣기] */
 	var itemList = new Array() ;

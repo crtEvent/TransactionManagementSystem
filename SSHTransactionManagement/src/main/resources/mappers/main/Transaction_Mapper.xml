@@ -14,6 +14,8 @@
 			TRANSACTION
 		WHERE 
 			COMPANY_IDX = #{company_idx}
+		ORDER BY
+			DATE DESC, TRANSACTION_IDX DESC
 		]]>
 	</select>
 	

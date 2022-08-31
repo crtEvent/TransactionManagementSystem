@@ -59,4 +59,51 @@ public class TransactionDAO {
 	public void insertFile(FileDTO dto) throws Exception {
 		session.insert(namespace+"insertFile", dto);
 	}
+	
+	public void updateTransaction(TransactionDTO dto) throws Exception {
+		session.update(namespace+"updateTransaction", dto);
+	}
+	
+	public void updateItem(ItemDTO dto) throws Exception {
+		session.update(namespace+"updateItem", dto);
+	}
+	
+	public void updateMemo(MemoDTO dto) throws Exception {
+		session.update(namespace+"updateMemo", dto);
+	}
+	
+	public void updateFile(FileDTO dto) throws Exception {
+		session.update(namespace+"updateFile", dto);
+	}
+	
+	public void updateFileName(String file_idx, String file_name) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("file_idx", file_idx);
+		map.put("file_name", file_name);
+		session.update(namespace+"updateFileName", map);
+	}
+	
+	public void deleteItem(String item_idx) throws Exception {
+		session.delete(namespace+"deleteItem", item_idx);
+	}
+	
+	public void deleteMemo(String memo_idx) throws Exception {
+		session.delete(namespace+"deleteMemo", memo_idx);
+	}
+	
+	public void deleteFile(String file_idx) throws Exception {
+		session.delete(namespace+"deleteFile", file_idx);
+	}
+	
+	public void deleteItemList(String transaction_idx) throws Exception {
+		session.delete(namespace+"deleteItemList", transaction_idx);
+	}
+	
+	public void deleteMemoList(String transaction_idx) throws Exception {
+		session.delete(namespace+"deleteMemoList", transaction_idx);
+	}
+	
+	public void deleteFileList(String transaction_idx) throws Exception {
+		session.delete(namespace+"deleteFileList", transaction_idx);
+	}
 }

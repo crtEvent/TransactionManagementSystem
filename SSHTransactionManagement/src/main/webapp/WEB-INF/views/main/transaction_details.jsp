@@ -11,7 +11,7 @@
 	<div class="card-header py-2">
 		<span class="align-middle text-bold">${transactionDTO.date} [${transactionDTO.subject}]</span>
 		<div class="card-tools">
-			<button class="btn btn-primary btn-sm" title="수정" name="">
+			<button class="btn btn-primary btn-sm" title="수정" onclick="fn_openUpdateTransactionModal(${transactionDTO.transaction_idx})">
 				<i class="fas fa-pencil-alt"></i>
 			</button>
 		</div>
@@ -117,7 +117,7 @@
 						</div>
 						</div>
 						<div class="col-4">
-							<a href="/ssh/file/download?file_type=quote&file_idx=${row_quoteFile.file_idx}" target="_blank">다운로드</a>
+							<a href="/ssh/file/download?file_idx=${row_quoteFile.file_idx}" target="_blank">다운로드</a>
 						</div>
 					</div>
 					
@@ -144,7 +144,7 @@
 						</div>
 						</div>
 						<div class="col-4">
-							<a href="/ssh/file/download?file_type=order&file_idx=${row_orderFile.file_idx}" target="_blank">다운로드</a>
+							<a href="/ssh/file/download?file_idx=${row_orderFile.file_idx}" target="_blank">다운로드</a>
 						</div>
 					</div>
 					
@@ -171,7 +171,7 @@
 						</div>
 						</div>
 						<div class="col-4">
-							<a href="/ssh/file/download?file_type=image&file_idx=${row_imageFile.file_idx}" target="_blank">다운로드</a>
+							<a href="/ssh/file/download?file_idx=${row_imageFile.file_idx}" target="_blank">다운로드</a>
 						</div>
 					</div>
 					
@@ -198,7 +198,7 @@
 						</div>
 						</div>
 						<div class="col-4">
-							<a href="/ssh/file/download?file_type=other&file_idx=${row_otherFile.file_idx}" target="_blank">다운로드</a>
+							<a href="/ssh/file/download?file_idx=${row_otherFile.file_idx}" target="_blank">다운로드</a>
 						</div>
 					</div>
 					

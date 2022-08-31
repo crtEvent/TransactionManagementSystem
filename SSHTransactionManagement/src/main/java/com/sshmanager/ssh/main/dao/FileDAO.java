@@ -17,11 +17,8 @@ public class FileDAO {
     private SqlSession session;
 	private static String namespace = "file.";
 	
-	public FileDTO selectFile(String file_idx,  FileType file_type) throws Exception {
-		Map<String, String> map = new HashMap<String, String>();
-    	map.put("file_idx", file_idx);
-    	map.put("file_type", file_type.getFile_type());
-		return session.selectOne(namespace+"selectFile", map);
+	public FileDTO selectFile(String file_idx) throws Exception {
+		return session.selectOne(namespace+"selectFile", file_idx);
 	}
 	
 }

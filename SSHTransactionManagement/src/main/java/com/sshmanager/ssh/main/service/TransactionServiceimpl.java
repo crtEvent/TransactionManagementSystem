@@ -3,9 +3,11 @@ package com.sshmanager.ssh.main.service;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -320,6 +322,7 @@ public class TransactionServiceimpl implements TransactionService {
 		} // .while
 		
 	}
+
 	
 	/** 중복된 파일의 이름을 변경하는 메서드
 	* 해당 경로(path)에 동일한 파일명(fileName)의 파일이 존재하는지 확인하여
@@ -365,4 +368,123 @@ public class TransactionServiceimpl implements TransactionService {
 		// 파일명(fileName)앞에 날짜가 없으면 매개변수로 입력된 날짜(date)를 붙인다
 		return date+" "+fileName;
 	}
-}
+	
+	public boolean updateItem(ItemDTO dto) {
+		try {
+			transactionDAO.updateItem(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public void updateTransaction(TransactionDTO transactionDTO) throws Exception {
+		transactionDAO.updateTransaction(transactionDTO);
+	}
+	
+	public boolean updateItemList(String transaction_idx, JSONArray jsonArray) {
+		
+		try {
+			// 기존에 저장된 item 삭제
+			transactionDAO.deleteItemList(transaction_idx);
+			
+			// item 목록 새로 입력
+			if(insertItemList(transaction_idx, jsonArray)) return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean updateMemoList(String transaction_idx, JSONArray jsonArray) {
+		
+		try {
+			// 기존에 저장된 memo 삭제
+			transactionDAO.deleteMemoList(transaction_idx);
+			
+			// memo 목록 새로 입력
+			if(insertMemoList(transaction_idx, jsonArray)) return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateTransactionDetails(String transaction_idx
+			, JSONArray itemJsonArray, JSONArray memoJsonArray) {
+		
+		if(!updateItemList(transaction_idx, itemJsonArray)) return false;
+		if(!updateMemoList(transaction_idx, memoJsonArray)) return false;
+		
+		return true;
+	}
+	
+	public void updateTransactionFiles(String date, String company_idx, String transaction_idx
+			, MultipartHttpServletRequest multipartRequest, JSONArray existingFilejsonArray) throws Exception {
+		
+		// [기존에 저장된 파일 검사]
+		
+		// 파일이 저장될 경로
+		String file_root = pathDAO.selectFileRootPath().replace("\\", "\\\\"); // 파일 저장소
+		
+		File oldFile;
+		File newFile;
+		
+		List<FileDTO> storedFileList = transactionDAO.selectFileList(transaction_idx, FileType.NULL);
+		
+		boolean isFileExist;
+		
+		for(int i = 0; i < storedFileList.size(); i++) {
+			
+			isFileExist = false;
+			
+			for(int j = 0; j < existingFilejsonArray.size(); j++){
+				//JSONArray 형태의 값을 가져와 JSONObject로 풀어준다.    
+				JSONObject obj = (JSONObject)existingFilejsonArray.get(j);
+				
+				if(storedFileList.get(i).getFile_idx().equals(obj.get("file_idx"))) {
+					// 넘어온 file_idx 중에 기존에 존재하던 파일(DB에 저장된 값)이 있는 경우
+					isFileExist = true;
+					
+					// 이름 변경
+					String newName = prependDateToFileName(storedFileList.get(i).getFile_name(), date);
+					
+					if(!newName.equals(storedFileList.get(i).getFile_name())) {
+						// 이름이 변경된 경우에만 변경
+						oldFile = FileUtils.getFile(storedFileList.get(i).getFile_path()+File.separator+storedFileList.get(i).getFile_name());
+						newFile = FileUtils.getFile(storedFileList.get(i).getFile_path()+File.separator+newName);
+						FileUtils.moveFile(oldFile, newFile);
+						
+						// DB에 저장된 이름 변경
+						transactionDAO.updateFileName(storedFileList.get(i).getFile_idx(), newName);
+						
+					}
+					
+				}
+				
+			} // /.for - existingFilejsonArray.size()
+			
+			if(!isFileExist) {
+				// 기존에 존재하던 파일이 삭제된 경우 - DB와 실제 파일 삭제
+				// 파일 휴지통으로 이동
+				oldFile = FileUtils.getFile(storedFileList.get(i).getFile_path()+File.separator+storedFileList.get(i).getFile_name());
+				newFile = FileUtils.getFile(file_root+File.separator+"휴지통"+File.separator+"("+storedFileList.get(i).getFile_idx()+")"+storedFileList.get(i).getFile_name());
+				FileUtils.moveFile(oldFile, newFile);
+				
+				// 파일 DB에서 제거
+				transactionDAO.deleteFile(storedFileList.get(i).getFile_idx());
+			}
+			
+		} // /.for - storedFileList.size()
+		
+		// [새로운 파일 추가]
+		insesrtTransactionFiles(date, company_idx, transaction_idx
+				, multipartRequest);
+
+	}
+	
+} // .class

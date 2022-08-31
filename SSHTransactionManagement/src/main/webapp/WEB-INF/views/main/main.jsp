@@ -26,6 +26,7 @@
 	
 	<%@include file="../modal/modal_insert_company.jsp" %>
 	<%@include file="../modal/modal_insert_transaction.jsp" %>
+	<%@include file="../modal/modal_update_transaction.jsp" %>
 	
 	<%@include file="../include/include_main_plugins.jsp" %>
 	<script type="text/javascript" src="<c:url value="/resources/js/common.js"/>"></script>

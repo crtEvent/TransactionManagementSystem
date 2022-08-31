@@ -2,7 +2,7 @@ package com.sshmanager.ssh.main.domain;
 
 public enum FileType {
 	
-	QUOTE("quote","견적서"), ORDER("order","작업지시서"), IMAGE("image","사진"), OTHER("other","기타");
+	QUOTE("quote","견적서"), ORDER("order","작업지시서"), IMAGE("image","사진"), OTHER("other","기타"), NULL("","");
 	
 	private final String file_type;
 	private final String folder_name;

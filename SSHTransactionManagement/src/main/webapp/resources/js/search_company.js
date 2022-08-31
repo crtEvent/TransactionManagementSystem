@@ -7,7 +7,7 @@ $('input[name=company_name_keyword]').keyup(function() {
 	$.ajax({
 		url: "/ssh/main/search_co",
 		type: 'post',
-		data: {company_name_keyword : $('input[name=company_name_keyword]').val()},
+		data: main_details.js,
 		success: function(result){
 			$("#searchCompanyListTable").html(result);
 		},

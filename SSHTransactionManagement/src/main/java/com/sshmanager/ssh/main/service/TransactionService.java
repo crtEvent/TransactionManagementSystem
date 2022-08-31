@@ -74,4 +74,18 @@ public interface TransactionService {
 	
 	/* 중복된 파일의 이름을 변경*/
 	public String replaceDuplicateFileName(String path, String storedFileName);
+	
+	/* 파일명 앞에 날짜 붙여주는 메서드 */
+	public String prependDateToFileName(String fileName, String date);
+	
+	/* UPDATE - 거래 수정 */
+	public void updateTransaction(TransactionDTO transactionDTO) throws Exception;
+	
+	/* UPDATE - 아이템+메모 수정 */
+	public boolean updateTransactionDetails(String transaction_idx
+			, JSONArray itemJsonArray, JSONArray memoJsonArray);
+	
+	/* UPDATE - 파일 수정 */
+	public void updateTransactionFiles(String date, String company_idx, String transaction_idx
+			, MultipartHttpServletRequest multipartRequest, JSONArray existingFilejsonArray) throws Exception;
 }

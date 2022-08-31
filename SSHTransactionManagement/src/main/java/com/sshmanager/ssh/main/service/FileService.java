@@ -6,6 +6,6 @@ import com.sshmanager.ssh.main.dto.FileDTO;
 public interface FileService {
 	
 	/* 파일 불러오기 */
-	public FileDTO getFile(String file_idx, FileType file_type) throws Exception;
+	public FileDTO getFile(String file_idx) throws Exception;
 
 }

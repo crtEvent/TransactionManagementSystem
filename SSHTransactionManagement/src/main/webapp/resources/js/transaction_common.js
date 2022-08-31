@@ -7,79 +7,64 @@
  */
  
 let insertTransactionModal = $('#insertTransactionModal');
+let updateTransactionModal = $('#updateTransactionModal');
 
  /* [Modal]: 거래 내역 입력 Modal 열기 */
 function fn_openInsertTransactionModal() {
 	insertTransactionModal.find('input[name=company_idx]').val($('#mainDetailsCard').find('input[name=company_idx]').val());
-	$("#insertTransactionModal").modal("show");
+	insertTransactionModal.modal("show");
+}
+
+ /* [Modal]: 거래 내역 입력 Modal 열기 */
+function fn_openUpdateTransactionModal(transaction_idx) {
+	$.ajax({
+		url: "/ssh/transaction/transaction-update-modal",
+		type: 'post',
+		data: {transaction_idx : transaction_idx},
+		success: function(result){
+			updateTransactionModal.find('.modal-content').html(result);
+			updateTransactionModal.find('input[name=company_idx]').val($('#mainDetailsCard').find('input[name=company_idx]').val());
+			fn_inputTotalPrice($('#itemTbodyInUpdateModal'));
+			updateTransactionModal.modal("show");
+		},
+		error: function(){
+			alert("fn_openUpdateTransactionModal 에러");
+		}
+	})
 }
 
 /* [ Item 거래 내역 ]************************************************************************************** */
 /* 거래내역 추가 */
 var itemCnt = 1;
-function fn_addItem() {
+function fn_addItem(insertOrUpdate) {
 	
 	var addItemTag = 
 	'<tr id="itemTag'+itemCnt+'">'+
 		'<td><input type="text" name="content" autocomplete="off" class="form-control form-control-sm"></td>'+
-		'<td><input type="text" name="amount" autocomplete="off" class="form-control form-control-sm"></td>'+
-		'<td><input type="text" name="unit_price" autocomplete="off" class="form-control form-control-sm"></td>'+
-		'<td><input type="text" name="supply_price" autocomplete="off" class="form-control form-control-sm"></td>'+
-		'<td><input type="text" name="tax_price" autocomplete="off" class="form-control form-control-sm"></td>'+
-		'<td><input type="text" name="total_price" autocomplete="off" class="form-control form-control-sm"></td>'+
+		'<td><input type="text" name="amount" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputItemValue($(this))"></td>'+
+		'<td><input type="text" name="unit_price" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputItemValue($(this))"></td>'+
+		'<td><input type="text" name="supply_price" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputTotalValue($(this))"></td>'+
+		'<td><input type="text" name="tax_price" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputTotalValue($(this))"></td>'+
+		'<td><input type="text" name="total_price" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputTotalValue($(this))"></td>'+
 		'<td class="text-center">'+
-			'<button class="btn btn-sm" name="cancel_item">'+
+			'<button class="btn btn-sm" onclick="fn_deleteParentParentForItem($(this))">'+
 				'<i class="fas fa-times-circle"></i>'+
 			'</button>'+
 		'</td>'+
 	'</tr>';
 	
-	$('#insertItemTable').find('tbody').append(addItemTag);
+	$('#'+insertOrUpdate+'ItemTable').find('tbody').append(addItemTag);
 	
 	itemCnt++;
-	
-	/* 취소 버튼의 기능 추가 */
-	$('button[name=cancel_item]').on('click', function(e){ 
-		e.preventDefault();
-		fn_deleteParentParent($(this));
-	});
-	
-	/* 수량 입력시 - item당 공급가, 부가세, 합계 자동 입력 */
-	$('input[name=amount]').keyup(function() {
-		fn_checkNumberOnly($(this));
-		fn_inputItemPrice($(this));
-	});
-	
-	/* 단가 입력시 - item당 공급가, 부가세, 합계 자동 입력 */
-	$('input[name=unit_price]').keyup(function() {
-		fn_checkNumberOnly($(this));
-		fn_inputItemPrice($(this));
-	});
-	
-	/* 공급가 입력시 - item당 공급가, 부가세, 합계 자동 입력 */
-	$('input[name=supply_price]').keyup(function() {
-		fn_checkNumberOnly($(this));
-		fn_inputTotalPrice($(this));
-	});
-	
-	/* 부가세 입력시 - item당 공급가, 부가세, 합계 자동 입력 */
-	$('input[name=tax_price]').keyup(function() {
-		fn_checkNumberOnly($(this));
-		fn_inputTotalPrice($(this));
-	});
-	
-	/* 합계 입력시 - item당 공급가, 부가세, 합계 자동 입력 */
-	$('input[name=total_price]').keyup(function() {
-		fn_checkNumberOnly($(this));
-		fn_inputTotalPrice($(this));
-	});
+
+
 	
 }/* [ Item 거래 내역 ] - END */
 
 /* [Memo 메모]******************************************************************************************* */
 /* 메모 추가 */
 var memoCnt = 1;
-function fn_addMemo() {
+function fn_addMemo(insertOrUpdate) {
 	
 	var addMemoTag =
 		'<tr id="memoTag'+memoCnt+'">'+
@@ -90,21 +75,15 @@ function fn_addMemo() {
 				'<input type="text" name="memo" autocomplete="off" class="form-control form-control-sm">'+
 			'</td>'+
 			'<td style="width: 3%" class="text-center">'+
-				'<button class="btn btn-sm" name="cancel_memo">'+
+				'<button class="btn btn-sm" onclick="fn_deleteParentParent($(this))">'+
 					'<i class="fas fa-times-circle"></i>'+
 				'</button>'+
 			'</td>'+
 		'</tr>';
 		
-	$('#insertMemoTable').find('tbody').append(addMemoTag);
+	$('#'+insertOrUpdate+'MemoTable').find('tbody').append(addMemoTag);
 	
 	memoCnt++;
-	
-	// 취소 버튼의 기능 추가
-	$("button[name=cancel_memo]").on("click", function(e){ 
-		e.preventDefault();
-		fn_deleteParentParent($(this));
-	});
 
 } /* [Memo 메모] - END */
 
@@ -148,6 +127,22 @@ function fn_deleteParentParent(obj) {
 	obj.parent().parent().remove();
 }
 
+/* 부모 태그의 부모 태그 삭제 - item 용 */
+function fn_deleteParentParentForItem(obj) {
+	var tag = obj.closest('tbody');
+	obj.parent().parent().remove();
+	fn_inputTotalPrice(tag);
+	
+}
+
+/* 파일 삭제(견적서, 지시서, 이미지, 기타 공통) */
+function fn_deleteFile(obj) {
+	
+	if(confirm("파일을 삭제하시겠습니까?")){
+		fn_deleteParent(obj)
+	}
+}
+
 /* 유효성 검사 - 숫자만 입력 가능, 자리수 제한, 세 자리수 콤마 */
 function fn_checkNumberOnly(obj) {
 	// 정규식 - 숫자만 입력 가능
@@ -173,14 +168,6 @@ function fn_inputComma(price) {
     }
     
     return price;
-}
-
-/* 파일 삭제(견적서, 지시서, 이미지, 기타 공통) */
-function fn_deleteFile(obj) {
-	
-	if(confirm("파일을 삭제하시겠습니까?")){
-		fn_deleteParent(obj)
-	}
 }
 
 /* 파일 체크 - 파일 등록 시 이름 보여주기 */
@@ -217,9 +204,23 @@ function fn_resetTransactionModal(insertOrUpdate) {
 
 
 /* [자동 입력값 설정]************************************************************************************** */
+
+
+/* 수량, 단가 입력시 - item당 공급가, 부가세, 합계 자동 입력 */
+function fn_autoInputItemValue(obj) {
+	fn_checkNumberOnly(obj);
+	fn_inputItemPrice(obj);
+}
+
+/* 공급가, 부가세, 합계 입력시 - Total 부분 공급가, 부가세, 합계 자동 입력 */
+function fn_autoInputTotalValue(obj) {
+	fn_checkNumberOnly(obj);
+	fn_inputTotalPrice(obj);
+}
+
 /* Item - 공급가, 부가세, 합계 자동 입력 */
 function fn_inputItemPrice(obj) {
-	var thisTrTag = obj.parent().parent();
+	var thisTrTag = obj.parent().parent(); // item을 담고 있는 tr 태그
 	
 	var amount = thisTrTag.find('input[name=amount]').val().split(',').join("");
 	var unit_price =  thisTrTag.find('input[name=unit_price]').val().split(',').join("");
@@ -236,16 +237,24 @@ function fn_inputItemPrice(obj) {
 
 /* 전체 - 공급가, 부가세, 합계 자동 입력 */
 function fn_inputTotalPrice(obj) {
-	var thisTrTag = obj.parent().parent().parent();
-	var totalDiv = obj.closest('.modal-body');
 	
+	var tbodyTag = null;
+	
+	if(obj.prop('tagName') == 'tbody') {
+		tbodyTag = obj;
+	} else {
+		tbodyTag = obj.closest('tbody');
+	}
+
+	var totalDiv = tbodyTag.closest('.modal-body');
+
 	var totalSupplyPrice = 0;
 	var totalTaxPrice = 0;
 	var totalTotalPrice = 0;
 	
-	var supplyPriceArray = thisTrTag.find('input[name=supply_price]');
-	var taxPriceArray = thisTrTag.find('input[name=tax_price]');
-	var totalPriceArray = thisTrTag.find('input[name=total_price]');
+	var supplyPriceArray = tbodyTag.find('input[name=supply_price]');
+	var taxPriceArray = tbodyTag.find('input[name=tax_price]');
+	var totalPriceArray = tbodyTag.find('input[name=total_price]');
 	
 	for(let i=0; i < supplyPriceArray.length; i++) {
 		totalSupplyPrice += Number(supplyPriceArray.eq(i).val().split(',').join(""));
@@ -311,8 +320,6 @@ function fn_insertTransaction() {
 	/* [file 넣기] */
 	var inputFiles = insertTransactionModal.find('input[type=file]'); // input[type=file] 여러개 다 가져옴
 	
-	//console.log("inputFiles name"+inputFiles[0].attr('name'));
-	
 	// input[type=file] tag가 있는 경우
 	if(inputFiles.length != 0) {
 		for(var i = 0; i < inputFiles.length; i++) {
@@ -336,6 +343,103 @@ function fn_insertTransaction() {
 		success: function() {
 			fn_resetTransactionModal('insert');
 			fn_loadTransactionListTable(company_idx);
+		},
+		error: function(error) {
+			alert('[에러]\n'+error.status+'\n'+error.responseText);
+		}
+	});
+}
+
+/* [거래 내역 수정]************************************************************************************** */
+function fn_updateTransaction() {
+
+	var formData = new FormData();
+	
+	/* [transaction 정보] */
+	var transaction_idx = updateTransactionModal.find('input[name=transaction_idx]').val();
+	var date = updateTransactionModal.find('input[name=date]').val();
+	var company_idx = updateTransactionModal.find('input[name=company_idx]').val();
+	var subject = updateTransactionModal.find('input[name=subject]').val();
+	formData.append('transaction_idx', transaction_idx);
+	formData.append('date', date);
+	formData.append('company_idx', company_idx);
+	formData.append('subject', subject);
+
+	/* [item 넣기] */
+	var itemList = new Array() ;
+	var item = updateTransactionModal.find('input[name=amount]');
+	
+	for(var i = 0; i < item.length; i++) {
+		var itemData = new Object();
+		
+		itemData.content = updateTransactionModal.find('input[name=content]').eq(i).val();
+		itemData.amount = updateTransactionModal.find('input[name=amount]').eq(i).val();
+		itemData.unit_price = updateTransactionModal.find('input[name=unit_price]').eq(i).val();
+		itemData.supply_price = updateTransactionModal.find('input[name=supply_price]').eq(i).val();
+		itemData.tax_price = updateTransactionModal.find('input[name=tax_price]').eq(i).val();
+		itemData.total_price = updateTransactionModal.find('input[name=total_price]').eq(i).val();
+		
+		itemList.push(itemData);
+	}
+	
+	formData.append('itemJsonData', JSON.stringify(itemList));
+
+	/* [memo 넣기] */
+	var memoList = new Array();
+	var memo = updateTransactionModal.find('input[name=memo]');
+	
+	for(var i = 0; i < memo.length; i++) {
+		var memoData = new Object();
+		
+		memoData.content = memo.eq(i).val();
+		
+		memoList.push(memoData);
+	}
+	
+	formData.append('memoJsonData', JSON.stringify(memoList));
+
+	/* [기존에 있던 file 넣기] */
+	var existingFileList = new Array();
+	var existingFileIdx = updateTransactionModal.find('input[name=existingFile_idx]');
+	var existingFileType = updateTransactionModal.find('input[name=existingFile_type]');
+	
+	for(var i = 0; i < existingFileIdx.length; i++) {
+		var existingFileData = new Object();
+		existingFileData.file_idx = existingFileIdx.eq(i).val();
+		existingFileData.file_type = existingFileType.eq(i).val();
+		existingFileList.push(existingFileData);
+	}
+	
+	formData.append('existingFileJsonData', JSON.stringify(existingFileList));
+
+	/* [새로 추가된 file 넣기] */
+	var inputFiles = updateTransactionModal.find('input[type=file]'); // input[type=file] 여러개 다 가져옴
+	
+	// input[type=file] tag가 있는 경우
+	if(inputFiles.length != 0) {
+		for(var i = 0; i < inputFiles.length; i++) {
+			// 파일 값이 없는 input[type=file] tag는 제거
+			if(inputFiles[i].files[0] == null){
+				inputFiles[i].parentElement.remove();
+				continue;
+			}
+			formData.append(inputFiles.eq(i).attr('name'), inputFiles[i].files[0]);
+		} // .for
+	} // .if
+	
+	/* Ajax 전송 */
+	$.ajax({
+		url: '/ssh/transaction/update-transaction',
+		type: 'post',
+		data: formData,
+		contentType: false,
+		processData: false,
+		enctype : 'multipart/form-data',
+		success: function() {
+			fn_resetTransactionModal('update');
+			fn_loadTransactionListTable(company_idx);
+			fn_getTransactionDetails(transaction_idx);
+			updateTransactionModal.modal("hide");
 		},
 		error: function(error) {
 			alert('[에러]\n'+error.status+'\n'+error.responseText);

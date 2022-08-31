@@ -38,32 +38,13 @@ public class FileDownloadController {
 	FileService fileService;
 
 	@RequestMapping("/download")
-	public ResponseEntity<Resource> downloadFile(String file_type, String file_idx) {
+	public ResponseEntity<Resource> downloadFile(String file_idx) {
 
 		try {
 			
-			FileType fileTypeEnum;
 			FileDTO fileDTO = new FileDTO();
-
-			switch (file_type) {
-			case "quote":
-				fileTypeEnum = FileType.QUOTE;
-				break;
-			case "order":
-				fileTypeEnum = FileType.ORDER;
-				break;
-			case "image":
-				fileTypeEnum = FileType.IMAGE;
-				break;
-			case "other":
-				fileTypeEnum = FileType.OTHER;
-				break;
-			default:
-				Exception e = new Exception();
-				throw e;
-			}
 			
-			fileDTO = fileService.getFile(file_idx, fileTypeEnum);
+			fileDTO = fileService.getFile(file_idx);
 			String file_name = fileDTO.getFile_name();
 			String ext = file_name.substring(file_name.lastIndexOf(".")+1).toLowerCase();
 			String disposition;

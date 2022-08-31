@@ -78,8 +78,9 @@
         		, T3.COMPANY_IDX
         		, "]\\"
         		, T1.FILE_PATH) AS FILE_PATH
+        	, FILE_TYPE
 		FROM
-			${file_type}_FILE T1
+			FILE T1
 		JOIN 
 			TRANSACTION T2
 		ON 
@@ -91,6 +92,12 @@
 		WHERE
 			T1.TRANSACTION_IDX = #{transaction_idx}
 		]]>
+		<if test="file_type != null and file_type != ''">
+			<![CDATA[
+			AND 
+				T1.FILE_TYPE = #{file_type}
+        	]]>
+        </if>
 	</select>
 	
 	<insert id="insertTransaction" useGeneratedKeys="true" keyProperty="transaction_idx" parameterType="transactionDTO">
@@ -139,10 +146,116 @@
 	<insert id="insertFile" parameterType="fileDTO">
 		<![CDATA[
 		INSERT INTO 
-			${file_type}_FILE(TRANSACTION_IDX, FILE_NAME, FILE_PATH)
+			FILE(TRANSACTION_IDX, FILE_NAME, FILE_PATH, FILE_TYPE)
 		VALUES 
-			(#{transaction_idx}, #{file_name}, #{file_path})
+			(#{transaction_idx}, #{file_name}, #{file_path}, #{file_type})
 		]]>
 	</insert>
+	
+	<update id="updateTransaction" parameterType="transactionDTO">
+		<![CDATA[
+		UPDATE 
+			TRANSACTION
+		SET
+			DATE = #{date}
+			, SUBJECT = #{subject}
+		WHERE
+			TRANSACTION_IDX = #{transaction_idx}
+		]]>
+	</update>
+	
+	<update id="updateItem" parameterType="itemDTO">
+		<![CDATA[
+		UPDATE
+			ITEM
+		SET
+			CONTENT = #{content}
+			, AMOUNT = #{amount}
+			, UNIT_PRICE = #{unit_price}
+			, SUPPLY_PRICE = #{sypply_price}
+			, TAX_PRICE = #{tax_price}
+			, TOTAL_PRICE = #{total_price}
+		WHERE
+			ITEM_IDX = #{item_idx}
+		]]>
+	</update>
+	
+	<update id="updateMemo" parameterType="memoDTO">
+		<![CDATA[
+		UPDATE
+			MEMO
+		SET
+			CONTENT = #{content}
+		WHERE
+			MEMO_IDX = #{memo_idx}
+		]]>
+	</update>
+	
+	<update id="updateFile" parameterType="fileDTO">
+		<![CDATA[
+		UPDATE
+			FILE
+		SET
+			FILE_NAME = #{file_name}
+			, FILE_PATH = #{file_path}
+		WHERE
+			FILE_IDX = #{file_idx}
+		]]>
+	</update>
+
+	<update id="updateFileName" parameterType="map">
+		<![CDATA[
+		UPDATE
+			FILE
+		SET
+			FILE_NAME = #{file_name}
+		WHERE
+		 FILE_IDX = #{file_idx}
+		]]>
+	</update>
+	
+	<delete id="deleteItem" parameterType="String">
+		<![CDATA[
+		DELETE FROM ITEM
+		WHERE ITEM_IDX = #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteMemo" parameterType="String">
+		<![CDATA[
+		DELETE FROM MEMO
+		WHERE MEMO_IDX = #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteFile" parameterType="String">
+		<![CDATA[
+		DELETE FROM 
+			FILE
+		WHERE 
+			FILE_IDX = #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteItemList" parameterType="String">
+		<![CDATA[
+		DELETE FROM ITEM
+		WHERE TRANSACTION_IDX = #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteMemoList" parameterType="String">
+		<![CDATA[
+		DELETE FROM MEMO
+		WHERE TRANSACTION_IDX = #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteFileList" parameterType="String">
+		<![CDATA[
+		DELETE FROM _FILE
+		WHERE TRANSACTION_IDX = #{transaction_idx}
+		]]>
+	</delete>
 	
 </mapper>

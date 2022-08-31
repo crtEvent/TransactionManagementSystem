@@ -13,8 +13,8 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	private FileDAO fileDAO;
 	
-	public FileDTO getFile(String file_idx, FileType file_type) throws Exception {
-		return fileDAO.selectFile(file_idx, file_type);
+	public FileDTO getFile(String file_idx) throws Exception {
+		return fileDAO.selectFile(file_idx);
 	}
 	
 }

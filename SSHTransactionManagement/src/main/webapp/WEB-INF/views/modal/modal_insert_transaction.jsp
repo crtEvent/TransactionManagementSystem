@@ -106,7 +106,7 @@
 						<table id="insertMemoTable"
 							class="table table-sm table-hover table-bordered text-nowrap" style="font-size:14px;">
 							<tbody>
-								<!-- fn_addMemo()으로 거래 내역 추가될 자리 -->
+								<!-- fn_addMemo()으로 메모 추가될 자리 -->
 							</tbody>
 						</table>
 					</div>
@@ -156,9 +156,9 @@
 					onclick="fn_confirmResetTransactionModal('insert')">리셋</button>
 				<div>
 					<button type="button" class="btn btn-info"
-					onclick="fn_addItem()">내역+</button>
+					onclick="fn_addItem('insert')">내역+</button>
 					<button type="button" class="btn btn-info"
-					onclick="fn_addMemo()">메모+</button>
+					onclick="fn_addMemo('insert')">메모+</button>
 					<button type="button" class="btn btn-secondary"
 					onclick="fn_addFile('insert', 'quote')">견적서+</button>
 					<button type="button" class="btn btn-secondary"

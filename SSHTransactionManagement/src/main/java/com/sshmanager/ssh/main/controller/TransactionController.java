@@ -68,6 +68,32 @@ public class TransactionController {
 		return "/main/transaction_details";
 	}
 	
+	/* 거래 업데이트 모달 보기 */
+	@PostMapping("/transaction-update-modal")
+	public String getTransactionUpdateModal(Model model
+								, RedirectAttributes ridirectAttr
+								, String transaction_idx) throws Exception {
+		
+		ridirectAttr.addAttribute("transaction_idx", transaction_idx);
+		
+		return "redirect:/transaction/transaction-update-modal-result";
+	}
+	
+	/* 거래 업데이트 모달 보기 결과 */
+	@GetMapping("/transaction-update-modal-result")
+	public String getTransactionUpdateModalResult(Model model ,String transaction_idx) throws Exception {
+	
+		model.addAttribute("transactionDTO", transactionService.getTransaction(transaction_idx));
+		model.addAttribute("itemList", transactionService.getItemList(transaction_idx));
+		model.addAttribute("memoList", transactionService.getMemoList(transaction_idx));
+		model.addAttribute("quoteFileList", transactionService.getQuoteFileList(transaction_idx));
+		model.addAttribute("orderFileList", transactionService.getOrderFileList(transaction_idx));
+		model.addAttribute("imageFileList", transactionService.getImageFileList(transaction_idx));
+		model.addAttribute("otherFileList", transactionService.getOtherFileList(transaction_idx));
+		
+		return "/modal/modal_update_transaction_body";
+	}
+	
 	/* 거래 내역 입력 - item, memo file */
 	@RequestMapping("/insert-transaction")
 	@ResponseBody
@@ -90,6 +116,36 @@ public class TransactionController {
 			
 			return new ResponseEntity<>("Success", HttpStatus.OK);
 		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		
+	}
+	
+	/* 거래 내역 수정 - item, memo file */
+	@RequestMapping("/update-transaction")
+	@ResponseBody
+	public ResponseEntity<?> updateTransaction(MultipartHttpServletRequest multipartRequest
+			, TransactionDTO transactionDTO
+			, String itemJsonData
+			, String memoJsonData
+			, String existingFileJsonData) {
+			
+		try {
+			transactionService.updateTransaction(transactionDTO);
+			
+			transactionService.updateTransactionDetails(transactionDTO.getTransaction_idx()
+					, JSONArray.fromObject(itemJsonData)
+					, JSONArray.fromObject(memoJsonData));
+		
+			transactionService.updateTransactionFiles(transactionDTO.getDate()
+					, transactionDTO.getCompany_idx()
+					, transactionDTO.getTransaction_idx()
+					, multipartRequest
+					, JSONArray.fromObject(existingFileJsonData));
+			
+			return new ResponseEntity<>("Success", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		

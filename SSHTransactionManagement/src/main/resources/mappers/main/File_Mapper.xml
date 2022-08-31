@@ -3,7 +3,7 @@
  
 <mapper namespace="file">
 
-	<select id="selectFile" parameterType="map" resultType="FileDTO">
+	<select id="selectFile" parameterType="String" resultType="FileDTO">
 		<![CDATA[
 		SELECT
 			T1.FILE_IDX
@@ -17,8 +17,9 @@
         		, T3.COMPANY_IDX
         		, "]\\"
         		, T1.FILE_PATH) AS FILE_PATH
+        	, T1.FILE_TYPE
 		FROM
-			${file_type}_FILE T1
+			FILE T1
 		JOIN 
 			TRANSACTION T2
 		ON 
@@ -28,7 +29,7 @@
 		ON 
 			T2.COMPANY_IDX = T3.COMPANY_IDX
 		WHERE
-			T1.FILE_IDX = #{file_idx}
+			T1.FILE_IDX = #{value}	
 		]]>
 	</select>
 	

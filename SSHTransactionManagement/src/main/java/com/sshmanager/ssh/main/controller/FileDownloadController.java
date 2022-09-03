@@ -2,7 +2,6 @@ package com.sshmanager.ssh.main.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,10 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sshmanager.ssh.main.dao.PathDAO;
-import com.sshmanager.ssh.main.domain.FileType;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.service.FileService;
-import com.sshmanager.ssh.main.service.TransactionService;
 
 @Controller
 @RequestMapping("/file")

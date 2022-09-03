@@ -67,4 +67,22 @@ public class CompanyController {
 		
 		return "/main/main_details";
 	}
+	
+	/* 업체 정보 수정 Modal 용 - 업체 세부 내역 결과 반환 */
+	@RequestMapping("/update-modal")
+	@ResponseBody
+	public CompanyDTO companyDetailsForUpdateModal(String company_idx) throws Exception {
+		
+		return companyService.getCompany(company_idx);
+	}
+	
+	/* 업체 정보 수정 기능 */
+	@RequestMapping("/update")
+	@ResponseBody
+	public void update(CompanyDTO dto) throws Exception {
+		
+		companyService.updateCompany(dto);
+			
+	}
+	
 }

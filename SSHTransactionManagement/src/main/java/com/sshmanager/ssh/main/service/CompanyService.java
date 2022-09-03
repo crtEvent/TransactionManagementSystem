@@ -13,4 +13,6 @@ public interface CompanyService {
 	/* 업체 등록 */
 	public void insertCompany(CompanyDTO dto) throws Exception;
 	
+	/* 업체 정보 수정 */
+	public boolean updateCompany(CompanyDTO dto) throws Exception;
 }

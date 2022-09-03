@@ -17,9 +17,9 @@
 					
 						<div class="row">
 							<div class="col-4">
-								<span class="align-middle h3 text-bold">${companyDTO.company_name }</span>
+								<span class="align-middle h3 text-bold">${companyDTO.company_name}</span>
 								<input type="hidden" name="company_idx" value="${companyDTO.company_idx}">
-								<button class="btn btn-primary btn-sm" title="수정" name="">
+								<button class="btn btn-primary btn-sm" title="수정" onclick="fn_openUpdateCompanyModal(${companyDTO.company_idx})">
 									<i class="fas fa-pencil-alt"></i>
 								</button>
 							</div>

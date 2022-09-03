@@ -13,6 +13,7 @@ public class CompanyDTO {
 	private String mobile;
 	private String ect;
 	private String reg_date;
+	private String path;
 	
 	public String getCompany_idx() {
 		return company_idx;
@@ -79,6 +80,20 @@ public class CompanyDTO {
 	}
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
+	@Override
+	public String toString() {
+		return "CompanyDTO [company_idx=" + company_idx + ", company_name=" + company_name + ", company_reg_num="
+				+ company_reg_num + ", representative=" + representative + ", address_1=" + address_1 + ", address_2="
+				+ address_2 + ", tel=" + tel + ", fax=" + fax + ", mobile=" + mobile + ", ect=" + ect + ", reg_date="
+				+ reg_date + ", path=" + path + "]";
 	}
 	
 }

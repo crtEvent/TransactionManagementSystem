@@ -17,6 +17,12 @@
 			, MOBILE
 			, ECT
 			, REG_DATE
+			, (SELECT PATH FROM PATH WHERE PATH_NAME = 'FILE_ROOT') FILE_ROOT
+			, CONCAT((SELECT PATH FROM PATH WHERE PATH_NAME = 'FILE_ROOT')
+						, '\\'
+						, COMPANY_NAME
+						, "["
+						, COMPANY_IDX,"]") PATH
 		FROM
 			COMPANY
 		WHERE
@@ -57,5 +63,23 @@
 		]]>
 	</insert>
 	
+	<update id="updateCompany" parameterType="companyDTO">
+		<![CDATA[
+		UPDATE 
+			COMPANY
+		SET
+			COMPANY_NAME = #{company_name}
+			, COMPANY_REG_NUM = #{company_reg_num}
+			, REPRESENTATIVE = #{representative}
+			, ADDRESS_1 = #{address_1}
+			, ADDRESS_2 = #{address_2}
+			, TEL = #{tel}
+			, FAX = #{fax}
+			, MOBILE = #{mobile}
+			, ECT = #{ect}
+		WHERE
+			COMPANY_IDX = #{company_idx}
+		]]>
+	</update>
 	
 </mapper>

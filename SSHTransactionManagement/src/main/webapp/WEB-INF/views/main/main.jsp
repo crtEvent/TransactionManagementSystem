@@ -25,13 +25,14 @@
 	<!-- /.wrapper -->
 	
 	<%@include file="../modal/modal_insert_company.jsp" %>
+	<%@include file="../modal/modal_update_company.jsp" %>
 	<%@include file="../modal/modal_insert_transaction.jsp" %>
 	<%@include file="../modal/modal_update_transaction.jsp" %>
 	
 	<%@include file="../include/include_main_plugins.jsp" %>
 	<script type="text/javascript" src="<c:url value="/resources/js/common.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/search_company.js"/>"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/insert_company.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/resources/js/company_common.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/transaction_common.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/main_details.js"/>"></script>
 </body>

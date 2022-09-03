@@ -25,5 +25,9 @@ public class CompanyDAO {
 	public void insertCompany(CompanyDTO dto) throws Exception {
 		session.insert(namespace+"insertCompany", dto);
 	}
+	
+	public void updateCompany(CompanyDTO dto) throws Exception {
+		session.update(namespace+"updateCompany", dto);
+	}
 
 }

@@ -33,4 +33,46 @@
 		]]>
 	</select>
 	
+	<select id="selectFileByFileType" parameterType="map" resultType="FileDTO">
+		<![CDATA[
+		SELECT
+			T1.FILE_IDX
+			, T1.TRANSACTION_IDX
+			, T1.FILE_NAME
+			, CONCAT(
+				(SELECT PATH FROM PATH WHERE PATH_NAME='FILE_ROOT')
+				, "\\"
+        		, T3.COMPANY_NAME
+        		, "["
+        		, T3.COMPANY_IDX
+        		, "]\\"
+        		, T1.FILE_PATH) AS FILE_PATH
+        	, T1.FILE_TYPE
+		FROM
+			FILE T1
+		JOIN 
+			TRANSACTION T2
+		ON 
+			T1.TRANSACTION_IDX = T2.TRANSACTION_IDX
+		JOIN 
+			COMPANY T3
+		ON 
+			T2.COMPANY_IDX = T3.COMPANY_IDX
+		WHERE
+			T3.COMPANY_IDX = #{company_idx}
+		AND 
+			T1.FILE_TYPE = #{file_type}
+		]]>
+		<if test="date_condition == true">
+			<![CDATA[
+			AND 
+				T2.DATE BETWEEN #{start_date} AND #{end_date}
+			]]>
+		</if>
+		<![CDATA[
+		ORDER BY
+			T1.FILE_NAME DESC
+		]]>
+	</select>
+	
 </mapper>

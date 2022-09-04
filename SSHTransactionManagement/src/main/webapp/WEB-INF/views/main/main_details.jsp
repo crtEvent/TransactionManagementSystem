@@ -7,7 +7,7 @@
 <section class="content">
 	<div class="container-fluid">
 		
-		<!-- Top -->
+		<!-- Main Head Row -->
 		<div class="row">
 			<div class="col-12">
 				<!-- Card -->
@@ -27,7 +27,7 @@
 							</div>
 							<div class="col-4 text-right">
 								<div class="btn-group">
-									<button type="button" class="btn btn-default btn-flat">
+									<button type="button" class="btn btn-default btn-flat" onclick="fn_getCompanyDetails(${companyDTO.company_idx})">
 										목 록
 									</button>
 									<button type="button" class="btn btn-default btn-flat">
@@ -36,7 +36,7 @@
 									<button type="button" class="btn btn-default btn-flat">
 										견적서
 									</button>
-									<button type="button" class="btn btn-default btn-flat">
+									<button type="button" class="btn btn-default btn-flat" onclick="fn_viewImageFiles(${companyDTO.company_idx}, '')">
 										사 진
 									</button>
 								</div>
@@ -49,16 +49,18 @@
 				<!-- /.card -->
 			</div>
 		</div>
-		<!-- /.top -->
+		<!-- /.main head row -->
 		
-		<div class="row">
+		<!-- Main Body Row -->
+		<div class="row" id="mainBodyRow">
 			<div class="col-5" id="TrListDiv">
 				<%@include file="./transaction_list.jsp" %>
 			</div>
 			<div class="col-7" id="trDetailsDiv">
 			</div>
 		</div>
-	
+		<!-- /.main body row -->
+		
 	</div>
 </section>
 <!-- /.main content -->

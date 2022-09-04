@@ -29,9 +29,6 @@ public class FileDownloadController {
 	}
 
 	@Autowired
-	PathDAO pathDAO;
-
-	@Autowired
 	FileService fileService;
 
 	@RequestMapping("/download")

@@ -13,3 +13,6 @@
 	<script src="<c:url value="/resources/adminLTE/dist/js/adminlte.min.js"/>"></script>
 	<!-- jsGrid -->
 	<script src="<c:url value="/resources/adminLTE/plugins/jsGrid/jsgrid.min.js"/>"></script>
+	<!-- DatePicker -->
+	<script src="<c:url value="/resources/adminLTE/plugins/bootstrap-datepicker/bootstrap-datepicker.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/bootstrap-datepicker/bootstrap-datepicker.ko.js"/>"></script>

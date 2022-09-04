@@ -18,7 +18,6 @@ function fn_getCompanyDetails(company_idx) {
 			$("#contentWrapper").html(result);
 			fn_loadTransactionListTable(company_idx);
 			fn_resetTransactionModal('insert');
-			//fn_resetTransactionModal('update');
 		},
 		error: function(){
 			alert("에러");

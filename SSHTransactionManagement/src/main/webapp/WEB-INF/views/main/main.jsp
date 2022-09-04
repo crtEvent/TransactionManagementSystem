@@ -35,5 +35,6 @@
 	<script type="text/javascript" src="<c:url value="/resources/js/company_common.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/transaction_common.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/main_details.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/resources/js/view_files.js"/>"></script>
 </body>
 </html>

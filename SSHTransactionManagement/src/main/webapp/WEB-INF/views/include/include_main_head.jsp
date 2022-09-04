@@ -19,3 +19,5 @@
   <!-- jsGrid -->
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/jsGrid/jsgrid.min.css"/>">
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/jsGrid/jsgrid-theme.min.css"/>">
+  <!-- DatePicker -->
+  <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"/>">

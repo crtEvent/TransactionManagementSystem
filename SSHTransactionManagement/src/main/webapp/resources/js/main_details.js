@@ -48,6 +48,7 @@ function fn_loadTransactionListTable(company_idx) {
 				loadData: function(filter) {
 					return $.grep(data, function(item) {
                              return(!filter.date|| item.date.indexOf(filter.date) > -1)
+                             && (!filter.transaction_type|| item.transaction_type.indexOf(filter.transaction_type) > -1) 
         		             && (!filter.subject|| item.subject.indexOf(filter.subject) > -1) 
             	  			});
 	  	      

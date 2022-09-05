@@ -47,15 +47,16 @@ function fn_loadTransactionListTable(company_idx) {
 			controller: {
 				loadData: function(filter) {
 					return $.grep(data, function(item) {
-                             return(!filter.date|| item.date.indexOf(filter.date) > -1) 
+                             return(!filter.date|| item.date.indexOf(filter.date) > -1)
         		             && (!filter.subject|| item.subject.indexOf(filter.subject) > -1) 
             	  			});
 	  	      
 				} // loadData end
 			},
 			fields: [
-				{name:"date", title:"날짜", type: "text", align:"center", width: 30},
-				{name:"subject", title:"제목", type: "text", align:"center"}
+				{name:"date", title:"날짜", type:"text", align:"center", width: 25},
+				{name:"transaction_type", title:"입출고", type:"text", align:"center", width: 25},
+				{name:"subject", title:"제목", type:"text", align:"center"}
 			],
 			rowClick: function(args) {
        	    	// transaction_details 보여주기

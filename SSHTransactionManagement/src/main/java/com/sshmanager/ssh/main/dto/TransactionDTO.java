@@ -4,6 +4,7 @@ public class TransactionDTO {
 	
 	private String transaction_idx;
 	private String company_idx;
+	private String transaction_type;
 	private String date;
 	private String subject;
 	
@@ -18,6 +19,12 @@ public class TransactionDTO {
 	}
 	public void setCompany_idx(String company_idx) {
 		this.company_idx = company_idx;
+	}
+	public String getTransaction_type() {
+		return transaction_type;
+	}
+	public void setTransaction_type(String transaction_type) {
+		this.transaction_type = transaction_type;
 	}
 	public String getDate() {
 		return date;

@@ -9,6 +9,7 @@
 			TRANSACTION_IDX
 			, COMPANY_IDX
 			, DATE
+			, TRANSACTION_TYPE
 			, SUBJECT
 		FROM 
 			TRANSACTION
@@ -25,6 +26,7 @@
 			TRANSACTION_IDX
 			, COMPANY_IDX
 			, DATE
+			, TRANSACTION_TYPE
 			, SUBJECT
 		FROM 
 			TRANSACTION
@@ -105,11 +107,13 @@
 		INSERT INTO 
 			TRANSACTION(COMPANY_IDX
 						, DATE
+						, TRANSACTION_TYPE
 						, SUBJECT)
 		VALUES
 			(#{company_idx}
-			,#{date}
-			,#{subject})
+			, #{date}
+			, #{transaction_type}
+			, #{subject})
 		]]>
 	</insert>
 	
@@ -158,6 +162,7 @@
 			TRANSACTION
 		SET
 			DATE = #{date}
+			, TRANSACTION_TYPE =  #{transaction_type}
 			, SUBJECT = #{subject}
 		WHERE
 			TRANSACTION_IDX = #{transaction_idx}

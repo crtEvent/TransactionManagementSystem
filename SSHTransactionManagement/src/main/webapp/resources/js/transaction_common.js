@@ -15,7 +15,7 @@ function fn_openInsertTransactionModal() {
 	insertTransactionModal.modal("show");
 }
 
- /* [Modal]: 거래 내역 입력 Modal 열기 */
+ /* [Modal]: 거래 내역 수정 Modal 열기 */
 function fn_openUpdateTransactionModal(transaction_idx) {
 	$.ajax({
 		url: "/ssh/transaction/transaction-update-modal",
@@ -277,9 +277,11 @@ function fn_insertTransaction() {
 	/* [transaction 정보] */
 	var date = insertTransactionModal.find('input[name=date]').val();
 	var company_idx = insertTransactionModal.find('input[name=company_idx]').val();
+	var transaction_type = insertTransactionModal.find('input[name=transaction_type]:checked').val();
 	var subject = insertTransactionModal.find('input[name=subject]').val();
 	formData.append('date', date);
 	formData.append('company_idx', company_idx);
+	formData.append('transaction_type', transaction_type);
 	formData.append('subject', subject);
 
 	/* [item 넣기] */
@@ -359,10 +361,12 @@ function fn_updateTransaction() {
 	var transaction_idx = updateTransactionModal.find('input[name=transaction_idx]').val();
 	var date = updateTransactionModal.find('input[name=date]').val();
 	var company_idx = updateTransactionModal.find('input[name=company_idx]').val();
+	var transaction_type = updateTransactionModal.find('input[name=transaction_type]:checked').val();
 	var subject = updateTransactionModal.find('input[name=subject]').val();
 	formData.append('transaction_idx', transaction_idx);
 	formData.append('date', date);
 	formData.append('company_idx', company_idx);
+	formData.append('transaction_type', transaction_type);
 	formData.append('subject', subject);
 
 	/* [item 넣기] */

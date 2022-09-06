@@ -16,3 +16,12 @@
 	<!-- DatePicker -->
 	<script src="<c:url value="/resources/adminLTE/plugins/bootstrap-datepicker/bootstrap-datepicker.js"/>"></script>
 	<script src="<c:url value="/resources/adminLTE/plugins/bootstrap-datepicker/bootstrap-datepicker.ko.js"/>"></script>
+	<!-- DataTables  & Plugins -->
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/jquery.dataTables.min.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/dataTables.bootstrap4.min.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/dataTables.responsive.min.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/responsive.bootstrap4.min.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/dataTables.buttons.min.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/buttons.bootstrap4.min.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/buttons.html5.min.js"/>"></script>
+	<script src="<c:url value="/resources/adminLTE/plugins/datatables/js/buttons.colVis.min.js"/>"></script>

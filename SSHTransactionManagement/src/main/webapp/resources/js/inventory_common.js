@@ -18,12 +18,12 @@
 	})
  }
  
- /* 재고 품목 리스트(Inventory Item List) 불러오기 (jsGrid) */
-function fn_loadInventoryItemListTable() {
+ /* 전체 재고 품목 리스트(Inventory Item List) 불러오기 (jsGrid) */
+ function fn_loadInventoryItemListTable(company_idx) {
 
 	$.ajax({
 		type: "GET",
-		url: "/ssh/inventory/inventory-item-list"
+		url: "/ssh/inventory/inventory-item-list?company_idx="+company_idx
 	}).done(function(data) {
 		/* jsGrid */
 		$("#inventoryListTable").jsGrid({
@@ -64,4 +64,57 @@ function fn_loadInventoryItemListTable() {
 		}); // jsGrid end
 	}); // .done() end
 
-}; // function end
+ }; // function end
+
+/* 업체별 재고 리스트 불러오기 */
+ function fn_getInventoryListByCompany(company_idx) {
+	
+	$.ajax({
+		url: "/ssh/inventory/inventory-list-by-company",
+		type: 'post',
+		data: {company_idx : company_idx},
+		success: function(result){
+			$("#mainBodyRow").html(result);
+			fn_loadInventoryDataTables();
+		},
+		error: function(){
+			alert("fn_getInventoryListByCompany() 에러");
+		}
+	})
+	
+ }; // function end
+ 
+ /* 업체별 재고 리스트 (datatables) */
+ function fn_loadInventoryDataTables() {
+ 	
+ 	$('#inventoryDataTables').DataTable({
+		"paging": false,
+		"lengthChange": false,
+		"searching": true,
+		"ordering": true,
+		"info": true,
+		"autoWidth": false,
+		"responsive": true,
+		"buttons": ["copy", "colvis"]
+    }).buttons().container().appendTo('#inventoryDataTables_wrapper .col-md-6:eq(0)');
+ 	
+ } // function end
+ 
+ function printInventoryTable() {
+	
+	const html = document.querySelector('html');
+	const printContents = document.querySelector('#printArea').innerHTML;
+	const printDiv = document.createElement('div');
+	printDiv.id = 'printDiv';
+	
+	html.appendChild(printDiv);
+	printDiv.innerHTML = printContents;
+	
+	// 인쇄되지 않는 부분 display = 'none'
+	document.body.style.display = 'none';
+	window.print();
+	
+	document.body.style.display = 'block';
+	document.querySelector('#printDiv').remove();
+
+ }

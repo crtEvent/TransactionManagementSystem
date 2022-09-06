@@ -39,6 +39,9 @@
 									<button type="button" class="btn btn-default btn-flat" onclick="fn_viewImageFiles(${companyDTO.company_idx}, '')">
 										사 진
 									</button>
+									<button type="button" class="btn btn-default btn-flat" onclick="fn_getInventoryListByCompany(${companyDTO.company_idx})">
+										전용 품목
+									</button>
 								</div>
 							</div>
 						</div><!-- /.row -->

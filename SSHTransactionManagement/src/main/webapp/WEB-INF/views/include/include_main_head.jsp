@@ -21,3 +21,7 @@
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/jsGrid/jsgrid-theme.min.css"/>">
   <!-- DatePicker -->
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"/>">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/datatables/css/dataTables.bootstrap4.min.css"/>">
+  <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/datatables/css/responsive.bootstrap4.min.css"/>">
+  <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/datatables/css/buttons.bootstrap4.min.css"/>">

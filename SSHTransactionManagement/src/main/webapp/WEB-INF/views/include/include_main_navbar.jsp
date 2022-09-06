@@ -8,6 +8,9 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block" onclick="fn_getInventoryManagementPage()">
+      	<button type="button" class="btn btn-block btn-default">재고관리</button>
+      </li>
     </ul>
 
     <!-- Right navbar links -->

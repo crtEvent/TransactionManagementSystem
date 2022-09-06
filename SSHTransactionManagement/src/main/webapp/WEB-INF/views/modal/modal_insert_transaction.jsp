@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<!-- Insert Modal -->
+<!-- Insert Transaction Modal -->
 <div class="modal fade" id="insertTransactionModal">
 	<!-- Modal-dialog -->
 	<div class="modal-dialog modal-xl">
@@ -188,4 +188,3 @@
 	</div>
 	<!-- /.modal-dialog -->
 </div>
-<!-- /.insert modal -->

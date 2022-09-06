@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="inventory">
+
+	<select id="countItemCode" parameterType="String" resultType="int">
+		<![CDATA[
+		SELECT
+			COUNT(ITEM_CODE)
+		FROM
+			INVENTORY_ITEM
+		WHERE
+			ITEM_CODE = #{value}
+		]]>
+	</select>
+	
+	<select id="selectInventoryList" parameterType="String" resultType="inventoryItemDTO">
+		<![CDATA[
+		SELECT
+			T1.ITEM_IDX
+            , T1.COMPANY_IDX
+            , T2.COMPANY_NAME
+			, T1.ITEM_CODE
+			, T1.CONTENT
+			, FORMAT(T1.UNIT_PRICE, 0) UNIT_PRICE
+			, FORMAT(T1.INITIAL_QUANTITY, 0) INITIAL_QUANTITY
+            , FORMAT((SELECT
+				((IFNULL(SUM(CASE
+							 WHEN ST2.TRANSACTION_TYPE = '출고'
+							 THEN -ST1.AMOUNT
+							 WHEN ST2.TRANSACTION_TYPE = '입고'
+							 THEN ST1.AMOUNT
+							 ELSE 0 END), 0))
+				+ T1.INITIAL_QUANTITY)
+			  FROM
+				ITEM ST1
+			  JOIN
+				TRANSACTION ST2
+			  ON
+				ST1.TRANSACTION_IDX = ST2.TRANSACTION_IDX
+			  WHERE
+				ST1.ITEM_CODE = T1.ITEM_CODE), 0) CURRENT_QUANTITY
+		FROM
+			INVENTORY_ITEM T1
+		JOIN 
+			COMPANY T2
+		ON 
+			T1.COMPANY_IDX = T2.COMPANY_IDX
+		]]>
+		<if test="value != null">
+			<![CDATA[
+			WHERE
+				T1.COMPANY_IDX = #{value}
+			]]>
+		</if>
+	</select>
+	
+</mapper>

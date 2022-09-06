@@ -36,5 +36,6 @@
 	<script type="text/javascript" src="<c:url value="/resources/js/transaction_common.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/main_details.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/view_files.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/resources/js/inventory_common.js"/>"></script>
 </body>
 </html>

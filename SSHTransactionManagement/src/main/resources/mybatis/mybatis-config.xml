@@ -8,5 +8,6 @@
 		<typeAlias type="com.sshmanager.ssh.main.dto.ItemDTO" alias="itemDTO"/>
 		<typeAlias type="com.sshmanager.ssh.main.dto.MemoDTO" alias="memoDTO"/>
 		<typeAlias type="com.sshmanager.ssh.main.dto.FileDTO" alias="fileDTO"/>
+		<typeAlias type="com.sshmanager.ssh.main.dto.InventoryItemDTO" alias="inventoryItemDTO"/>
 	</typeAliases>
 </configuration>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!-- Update Modal -->
+<!-- Update Transaction Modal -->
 <div class="modal fade" id="updateTransactionModal">
 	<!-- Modal-dialog -->
 	<div class="modal-dialog modal-xl">
@@ -18,4 +18,3 @@
 	</div>
 	<!-- /.modal-dialog -->
 </div>
-<!-- /.update Modal modal -->

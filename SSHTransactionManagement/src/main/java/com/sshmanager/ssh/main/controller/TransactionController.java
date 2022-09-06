@@ -32,7 +32,7 @@ public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
 	
-	/* 거래 리스트 */
+	/* 거래 리스트 (jsGrid) */
 	@RequestMapping("/transaction-list")
 	@ResponseBody
 	public List<TransactionDTO> getTransactionList(String company_idx) throws Exception {

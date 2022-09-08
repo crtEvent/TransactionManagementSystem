@@ -100,10 +100,11 @@
  	
  } // function end
  
+ // 업체별 재고 목록 인쇄
  function printInventoryTable() {
 	
 	const html = document.querySelector('html');
-	const printContents = document.querySelector('#printArea').innerHTML;
+	const printContents = document.querySelector('#inventoryDataTables').parentNode.innerHTML;
 	const printDiv = document.createElement('div');
 	printDiv.id = 'printDiv';
 	
@@ -117,4 +118,152 @@
 	document.body.style.display = 'block';
 	document.querySelector('#printDiv').remove();
 
+ } // function end
+ 
+ // ------------------- Modal ----------------------------------------
+ 
+ var isCompanyIdxTrue = false;
+ var isItemCodeTrue = false;
+ 
+ var insertinventoryItemModal = $('#insertInventoryItemModal');
+ 
+ /* 재고 품목 입력 Modal 창 열기*/
+ function fn_openInsertInventoryModal() {
+ 	
+ 	// 업체 idx 자동 입력
+ 	var company_idx = $('#mainDetailsCard').find('input[name=company_idx]').val();
+ 	var companyIdxTag = insertinventoryItemModal.find('input[name=company_idx]');
+ 	companyIdxTag.val(company_idx);
+ 	fn_getCompanyName(companyIdxTag);
+ 	
+ 	insertinventoryItemModal.modal('show');
+ }
+ 
+ /* 재고 품목 INSERT */
+ function insertInventoryItem() {
+ 	// 매개변수 company_idx는 현재 업체 페이지의 company_idx (입력할 item의 company_idx가 아님)
+ 
+ 	var itemCodeTag = insertinventoryItemModal.find('input[name=item_code]');
+ 	var companyIdxTag = insertinventoryItemModal.find('input[name=company_idx]');
+ 	var content = insertinventoryItemModal.find('input[name=content]').val();
+ 	var unit_price = insertinventoryItemModal.find('input[name=unit_price]').val();
+ 	var initial_quantity = insertinventoryItemModal.find('input[name=initial_quantity]').val();
+ 	
+ 	/* 업체명 불러오기, 검사 */
+ 	if(!isCompanyIdxTrue) {
+ 		alert('존재하는 업체번호를 입력해 주세요.');
+ 		return;
+ 	}
+ 	
+ 	/* 아이템 코드 중복 검사 */
+ 	if(!isItemCodeTrue) {
+ 		alert('아이템 코드를 다시 입력해 주세요.');
+ 		return;
+ 	}
+ 	
+ 	var formData = new FormData();
+ 	formData.append('company_idx', companyIdxTag.val());
+ 	formData.append('item_code', itemCodeTag.val());
+ 	formData.append('content', content);
+ 	formData.append('unit_price', unit_price);
+ 	formData.append('initial_quantity', initial_quantity);
+ 	
+ 	
+ 	// insert
+ 	$.ajax({
+		url: "/ssh/inventory/insert-inventory-item",
+		type: 'post',
+		data: formData,
+		contentType: false,
+		processData: false,
+		success: function(result){
+			fn_resetIventroyModal('insert');
+			fn_getInventoryListByCompany($('#mainDetailsCard').find('input[name=company_idx]').eq(0).val());
+		},
+		error: function(){
+			alert("insertInventoryItem() 에러");
+			
+		}
+	})// .ajax
+	
+ }
+ 
+ /* 업체 idx 유효성 체크 - 숫자만 입력, 유효한 idx인지 검사 */
+ function fn_checkCompnayIdxInInventoryModal(tag) {
+ 	var inputVal = tag.val().replace(/[^0-9]/gi,'');
+ 	tag.val(inputVal);
+ 	fn_getCompanyName(tag);
+ }
+ 
+ /* 업체명 불러오기 */
+ function fn_getCompanyName(companyIdxTag) {
+ 
+ 	if(companyIdxTag.val() == '') {
+ 		$('#companyIdxMsg').text('업체 idx를 입력하세요.').css('color', 'red');
+ 		isCompanyIdxTrue = false;
+ 		return;
+ 	}
+ 	
+ 	$.ajax({
+		url: "/ssh/inventory/get-company-name",
+		type: 'post',
+		data: {company_idx : companyIdxTag.val()},
+		success: function(result){
+			if(result=='') {
+				$('#companyIdxMsg').text('존재하지 않는 업체입니다.').css('color', 'red');
+				isCompanyIdxTrue = false;
+			} else {
+				$('#companyIdxMsg').text(result).css('color', 'green');
+				isCompanyIdxTrue = true;
+			}
+		},
+		error: function(){
+			alert("fn_checkItemCode() 에러");
+			isCompanyIdxTrue = false;
+		}
+	})
+ 	
+ }
+ 
+  /* 아이템 코드 중복 검사 */
+ function fn_checkItemCode(itemCodeTag) {
+ 	
+ 	if(itemCodeTag.val() == '') {
+ 		$('#itemCodeMsg').text('아이템 코드를 입력하세요.').css('color', 'red');
+ 		isItemCodeTrue = false;
+ 		return;
+ 	}
+ 
+ 	$.ajax({
+		url: "/ssh/inventory/check-code",
+		type: 'post',
+		data: {item_code : itemCodeTag.val()},
+		success: function(result){
+			
+			if(result == false) {
+				// 코드 중복
+				$('#itemCodeMsg').text('중복된 코드 입니다.').css('color', 'red');
+				isItemCodeTrue = false;
+			} else {
+				// 사용 가능한 코드
+				$('#itemCodeMsg').text('사용 가능한 코드입니다.').css('color', 'green');
+				isItemCodeTrue = true;
+			}
+		},
+		error: function(){
+			alert("fn_checkItemCode() 에러");
+			isItemCodeTrue = false;
+		}
+	})
+ 	
+ }
+ 
+ /* modal 리셋 */
+ function fn_resetIventroyModal(insertOrUpdate) {
+ 	var tag = $('#'+insertOrUpdate+'InventoryItemModal');
+ 	tag.find('input[name=item_code]').val('');
+ 	tag.find('input[name=content]').val('');
+ 	tag.find('input[name=unit_price]').val('');
+ 	tag.find('input[name=initial_quantity]').val('');
+ 	fn_checkItemCode(tag.find('input[name=item_code]'));
  }

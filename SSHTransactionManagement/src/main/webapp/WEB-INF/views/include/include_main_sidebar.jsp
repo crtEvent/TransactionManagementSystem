@@ -32,7 +32,7 @@
 				<table id="searchCompanyListTable" class="table table-sm table-hover text-nowrap w-100 table-bordered rounded">
                   <thead>
                     <tr class="text-center">
-                      <th>No.</th>
+                      <th width="51px">No.</th>
                       <th>거래처명</th>
                     </tr>
                   </thead>

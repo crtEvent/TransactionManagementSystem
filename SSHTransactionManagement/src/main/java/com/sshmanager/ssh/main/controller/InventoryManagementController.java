@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sshmanager.ssh.main.dto.CompanyDTO;
 import com.sshmanager.ssh.main.dto.InventoryItemDTO;
+import com.sshmanager.ssh.main.service.CompanyService;
 import com.sshmanager.ssh.main.service.InventoryService;
 
 @Controller
@@ -20,6 +22,9 @@ public class InventoryManagementController {
 	
 	@Autowired
 	InventoryService inventoryService;
+	
+	@Autowired
+	CompanyService companyService;
 	
 	/* 재고 관리 페이지 */
 	@PostMapping("/inventory-management")
@@ -62,6 +67,39 @@ public class InventoryManagementController {
 		model.addAttribute("inventoryList", inventoryService.getInventoryList(company_idx));
 		
 		return "/main/inventory_list";
+	}
+	
+	/* 아이템 코드 중복 검사 */
+	@RequestMapping("/check-code")
+	@ResponseBody
+	public boolean checkItemCode(String item_code) throws Exception {
+		System.out.println("checkItemCode: "+inventoryService.checkDupItemCode(item_code));
+		// item_code가 중복이면 false, 중복이 아니면 true
+		return inventoryService.checkDupItemCode(item_code);
+	}
+	
+	/* 업체명 불러오기 */
+	@RequestMapping(value="/get-company-name", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String getCompanyName(String company_idx) throws Exception {
+		
+		CompanyDTO dto = companyService.getCompany(company_idx);
+		
+		if(dto == null) {
+			return null;
+		}
+		
+		return dto.getCompany_name();
+	}
+	
+	/* 재고 품목 등록 */
+	@RequestMapping("/insert-inventory-item")
+	@ResponseBody
+	public boolean insertInventory(InventoryItemDTO dto) throws Exception {
+		
+		inventoryService.insertInventroyItem(dto);
+		
+		return true;
 	}
 	
 }

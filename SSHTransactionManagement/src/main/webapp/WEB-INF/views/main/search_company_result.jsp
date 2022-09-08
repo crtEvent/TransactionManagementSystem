@@ -4,7 +4,7 @@
 	
 	<thead>
     	<tr class="text-center">
-    		<th>No.</th>
+    		<th width="51px">No.</th>
     		<th>거래처명</th>
     	</tr>
     </thead>

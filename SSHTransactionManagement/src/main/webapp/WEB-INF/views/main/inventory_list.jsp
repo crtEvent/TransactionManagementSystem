@@ -11,7 +11,7 @@
 		<div class="card-header py-2">
 			<span class="align-middle text-bold">
 				<button class="btn btn-info btn-sm text-bold"
-					onclick="insertInventoryItem()">[+] 품목 등록</button>
+					onclick="fn_openInsertInventoryModal()">[+] 품목 등록</button>
 				<button class="btn btn-default bg-gray btn-sm text-bold"
 					onclick="printInventoryTable()">&nbsp;인쇄&nbsp;</button>
 			</span>

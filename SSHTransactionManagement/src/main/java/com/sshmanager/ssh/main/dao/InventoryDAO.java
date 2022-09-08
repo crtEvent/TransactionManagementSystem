@@ -29,5 +29,8 @@ public class InventoryDAO {
 		return session.selectList(namespace+"selectInventoryList", company_idx);
 	}
 	
+	public void insertInventroyItem(InventoryItemDTO dto) throws Exception {
+		session.update(namespace+"insertInventroyItem", dto);
+	}
 	
 }

@@ -28,4 +28,8 @@ public class InventoryServiceImpl implements InventoryService {
 	public List<InventoryItemDTO> getInventoryList(String company_idx) throws Exception {
 		return inventoryDAO.selectInventoryList(company_idx);
 	}
+	
+	public void insertInventroyItem(InventoryItemDTO dto) throws Exception {
+		inventoryDAO.insertInventroyItem(dto);
+	}
 }

@@ -15,4 +15,7 @@ public interface InventoryService {
 	 *  매개변수가 없으면 재고 품목 전체 검색 */
 	public List<InventoryItemDTO> getInventoryList() throws Exception;
 	public List<InventoryItemDTO> getInventoryList(String company_idx) throws Exception;
+	
+	/* [INSERT] 재고 품목 등록 */
+	public void insertInventroyItem(InventoryItemDTO dto) throws Exception;
 }

@@ -55,4 +55,21 @@
 		</if>
 	</select>
 	
+	<insert id="insertInventroyItem" parameterType="inventoryItemDTO">
+		<![CDATA[
+		INSERT INTO
+			INVENTORY_ITEM(COMPANY_IDX
+			 				, ITEM_CODE
+			 				, CONTENT
+			 				, UNIT_PRICE
+			 				, INITIAL_QUANTITY)
+		VALUES
+			(#{company_idx}
+			 , #{item_code}
+			 , #{content}
+			 , #{unit_price}
+			 , #{initial_quantity})
+		]]>
+	</insert>
+	
 </mapper>

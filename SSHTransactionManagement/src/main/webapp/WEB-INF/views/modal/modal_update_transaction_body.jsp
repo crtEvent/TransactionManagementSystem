@@ -53,12 +53,12 @@
 			<!-- 거래 종류 - 입출고 -->
 			<div class="form-group text-center col-md-12 mt-3 mb-0">
 				<div class="icheck-danger d-inline col-6">
-					<input type="radio" name="transaction_type" id="update_released" value="출고" <c:if test="${transactionDTO.transaction_type eq '출고'}">checked</c:if>>
-					<label for="update_released">출고&nbsp;&nbsp;&nbsp;</label>
+					<input type="radio" name="transaction_type" id="updateReleased" value="출고" <c:if test="${transactionDTO.transaction_type eq '출고'}">checked</c:if>>
+					<label for="updateReleased">출고&nbsp;&nbsp;&nbsp;</label>
 				</div>
 				<div class="icheck-info d-inline col-6">
-					<input type="radio" name="transaction_type" id="update_stored" value="입고" <c:if test="${transactionDTO.transaction_type eq '입고'}">checked</c:if>>
-					<label for="update_stored">입고</label>
+					<input type="radio" name="transaction_type" id="updateStored" value="입고" <c:if test="${transactionDTO.transaction_type eq '입고'}">checked</c:if>>
+					<label for="updateStored">입고</label>
 				</div>
 			</div>
 		</div>

@@ -50,12 +50,12 @@
 							<!-- 거래 종류 - 입출고 -->
 							<div class="form-group text-center col-md-12 mt-3 mb-0">
 								<div class="icheck-danger d-inline col-6">
-									<input type="radio" name="transaction_type" id="released" value="출고" checked>
-									<label for="released">출고&nbsp;&nbsp;&nbsp;</label>
+									<input type="radio" name="transaction_type" id="insertReleased" value="출고" checked>
+									<label for="insertReleased">출고&nbsp;&nbsp;&nbsp;</label>
 								</div>
 								<div class="icheck-info d-inline col-6">
-									<input type="radio" name="transaction_type" id="stored" value="입고">
-									<label for="stored">입고</label>
+									<input type="radio" name="transaction_type" id="insertStored" value="입고">
+									<label for="insertStored">입고</label>
 								</div>
 							</div>
 						</div>

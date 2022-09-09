@@ -12,6 +12,7 @@ let updateTransactionModal = $('#updateTransactionModal');
  /* [Modal]: 거래 내역 입력 Modal 열기 */
 function fn_openInsertTransactionModal() {
 	insertTransactionModal.find('input[name=company_idx]').val($('#mainDetailsCard').find('input[name=company_idx]').val());
+	insertTransactionModal.find('input[type=radio][value=출고]').prop('checked', true);
 	insertTransactionModal.modal("show");
 }
 

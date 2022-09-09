@@ -265,28 +265,28 @@ public class TransactionServiceimpl implements TransactionService {
 			String storedFileName = prependDateToFileName(multiFile.getOriginalFilename(), date);
 			String middle_root = date.substring(0, 4); // yyyy -> 후에 yyyy/fileType으로 변경됨
 			
-			String fileType = fileName.substring(0, 5);
+			String fileType = fileName.substring(0, 5); // quote, order, image, other
 			String path = null; // 파일이 저장될 경로
 			
 			// 파일이 저장될 경로 지정
 			switch(fileType) {
 			case "quote":
-				middle_root = middle_root + File.separator + FileType.QUOTE.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.QUOTE.getFolder_name(); // yyyy/fileType 형태
 				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.QUOTE);
 				break;
 			case "order":
-				middle_root = middle_root + File.separator + FileType.ORDER.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.ORDER.getFolder_name(); // yyyy/fileType 형태
 				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.ORDER);
 				break;
 			case "image":
-				middle_root = middle_root + File.separator + FileType.IMAGE.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.IMAGE.getFolder_name(); // yyyy/fileType 형태
 				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.IMAGE);
 				break;
 			case "other":
-				middle_root = middle_root + File.separator + FileType.OTHER.getFolder_name();
+				middle_root = middle_root + File.separator + FileType.OTHER.getFolder_name(); // yyyy/fileType 형태
 				path = file_root + File.separator + companyFolderName + File.separator + middle_root;
 				fileDTO.setFile_type(FileType.OTHER);
 				break;
@@ -312,7 +312,6 @@ public class TransactionServiceimpl implements TransactionService {
 				multiFile.transferTo(file);
 				
 				// fileDTO set
-				fileDTO.setFile_path(middle_root);
 				fileDTO.setFile_name(storedFileName);
 				
 				// DB에 저장
@@ -427,6 +426,9 @@ public class TransactionServiceimpl implements TransactionService {
 			, MultipartHttpServletRequest multipartRequest, JSONArray existingFilejsonArray) throws Exception {
 		
 		// [기존에 저장된 파일 검사]
+		// 업체 정보
+		CompanyDTO companyDTO = companyDAO.selectCompany(company_idx);
+		String companyFolderName = companyDTO.getCompany_name()+"["+company_idx+"]";
 		
 		// 파일이 저장될 경로
 		String file_root = pathDAO.selectFileRootPath().replace("\\", "\\\\"); // 파일 저장소
@@ -434,9 +436,10 @@ public class TransactionServiceimpl implements TransactionService {
 		File oldFile;
 		File newFile;
 		
+		// 해당 거래에 등록된 파일 리스트 불러오기(DB에 저장된 파일 리스트)
 		List<FileDTO> storedFileList = transactionDAO.selectFileList(transaction_idx, FileType.NULL);
 		
-		boolean isFileExist;
+		boolean isFileExist; // 
 		
 		for(int i = 0; i < storedFileList.size(); i++) {
 			
@@ -455,9 +458,13 @@ public class TransactionServiceimpl implements TransactionService {
 					
 					if(!newName.equals(storedFileList.get(i).getFile_name())) {
 						// 이름이 변경된 경우에만 변경
-						oldFile = FileUtils.getFile(storedFileList.get(i).getFile_path()+File.separator+storedFileList.get(i).getFile_name());
+						oldFile = FileUtils.getFile(file_root+File.separator
+								+companyFolderName+File.separator
+								+storedFileList.get(i).getFile_name().substring(0, 4)+File.separator
+								+storedFileList.get(i).getFile_type().getFolder_name()+File.separator
+								+storedFileList.get(i).getFile_name());
 						newFile = FileUtils.getFile(storedFileList.get(i).getFile_path()+File.separator+newName);
-						FileUtils.moveFile(oldFile, newFile);
+						FileUtils.moveFile(oldFile, newFile); // 파일 이동 + 경로 자동 생성
 						
 						// DB에 저장된 이름 변경
 						transactionDAO.updateFileName(storedFileList.get(i).getFile_idx(), newName);
@@ -471,9 +478,13 @@ public class TransactionServiceimpl implements TransactionService {
 			if(!isFileExist) {
 				// 기존에 존재하던 파일이 삭제된 경우 - DB와 실제 파일 삭제
 				// 파일 휴지통으로 이동
-				oldFile = FileUtils.getFile(storedFileList.get(i).getFile_path()+File.separator+storedFileList.get(i).getFile_name());
+				oldFile = FileUtils.getFile(file_root+File.separator
+						+companyFolderName+File.separator
+						+storedFileList.get(i).getFile_name().substring(0, 4)+File.separator
+						+storedFileList.get(i).getFile_type().getFolder_name()+File.separator
+						+storedFileList.get(i).getFile_name());
 				newFile = FileUtils.getFile(file_root+File.separator+"휴지통"+File.separator+"("+storedFileList.get(i).getFile_idx()+")"+storedFileList.get(i).getFile_name());
-				FileUtils.moveFile(oldFile, newFile);
+				FileUtils.moveFile(oldFile, newFile); // 파일 이동 + 경로 자동 생성
 				
 				// 파일 DB에서 제거
 				transactionDAO.deleteFile(storedFileList.get(i).getFile_idx());

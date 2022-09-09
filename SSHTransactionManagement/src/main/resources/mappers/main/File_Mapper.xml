@@ -16,7 +16,18 @@
         		, "["
         		, T3.COMPANY_IDX
         		, "]\\"
-        		, T1.FILE_PATH) AS FILE_PATH
+        		, LEFT(T2.DATE, 4)
+                , "\\"
+                , CASE
+					WHEN T1.FILE_TYPE = 'QUOTE'
+                    THEN '견적서'
+                    WHEN T1.FILE_TYPE = 'ORDER'
+                    THEN '작업지시서'
+                    WHEN T1.FILE_TYPE = 'IMAGE'
+                    THEN '사진'
+                    WHEN T1.FILE_TYPE = 'OTHER'
+                    THEN '기타'
+				  END) AS FILE_PATH
         	, T1.FILE_TYPE
 		FROM
 			FILE T1
@@ -46,7 +57,18 @@
         		, "["
         		, T3.COMPANY_IDX
         		, "]\\"
-        		, T1.FILE_PATH) AS FILE_PATH
+        		, LEFT(T2.DATE, 4)
+                , "\\"
+                , CASE
+					WHEN T1.FILE_TYPE = 'QUOTE'
+                    THEN '견적서'
+                    WHEN T1.FILE_TYPE = 'ORDER'
+                    THEN '작업지시서'
+                    WHEN T1.FILE_TYPE = 'IMAGE'
+                    THEN '사진'
+                    WHEN T1.FILE_TYPE = 'OTHER'
+                    THEN '기타'
+				  END) AS FILE_PATH
         	, T1.FILE_TYPE
 		FROM
 			FILE T1

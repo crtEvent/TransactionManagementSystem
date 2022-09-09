@@ -139,6 +139,32 @@
  	insertinventoryItemModal.modal('show');
  }
  
+ /* [File 파일 추가]************************************************************************************** */
+var invenFileCnt = 1;
+
+/* 지시서 파일 추가 */
+function fn_addInvenFile(insertOrUpdate) {
+
+	var addFileTag = 
+		'<div class="input-group">'+
+			'<div class="input-group-prepend">'+
+				'<span class="input-group-text"><i class="fas fa-paperclip"></i></span>'+
+			'</div>'+
+			'<input type="text" name="invenFileName'+invenFileCnt+'" class="form-control bg-white" readonly>'+
+			'<button type="button" class="btn btn-sm" onclick="fn_deleteFile($(this))">'+
+				'<i class="fas fa-times-circle"></i>'+
+			'</button>'+
+			'<input type="file" name="invenFile'+invenFileCnt+'" onchange="fn_showFileName(&#39;invenFileName&#39;, this,'+invenFileCnt+')" style="display:none"/>'+
+		'</div>';
+	
+	$('#'+insertOrUpdate+'_inventory_file_div').append(addFileTag);
+	
+	$('input[name=invenFile'+invenFileCnt+']').click();
+	
+	invenFileCnt++;
+
+} /* [File 파일 추가] - END */
+ 
  /* 재고 품목 INSERT */
  function insertInventoryItem() {
  	// 매개변수 company_idx는 현재 업체 페이지의 company_idx (입력할 item의 company_idx가 아님)
@@ -168,6 +194,20 @@
  	formData.append('unit_price', unit_price);
  	formData.append('initial_quantity', initial_quantity);
  	
+ 	/* [file 넣기] */
+	var inputFiles = insertinventoryItemModal.find('input[type=file]'); // input[type=file] 여러개 다 가져옴
+	
+	// input[type=file] tag가 있는 경우
+	if(inputFiles.length != 0) {
+		for(var i = 0; i < inputFiles.length; i++) {
+			// 파일 값이 없는 input[type=file] tag는 제거
+			if(inputFiles[i].files[0] == null){
+				inputFiles[i].parentElement.remove();
+				continue;
+			}
+			formData.append(inputFiles.eq(i).attr('name'), inputFiles[i].files[0]);
+		} // .for
+	} // .if
  	
  	// insert
  	$.ajax({
@@ -176,6 +216,7 @@
 		data: formData,
 		contentType: false,
 		processData: false,
+		enctype : 'multipart/form-data',
 		success: function(result){
 			fn_resetIventroyModal('insert');
 			fn_getInventoryListByCompany($('#mainDetailsCard').find('input[name=company_idx]').eq(0).val());
@@ -265,5 +306,6 @@
  	tag.find('input[name=content]').val('');
  	tag.find('input[name=unit_price]').val('');
  	tag.find('input[name=initial_quantity]').val('');
+ 	$('#'+insertOrUpdate+'_inventory_file_div').empty();
  	fn_checkItemCode(tag.find('input[name=item_code]'));
  }

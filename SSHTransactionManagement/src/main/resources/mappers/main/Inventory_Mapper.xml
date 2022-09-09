@@ -55,7 +55,7 @@
 		</if>
 	</select>
 	
-	<insert id="insertInventroyItem" parameterType="inventoryItemDTO">
+	<insert id="insertInventroyItem" useGeneratedKeys="true" keyProperty="item_idx" parameterType="inventoryItemDTO">
 		<![CDATA[
 		INSERT INTO
 			INVENTORY_ITEM(COMPANY_IDX

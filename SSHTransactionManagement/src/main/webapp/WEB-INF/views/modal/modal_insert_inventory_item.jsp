@@ -74,11 +74,23 @@
 						class="form-control" onkeyup="fn_checkNumberOnly($(this))">
 				</div>
 				
+				<!-- 6. 파일 -->
+				<div class="row">
+					<div class="col-12">▶ 첨부파일 ◀</div>
+				</div>
+				<div class="row">
+					<div class="col-12" id="insert_inventory_file_div">
+						
+					</div>
+				</div>
+				
 			</div>
 			
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" 
 					onclick="fn_resetIventroyModal('insert')">리셋</button>
+				<button type="button" class="btn btn-info"
+					onclick="fn_addInvenFile('insert')">파일+</button>
 				<button type="button" class="btn btn-primary"
 					onclick="insertInventoryItem()">입력하기</button>
 			</div>

@@ -246,7 +246,7 @@ public class TransactionServiceimpl implements TransactionService {
 		// 파일이 저장될 경로
 		String file_root = pathDAO.selectFileRootPath().replace("\\", "\\\\"); // 파일 저장소
 		
-		// FileDTO - DB에 저장할 떄 사용
+		// FileDTO - DB에 저장할 때 사용
 		FileDTO fileDTO = new FileDTO();
 		fileDTO.setTransaction_idx(transaction_idx);
 		

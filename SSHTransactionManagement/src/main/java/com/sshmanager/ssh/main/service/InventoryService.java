@@ -2,6 +2,8 @@ package com.sshmanager.ssh.main.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.sshmanager.ssh.main.dto.InventoryItemDTO;
 
 public interface InventoryService {
@@ -17,5 +19,9 @@ public interface InventoryService {
 	public List<InventoryItemDTO> getInventoryList(String company_idx) throws Exception;
 	
 	/* [INSERT] 재고 품목 등록 */
-	public void insertInventroyItem(InventoryItemDTO dto) throws Exception;
+	public String insertInventroyItem(InventoryItemDTO dto) throws Exception;
+	
+	/* [INSERT] 재고 품목 파일 저장 */
+	public void insertinventoryFiles(String company_idx, String item_idx
+			, MultipartHttpServletRequest multipartRequest) throws Exception;
 }

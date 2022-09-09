@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sshmanager.ssh.main.dto.CompanyDTO;
@@ -73,7 +74,6 @@ public class InventoryManagementController {
 	@RequestMapping("/check-code")
 	@ResponseBody
 	public boolean checkItemCode(String item_code) throws Exception {
-		System.out.println("checkItemCode: "+inventoryService.checkDupItemCode(item_code));
 		// item_code가 중복이면 false, 중복이 아니면 true
 		return inventoryService.checkDupItemCode(item_code);
 	}
@@ -95,9 +95,11 @@ public class InventoryManagementController {
 	/* 재고 품목 등록 */
 	@RequestMapping("/insert-inventory-item")
 	@ResponseBody
-	public boolean insertInventory(InventoryItemDTO dto) throws Exception {
+	public boolean insertInventory(InventoryItemDTO dto, MultipartHttpServletRequest multipartRequest) throws Exception {
 		
-		inventoryService.insertInventroyItem(dto);
+		String item_idx = inventoryService.insertInventroyItem(dto);
+		
+		inventoryService.insertinventoryFiles(dto.getCompany_idx(), item_idx, multipartRequest);
 		
 		return true;
 	}

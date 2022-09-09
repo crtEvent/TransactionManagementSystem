@@ -9,6 +9,7 @@ public class FileDTO {
 	private String file_name;
 	private String file_path;
 	private FileType file_type;
+	private String item_idx;
 	
 	public String getFile_idx() {
 		return file_idx;
@@ -40,9 +41,15 @@ public class FileDTO {
 	public void setFile_type(FileType file_type) {
 		this.file_type = file_type;
 	}
+	public String getItem_idx() {
+		return item_idx;
+	}
+	public void setItem_idx(String item_idx) {
+		this.item_idx = item_idx;
+	}
 	@Override
 	public String toString() {
 		return "FileDTO [file_idx=" + file_idx + ", transaction_idx=" + transaction_idx + ", file_name=" + file_name
-				+ ", file_path=" + file_path + ", file_type=" + file_type + "]";
+				+ ", file_path=" + file_path + ", file_type=" + file_type + ", item_idx=" + item_idx + "]";
 	}
 }

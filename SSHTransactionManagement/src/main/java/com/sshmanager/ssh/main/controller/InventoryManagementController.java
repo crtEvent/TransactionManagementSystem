@@ -17,6 +17,8 @@ import com.sshmanager.ssh.main.dto.InventoryItemDTO;
 import com.sshmanager.ssh.main.service.CompanyService;
 import com.sshmanager.ssh.main.service.InventoryService;
 
+import net.sf.json.JSONArray;
+
 @Controller
 @RequestMapping("/inventory")
 public class InventoryManagementController {
@@ -92,6 +94,14 @@ public class InventoryManagementController {
 		return dto.getCompany_name();
 	}
 	
+	/* 재고 품목 불러오기 */
+	@RequestMapping("/get-inventory")
+	@ResponseBody
+	public List<Object> getIventory(String item_idx) throws Exception {
+		
+		return inventoryService.getInventory(item_idx);
+	}
+	
 	/* 재고 품목 등록 */
 	@RequestMapping("/insert-inventory-item")
 	@ResponseBody
@@ -102,6 +112,22 @@ public class InventoryManagementController {
 		inventoryService.insertinventoryFiles(dto.getCompany_idx(), item_idx, multipartRequest);
 		
 		return true;
+	}
+	
+	/* 재고 품목 수정 */
+	@RequestMapping("/update-inventory-item")
+	@ResponseBody
+	public boolean updateInventory(InventoryItemDTO dto
+			, MultipartHttpServletRequest multipartRequest
+			, String existingFileJsonData) throws Exception {
+		
+		String oldCompanyIdx = inventoryService.updateInventroyItem(dto);
+		inventoryService.updateinventoryFiles(oldCompanyIdx, dto.getCompany_idx()
+				, dto.getItem_idx()
+				, multipartRequest
+				, JSONArray.fromObject(existingFileJsonData));
+		
+		return false;
 	}
 	
 }

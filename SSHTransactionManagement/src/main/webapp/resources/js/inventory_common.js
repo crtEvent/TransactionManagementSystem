@@ -126,17 +126,80 @@
  var isItemCodeTrue = false;
  
  var insertinventoryItemModal = $('#insertInventoryItemModal');
+ var updateInventoryItemModal = $('#updateInventoryItemModal');
  
- /* 재고 품목 입력 Modal 창 열기*/
+ /* 재고 품목 입력 Modal 창 열기 */
  function fn_openInsertInventoryModal() {
+ 
+ 	isCompanyIdxTrue = false;
+ 	isItemCodeTrue = false;
  	
  	// 업체 idx 자동 입력
  	var company_idx = $('#mainDetailsCard').find('input[name=company_idx]').val();
  	var companyIdxTag = insertinventoryItemModal.find('input[name=company_idx]');
  	companyIdxTag.val(company_idx);
- 	fn_getCompanyName(companyIdxTag);
+ 	fn_getCompanyName(companyIdxTag, 'insert');
  	
  	insertinventoryItemModal.modal('show');
+ }
+ 
+ /* 재고 품목 수정 Modal 창 열기 */
+ function fn_openUpdateInventoryModal(item_idx) {
+ 	
+ 	isCompanyIdxTrue = false;
+ 	isItemCodeTrue = false;
+ 	
+ 	// select
+ 	$.ajax({
+		url: "/ssh/inventory/get-inventory",
+		type: 'post',
+		data: {item_idx : item_idx},
+		success: function(result){
+		
+			fn_resetIventroyModal('update');
+
+			updateInventoryItemModal.find('input[name=item_idx]').val(result[0].item_idx);
+			updateInventoryItemModal.find('input[name=company_idx]').val(result[0].company_idx);
+			updateInventoryItemModal.find('input[name=item_code]').val(result[0].item_code);
+			updateInventoryItemModal.find('input[name=old_item_code]').val(result[0].item_code);
+			updateInventoryItemModal.find('input[name=content]').val(result[0].content);
+			updateInventoryItemModal.find('input[name=unit_price]').val(result[0].unit_price);
+			updateInventoryItemModal.find('input[name=initial_quantity]').val(result[0].initial_quantity);
+			
+			var companyIdxTag = updateInventoryItemModal.find('input[name=company_idx]');
+			var itemCodeTag = updateInventoryItemModal.find('input[name=item_code]');
+ 			fn_getCompanyName(companyIdxTag, 'update');
+ 			fn_checkItemCode(itemCodeTag, 'update');
+			
+			for(var i=0; i < result[1].length; i++) {
+				var addFileTag = 
+							'<div class="input-group">'+
+								'<div class="input-group-prepend">'+
+									'<span class="input-group-text"><i class="fas fa-paperclip"></i></span>'+
+								'</div>'+
+								'<input type="text" class="form-control bg-white" value="'+result[1][i].file_name+'" readonly '+
+									'onclick="fn_linkToDownloadFile('+result[1][i].file_idx+')">'+
+								'<input type="hidden" name="existingFile_idx" value="'+result[1][i].file_idx+'">'+
+								'<button type="button" class="btn btn-sm" onclick="fn_deleteFile($(this))">'+
+									'<i class="fas fa-times-circle"></i>'+
+								'</button>'+
+							'</div>';
+	
+				$('#update_inventory_file_div').append(addFileTag);
+			} // .for - end
+			
+			updateInventoryItemModal.modal('show');
+		},
+		error: function(){
+			alert("fn_openUpdateInventoryModal() 에러");
+			
+		}
+	})// .ajax
+ 	
+ }
+ 
+ function fn_linkToDownloadFile(file_idx) {
+ 	window.open('/ssh/file/download?file_idx='+file_idx+'&db=inventory');
  }
  
  /* [File 파일 추가]************************************************************************************** */
@@ -166,9 +229,8 @@ function fn_addInvenFile(insertOrUpdate) {
 } /* [File 파일 추가] - END */
  
  /* 재고 품목 INSERT */
- function insertInventoryItem() {
- 	// 매개변수 company_idx는 현재 업체 페이지의 company_idx (입력할 item의 company_idx가 아님)
- 
+ function insertInventory() {
+ 	
  	var itemCodeTag = insertinventoryItemModal.find('input[name=item_code]');
  	var companyIdxTag = insertinventoryItemModal.find('input[name=company_idx]');
  	var content = insertinventoryItemModal.find('input[name=content]').val();
@@ -227,20 +289,100 @@ function fn_addInvenFile(insertOrUpdate) {
 		}
 	})// .ajax
 	
+ } // .function - end
+ 
+ /* 재고 품목 UPDATE */
+ function updateInventory() {
+ 	
+ 	var itemIdxTag = updateInventoryItemModal.find('input[name=item_idx]');
+ 	var itemCodeTag = updateInventoryItemModal.find('input[name=item_code]');
+ 	var companyIdxTag = updateInventoryItemModal.find('input[name=company_idx]');
+ 	var content = updateInventoryItemModal.find('input[name=content]').val();
+ 	var unit_price = updateInventoryItemModal.find('input[name=unit_price]').val();
+ 	var initial_quantity = updateInventoryItemModal.find('input[name=initial_quantity]').val();
+ 	
+ 	/* 업체명 불러오기, 검사 */
+ 	if(!isCompanyIdxTrue) {
+ 		alert('존재하는 업체번호를 입력해 주세요.');
+ 		return;
+ 	}
+ 	
+ 	/* 아이템 코드 중복 검사 */
+ 	if(!isItemCodeTrue) {
+ 		alert('아이템 코드를 다시 입력해 주세요.');
+ 		return;
+ 	}
+ 	
+ 	/* [재고 품목 정보 넣기] */
+ 	var formData = new FormData();
+ 	formData.append('item_idx', itemIdxTag.val());
+ 	formData.append('company_idx', companyIdxTag.val());
+ 	formData.append('item_code', itemCodeTag.val());
+ 	formData.append('content', content);
+ 	formData.append('unit_price', Number(unit_price.split(',').join("")));
+ 	formData.append('initial_quantity', Number(initial_quantity.split(',').join("")));
+ 	
+ 	/* [기존에 있던 file 넣기] */
+	var existingFileList = new Array();
+	var existingFileIdx = updateInventoryItemModal.find('input[name=existingFile_idx]');
+	
+	for(var i = 0; i < existingFileIdx.length; i++) {
+		var existingFileData = new Object();
+		existingFileData.file_idx = existingFileIdx.eq(i).val();
+		existingFileList.push(existingFileData);
+	}
+	
+	formData.append('existingFileJsonData', JSON.stringify(existingFileList));
+	
+	/* [새로 추가된 file 넣기] */
+	var inputFiles = updateInventoryItemModal.find('input[type=file]'); // input[type=file] 여러개 다 가져옴
+	
+	// input[type=file] tag가 있는 경우
+	if(inputFiles.length != 0) {
+		for(var i = 0; i < inputFiles.length; i++) {
+			// 파일 값이 없는 input[type=file] tag는 제거
+			if(inputFiles[i].files[0] == null){
+				inputFiles[i].parentElement.remove();
+				continue;
+			}
+			formData.append(inputFiles.eq(i).attr('name'), inputFiles[i].files[0]);
+		} // .for
+	} // .if
+	
+	// update
+	 	$.ajax({
+		url: "/ssh/inventory/update-inventory-item",
+		type: 'post',
+		data: formData,
+		contentType: false,
+		processData: false,
+		enctype : 'multipart/form-data',
+		success: function(result){
+			fn_resetIventroyModal('update');
+			fn_getInventoryListByCompany($('#mainDetailsCard').find('input[name=company_idx]').eq(0).val());
+		},
+		error: function(){
+			alert("updateInventoryItem() 에러");
+			
+		}
+	})// .ajax
+	
  }
  
  /* 업체 idx 유효성 체크 - 숫자만 입력, 유효한 idx인지 검사 */
- function fn_checkCompnayIdxInInventoryModal(tag) {
+ function fn_checkCompnayIdxInInventoryModal(tag, insertOrUpdate) {
  	var inputVal = tag.val().replace(/[^0-9]/gi,'');
  	tag.val(inputVal);
- 	fn_getCompanyName(tag);
+ 	fn_getCompanyName(tag, insertOrUpdate);
  }
  
  /* 업체명 불러오기 */
- function fn_getCompanyName(companyIdxTag) {
- 
+ function fn_getCompanyName(companyIdxTag, insertOrUpdate) {
+ 	
+ 	var msgTag = $('#'+insertOrUpdate+'CompanyIdxMsg');
+ 	
  	if(companyIdxTag.val() == '') {
- 		$('#companyIdxMsg').text('업체 idx를 입력하세요.').css('color', 'red');
+ 		msgTag.text('업체 idx를 입력하세요.').css('color', 'red');
  		isCompanyIdxTrue = false;
  		return;
  	}
@@ -251,10 +393,10 @@ function fn_addInvenFile(insertOrUpdate) {
 		data: {company_idx : companyIdxTag.val()},
 		success: function(result){
 			if(result=='') {
-				$('#companyIdxMsg').text('존재하지 않는 업체입니다.').css('color', 'red');
+				msgTag.text('존재하지 않는 업체입니다.').css('color', 'red');
 				isCompanyIdxTrue = false;
 			} else {
-				$('#companyIdxMsg').text(result).css('color', 'green');
+				msgTag.text(result).css('color', 'green');
 				isCompanyIdxTrue = true;
 			}
 		},
@@ -267,12 +409,22 @@ function fn_addInvenFile(insertOrUpdate) {
  }
  
   /* 아이템 코드 중복 검사 */
- function fn_checkItemCode(itemCodeTag) {
+ function fn_checkItemCode(itemCodeTag, insertOrUpdate) {
+ 
+ 	var msgTag = $('#'+insertOrUpdate+'ItemCodeMsg');
  	
  	if(itemCodeTag.val() == '') {
- 		$('#itemCodeMsg').text('아이템 코드를 입력하세요.').css('color', 'red');
+ 		msgTag.text('아이템 코드를 입력하세요.').css('color', 'red');
  		isItemCodeTrue = false;
  		return;
+ 	}
+ 	
+ 	if(insertOrUpdate = 'update') {
+ 		if(itemCodeTag.val() == $('input[name=old_item_code]').val()) {
+ 			msgTag.text('기존의 아이템 코드').css('color', 'green');
+ 			isItemCodeTrue = true;
+ 			return;
+ 		}
  	}
  
  	$.ajax({
@@ -283,11 +435,11 @@ function fn_addInvenFile(insertOrUpdate) {
 			
 			if(result == false) {
 				// 코드 중복
-				$('#itemCodeMsg').text('중복된 코드 입니다.').css('color', 'red');
+				msgTag.text('중복된 코드 입니다.').css('color', 'red');
 				isItemCodeTrue = false;
 			} else {
 				// 사용 가능한 코드
-				$('#itemCodeMsg').text('사용 가능한 코드입니다.').css('color', 'green');
+				msgTag.text('사용 가능한 코드입니다.').css('color', 'green');
 				isItemCodeTrue = true;
 			}
 		},
@@ -307,5 +459,5 @@ function fn_addInvenFile(insertOrUpdate) {
  	tag.find('input[name=unit_price]').val('');
  	tag.find('input[name=initial_quantity]').val('');
  	$('#'+insertOrUpdate+'_inventory_file_div').empty();
- 	fn_checkItemCode(tag.find('input[name=item_code]'));
+ 	fn_checkItemCode(tag.find('input[name=item_code]'), insertOrUpdate);
  }

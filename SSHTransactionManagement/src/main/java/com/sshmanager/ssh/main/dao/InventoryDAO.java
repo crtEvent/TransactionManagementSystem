@@ -1,8 +1,6 @@
 package com.sshmanager.ssh.main.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,10 @@ public class InventoryDAO {
 		return session.selectOne(namespace+"countItemCode", item_code);
 	}
 	
+	public InventoryItemDTO selectInventoryItem(String item_idx) throws Exception {
+		return session.selectOne(namespace+"selectInventoryItem", item_idx);
+	}
+	
 	public List<InventoryItemDTO> selectInventoryList() throws Exception {
 		return session.selectList(namespace+"selectInventoryList", null);
 	}
@@ -30,7 +32,11 @@ public class InventoryDAO {
 	}
 	
 	public void insertInventroyItem(InventoryItemDTO dto) throws Exception {
-		session.update(namespace+"insertInventroyItem", dto);
+		session.insert(namespace+"insertInventroyItem", dto);
+	}
+	
+	public void updateInventroyItem(InventoryItemDTO dto) throws Exception {
+		session.update(namespace+"updateInventoryItem", dto);
 	}
 	
 }

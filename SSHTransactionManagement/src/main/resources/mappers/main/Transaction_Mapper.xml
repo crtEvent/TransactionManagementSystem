@@ -269,7 +269,7 @@
 	
 	<delete id="deleteFileList" parameterType="String">
 		<![CDATA[
-		DELETE FROM _FILE
+		DELETE FROM FILE
 		WHERE TRANSACTION_IDX = #{transaction_idx}
 		]]>
 	</delete>

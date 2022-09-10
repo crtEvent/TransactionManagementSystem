@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sshmanager.ssh.main.dao.InventoryFileDAO;
 import com.sshmanager.ssh.main.dao.PathDAO;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.service.FileService;
@@ -30,15 +31,23 @@ public class FileDownloadController {
 
 	@Autowired
 	FileService fileService;
+	
+	@Autowired
+	InventoryFileDAO inventoryFileDAO;
 
 	@RequestMapping("/download")
-	public ResponseEntity<Resource> downloadFile(String file_idx) {
+	public ResponseEntity<Resource> downloadFile(String file_idx, String db) {
 
 		try {
 			
 			FileDTO fileDTO = new FileDTO();
 			
-			fileDTO = fileService.getFile(file_idx);
+			if(db == null || db.equals("")) {
+				fileDTO = fileService.getFile(file_idx);
+			} else if(db.equals("inventory")) {
+				fileDTO = inventoryFileDAO.selectInventoryFile(file_idx);
+			}
+			
 			String file_name = fileDTO.getFile_name();
 			String ext = file_name.substring(file_name.lastIndexOf(".")+1).toLowerCase();
 			String disposition;

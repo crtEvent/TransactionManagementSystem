@@ -3,6 +3,62 @@
  
 <mapper namespace="inventoryFile">
 
+	<select id="selectInventoryFile" parameterType="String" resultType="fileDTO">
+		<![CDATA[
+		SELECT
+			T1.FILE_IDX
+			, T1.ITEM_IDX
+			, T1.FILE_NAME
+			, CONCAT(
+				(SELECT PATH FROM PATH WHERE PATH_NAME='FILE_ROOT')
+				, "\\"
+        		, T3.COMPANY_NAME
+        		, "["
+        		, T3.COMPANY_IDX
+        		, "]\\전용품목") FILE_PATH
+		FROM 
+			INVENTORY_FILE T1
+		JOIN
+			INVENTORY_ITEM T2
+		ON
+			T1.ITEM_IDX = T2.ITEM_IDX
+		JOIN
+			COMPANY T3
+		ON
+			T2.COMPANY_IDX = T3.COMPANY_IDX	
+		WHERE
+			T1.FILE_IDX = #{file_idx}
+		]]>
+	</select>
+	
+	<select id="selectInventoryFiles" parameterType="String" resultType="fileDTO">
+		<![CDATA[
+		SELECT
+			T1.FILE_IDX
+			, T1.ITEM_IDX
+			, T1.FILE_NAME
+			, CONCAT(
+				(SELECT PATH FROM PATH WHERE PATH_NAME='FILE_ROOT')
+				, "\\"
+        		, T3.COMPANY_NAME
+        		, "["
+        		, T3.COMPANY_IDX
+        		, "]\\전용품목") FILE_PATH
+		FROM 
+			INVENTORY_FILE T1
+		JOIN
+			INVENTORY_ITEM T2
+		ON
+			T1.ITEM_IDX = T2.ITEM_IDX
+		JOIN
+			COMPANY T3
+		ON
+			T2.COMPANY_IDX = T3.COMPANY_IDX	
+		WHERE
+			T1.ITEM_IDX = #{item_idx}
+		]]>
+	</select>
+	
 	<insert id="insertInventoryFile" parameterType="fileDTO">
 		<![CDATA[
 		INSERT INTO
@@ -12,5 +68,25 @@
 			(#{item_idx}, #{file_name})
 		]]>
 	</insert>
+	
+	<update id="updateInventoryFile" parameterType="map">
+		<![CDATA[
+		UPDATE 
+			INVENTORY_FILE
+		SET
+			FILE_NAME = #{file_name}
+		FROM
+			FILE_IDX = #{file_idx}
+		]]>
+	</update>
+	
+	<delete id="deleteInventoryFile" parameterType="String">
+		<![CDATA[
+		DELETE FROM 
+			INVENTORY_FILE
+		WHERE 
+			FILE_IDX = #{value}
+		]]>
+	</delete>
 	
 </mapper>

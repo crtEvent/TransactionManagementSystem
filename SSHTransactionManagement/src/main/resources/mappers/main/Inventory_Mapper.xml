@@ -97,7 +97,7 @@
 			 				, INITIAL_QUANTITY)
 		VALUES
 			(#{company_idx}
-			 , #{item_code}
+			 , UPPER(#{item_code})
 			 , #{content}
 			 , #{unit_price}
 			 , #{initial_quantity})

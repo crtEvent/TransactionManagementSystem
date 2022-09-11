@@ -1,20 +1,43 @@
 package com.sshmanager.ssh.main.service;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sshmanager.ssh.main.dao.CompanyDAO;
+import com.sshmanager.ssh.main.dao.InventoryDAO;
+import com.sshmanager.ssh.main.dao.InventoryFileDAO;
 import com.sshmanager.ssh.main.dao.PathDAO;
+import com.sshmanager.ssh.main.dao.TransactionDAO;
 import com.sshmanager.ssh.main.dto.CompanyDTO;
+import com.sshmanager.ssh.main.dto.FileDTO;
+import com.sshmanager.ssh.main.dto.InventoryItemDTO;
+import com.sshmanager.ssh.main.dto.TransactionDTO;
 
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService{
 	
 	@Autowired
 	private CompanyDAO companyDAO;
+	
+	@Autowired
+	private TransactionDAO transactionDAO;
+	
+	@Autowired
+	private TransactionService transactionService;
+	
+	@Autowired
+	private InventoryService inventoryService;
+	
+	@Autowired
+	private InventoryDAO inventoryDAO;
+	
+	@Autowired
+	private InventoryFileDAO inventoryFileDAO;
 	
 	@Autowired
 	private PathDAO pathDAO;
@@ -79,5 +102,33 @@ public class CompanyServiceImpl implements CompanyService{
 			
 			FileUtils.moveDirectory(oldFile, newFile);
 		}
+	}
+	
+	/* 업체 삭제 - 거래 내역(품목, 메모, 파일, 전용 품목)까지 모두 삭제 */
+	@Transactional(rollbackFor = Exception.class)
+	public void deleteCompany(String company_idx) throws Exception {
+		
+		// company_idx에 해당하는 거래 list 삭제
+		String transaction_idx;
+		List<TransactionDTO> tList = transactionDAO.selectTransactionList(company_idx);
+		 
+		for(int i = 0; i < tList.size(); i++) {
+			transaction_idx = tList.get(i).getTransaction_idx();
+			transactionService.deleteTransaction(transaction_idx);
+
+		}
+		
+		// company_idx에 해당하는 재고 품목 list 삭제
+		String item_idx;
+		List<InventoryItemDTO> iList = inventoryService.getInventoryList(company_idx);
+		
+		for(int i = 0; i < iList.size(); i++) {
+			item_idx = iList.get(i).getItem_idx();
+			inventoryService.deleteInventoryItem(item_idx);
+		}
+		
+		// company 삭제
+		companyDAO.deleteCompany(company_idx);
+		
 	}
 }

@@ -14,6 +14,9 @@
 			<button class="btn btn-primary btn-sm" title="수정" onclick="fn_openUpdateTransactionModal(${transactionDTO.transaction_idx})">
 				<i class="fas fa-pencil-alt"></i>
 			</button>
+			<button class="btn btn-danger btn-sm" title="삭제" onclick="fn_deleteTransaction(${transactionDTO.transaction_idx})">
+				<i class="fas fa-trash-alt"></i>
+			</button>
 		</div>
 	</div>
 	<!-- Card-body -->

@@ -119,4 +119,22 @@
 		]]>
 	</update>
 	
+	<delete id="deleteInventoryItem" parameterType="String">
+		<![CDATA[
+		DELETE FROM
+			INVENTORY_ITEM
+		WHERE
+			ITEM_IDX = #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteInventoryItemList" parameterType="String">
+		<![CDATA[
+		DELETE FROM
+			INVENTORY_ITEM
+		WHERE
+			COMPANY_IDX = #{value}
+		]]>
+	</delete>
+	
 </mapper>

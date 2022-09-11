@@ -43,4 +43,12 @@ public class InventoryDAO {
 		session.update(namespace+"updateInventoryItem", dto);
 	}
 	
+	public void deleteInventoryItem(String item_idx) throws Exception {
+		session.delete(namespace+"deleteInventoryItem", item_idx);
+	}
+	
+	public void deleteInventoryItemList(String company_idx) throws Exception {
+		session.delete(namespace+"deleteInventoryItemList", company_idx);
+	}
+	
 }

@@ -248,4 +248,14 @@ public class InventoryServiceImpl implements InventoryService {
 		// [새로운 파일 추가]
 		insertinventoryFiles(new_company_idx, item_idx, multipartRequest);
 	}
+	
+	/* 재고 품목 삭제 */
+	public void deleteInventoryItem(String item_idx) throws Exception {
+		
+		// 재고 품목 파일(실제 저장된 파일) 삭제
+		inventoryFileDAO.deleteInventroyFilesInRoot(item_idx);
+		
+		// 품목 리스트 삭제
+		inventoryDAO.deleteInventoryItem(item_idx);
+	}
 }

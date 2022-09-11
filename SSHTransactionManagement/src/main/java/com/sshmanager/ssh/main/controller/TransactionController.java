@@ -151,4 +151,12 @@ public class TransactionController {
 		
 	}
 	
+	@RequestMapping("/delete-transaction")
+	@ResponseBody
+	public void deleteTransaction(String transaction_idx) throws Exception {
+		
+		transactionService.deleteTransaction(transaction_idx);
+		
+	}
+	
 }

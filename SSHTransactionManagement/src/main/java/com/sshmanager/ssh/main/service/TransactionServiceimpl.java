@@ -507,4 +507,19 @@ public class TransactionServiceimpl implements TransactionService {
 
 	}
 	
+	/* 거래 내역 삭제 - transaction_idx에 해당하는 item, memo, file 모두 삭제 */
+	@Transactional(rollbackFor = Exception.class)
+	public void deleteTransaction(String transaction_idx) throws Exception {
+		
+		// 기존에 저장된 item, memo 삭제
+		transactionDAO.deleteItemList(transaction_idx);
+		transactionDAO.deleteMemoList(transaction_idx);
+		
+		// file 삭제
+		transactionDAO.deleteFilesInRoot(transaction_idx);
+		
+		// 거래 삭제
+		transactionDAO.deleteTransaction(transaction_idx);
+	}
+	
 } // .class

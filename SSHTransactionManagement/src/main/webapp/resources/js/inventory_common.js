@@ -190,7 +190,8 @@
 			} // .for - end
 			
 			// tableType 전달
-			updateInventoryItemModal.find('[name=updateBtn]').attr('onclick', 'updateInventory("'+tableType+'")')
+			updateInventoryItemModal.find('[name=updateBtn]').attr('onclick', 'updateInventory("'+tableType+'")');
+			updateInventoryItemModal.find('[name=deleteBtn]').attr('onclick', 'deleteInventory('+item_idx+', "'+tableType+'")');
 			
 			updateInventoryItemModal.modal('show');
 		},
@@ -443,6 +444,39 @@ function fn_addInvenFile(insertOrUpdate) {
 	
  }
  
+ /* 재고품목 삭제 */
+ function deleteInventory(item_idx, tableType) {
+ 	
+ 	if(!confirm("삭제된 데이터는 복구할 수 없습니다. 해당 품목을 삭제하시겠습니까?")) {
+		return;
+	}
+	
+	$.ajax({
+		url: '/ssh/inventory/delete-inventory-item',
+		type: 'get',
+		data: {item_idx : item_idx},
+		success: function(){
+			alert("삭제되었습니다.");
+			
+			switch(tableType) {
+			case 'jsgrid' : 
+				fn_loadInventoryItemListTable();
+				break;
+			case 'datatable' :
+				fn_getInventoryListByCompany($('#mainDetailsCard').find('input[name=company_idx]').eq(0).val());
+				break;
+			default :
+				break;
+			}
+			
+			updateInventoryItemModal.modal('hide');
+		},
+		error: function(){
+			alert("deleteInventory() 에러");
+		}
+	});
+ }
+ 
  /* 업체 idx 유효성 체크 - 숫자만 입력, 유효한 idx인지 검사 */
  function fn_checkCompnayIdxInInventoryModal(tag, insertOrUpdate) {
  	var inputVal = tag.val().replace(/[^0-9]/gi,'');
@@ -535,3 +569,4 @@ function fn_addInvenFile(insertOrUpdate) {
  	$('#'+insertOrUpdate+'_inventory_file_div').empty();
  	fn_checkItemCode(tag.find('input[name=item_code]'), insertOrUpdate);
  }
+ 

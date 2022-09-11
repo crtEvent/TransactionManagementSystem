@@ -10,7 +10,10 @@
 
 			<div class="modal-header">
 				<!-- Modal 타이틀 -->
-				<h4 class="modal-title">재고 품목 수정</h4>
+				<h4 class="modal-title">재고 품목 수정&nbsp;</h4>
+				<button class="btn btn-danger btn-sm" name="deleteBtn" title="삭제" onclick="">
+					<i class="fas fa-trash-alt"></i>
+				</button>
 				<!-- Modal 닫기 -->
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">

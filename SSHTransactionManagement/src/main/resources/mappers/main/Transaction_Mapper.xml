@@ -239,6 +239,24 @@
 		]]>
 	</update>
 	
+	<delete id="deleteTransaction" parameterType="String">
+		<![CDATA[
+		DELETE FROM 
+			TRANSACTION
+		WHERE
+			TRANSACTION_IDX = #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteTransactionList" parameterType="String">
+		<![CDATA[
+		DELETE FROM 
+			TRANSACTION
+		WHERE
+			COMPANY_IDX = #{value}
+		]]>
+	</delete>
+	
 	<delete id="deleteItem" parameterType="String">
 		<![CDATA[
 		DELETE FROM ITEM

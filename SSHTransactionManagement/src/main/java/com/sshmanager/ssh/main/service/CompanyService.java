@@ -15,4 +15,7 @@ public interface CompanyService {
 	
 	/* 업체 정보 수정 */
 	public boolean updateCompany(CompanyDTO dto) throws Exception;
+	
+	/* 업체 삭제 - 거래 내역(품목, 메모, 파일)까지 모두 삭제 */
+	public void deleteCompany(String company_idx) throws Exception;
 }

@@ -85,4 +85,13 @@ public class CompanyController {
 			
 	}
 	
+	/* 업체 삭제 기능 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public void delete(String company_idx) throws Exception {
+		
+		companyService.deleteCompany(company_idx);
+		
+	}
+	
 }

@@ -82,4 +82,14 @@
 		]]>
 	</update>
 	
+	<delete id="deleteCompany" parameterType="String">
+		<![CDATA[
+		DELETE FROM
+			COMPANY
+		WHERE 
+			COMPANY_IDX = #{company_idx}
+		]]>
+	</delete>
+	
+	
 </mapper>

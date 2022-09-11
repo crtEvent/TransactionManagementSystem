@@ -41,4 +41,7 @@ public interface InventoryService {
 	/* [INSERT/DELETE] 재고 품목 파일 수정 */
 	public void updateinventoryFiles(String old_company_idx, String new_company_idx, String item_idx
 			, MultipartHttpServletRequest multipartRequest, JSONArray existingFilejsonArray) throws Exception;
+	
+	/* 재고 품목 삭제 */
+	public void deleteInventoryItem(String item_idx) throws Exception;
 }

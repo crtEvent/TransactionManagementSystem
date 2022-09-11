@@ -218,3 +218,26 @@ function fn_checkCompanyName(modal) {
 		
 		return checkDupCompanyName;
 };
+
+/* 업체 삭제 */
+function fn_deleteCompany(company_idx) {
+	
+	if(!confirm("삭제된 데이터는 복구할 수 없습니다. 해당 업체를 삭제하시겠습니까?")) {
+		return;
+	}
+	
+	$.ajax({
+		url: '/ssh/company/delete',
+		type: 'get',
+		data: {company_idx : company_idx},
+		success: function(){
+			alert("삭제되었습니다.");
+			fn_searchCompany();
+			$('#contentWrapper').empty();
+		},
+		error: function(){
+			alert("fn_deleteCompany() 에러");
+		}
+	});
+	
+}

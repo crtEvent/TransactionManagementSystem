@@ -139,4 +139,10 @@ public class InventoryManagementController {
 		return false;
 	}
 	
+	/* 재고 품목 삭제 */
+	@RequestMapping("/delete-inventory-item")
+	@ResponseBody
+	public void deleteinventory(String item_idx) throws Exception {
+		inventoryService.deleteInventoryItem(item_idx);
+	}
 }

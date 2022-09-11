@@ -484,3 +484,25 @@ function fn_updateTransaction() {
 		}
 	});
 }
+
+function fn_deleteTransaction(transaction_idx) {
+	
+	if(!confirm("삭제된 데이터는 복구할 수 없습니다. 해당 거래 내역을 삭제하시겠습니까?")) {
+		return;
+	}
+	
+	$.ajax({
+		url: '/ssh/transaction/delete-transaction',
+		type: 'get',
+		data: {transaction_idx : transaction_idx},
+		success: function(){
+			alert("삭제되었습니다.");
+			var company_idx = $('#mainDetailsCard').find('input[name=company_idx]').val();
+			fn_loadTransactionListTable(company_idx);
+			$('#trDetailsDiv').empty();
+		},
+		error: function(){
+			alert("fn_deleteTransaction() 에러");
+		}
+	});
+}

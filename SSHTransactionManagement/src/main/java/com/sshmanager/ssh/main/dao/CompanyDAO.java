@@ -29,5 +29,9 @@ public class CompanyDAO {
 	public void updateCompany(CompanyDTO dto) throws Exception {
 		session.update(namespace+"updateCompany", dto);
 	}
+	
+	public void deleteCompany(String company_idx) throws Exception {
+		session.delete(namespace+"deleteCompany", company_idx);
+	}
 
 }

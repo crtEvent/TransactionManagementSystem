@@ -1,9 +1,11 @@
 package com.sshmanager.ssh.main.dao;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -40,7 +42,7 @@ public class TransactionDAO {
 	public List<FileDTO> selectFileList(String transaction_idx, FileType file_type) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
     	map.put("transaction_idx", transaction_idx);
-    	map.put("file_type", file_type.getFile_type());
+    	map.put("file_type", file_type == null? null : file_type.getFile_type());
 		return session.selectList(namespace+"selectFileList", map);
 	}
 	
@@ -83,6 +85,14 @@ public class TransactionDAO {
 		session.update(namespace+"updateFileName", map);
 	}
 	
+	public void deleteTransaction(String transaction_idx) throws Exception {
+		session.delete(namespace+"deleteTransaction", transaction_idx);
+	}
+	
+	public void deleteTransactionList(String company_idx) throws Exception {
+		session.delete(namespace+"deleteTransactionList", company_idx);
+	}
+	
 	public void deleteItem(String item_idx) throws Exception {
 		session.delete(namespace+"deleteItem", item_idx);
 	}
@@ -105,5 +115,25 @@ public class TransactionDAO {
 	
 	public void deleteFileList(String transaction_idx) throws Exception {
 		session.delete(namespace+"deleteFileList", transaction_idx);
+	}
+	
+	public void deleteFilesInRoot(String transaction_idx) throws Exception {
+		
+		File file, trash;
+		String file_root = session.selectOne("path.selectPathByPathName", "FILE_ROOT").toString().replace("\\", "\\\\"); // 파일 저장소
+		List<FileDTO> files = selectFileList(transaction_idx, null);
+		
+		// 실제 파일 삭제
+		for(int i = 0; i < files.size(); i++) {
+			file = FileUtils.getFile(files.get(i).getFile_path() + File.separator 
+							+ files.get(i).getFile_name());
+			trash = FileUtils.getFile(file_root + File.separator 
+							+ "휴지통" + File.separator 
+							+ "(" + files.get(i).getFile_idx() + ")" + files.get(i).getFile_name());
+			FileUtils.moveFile(file, trash); // 파일 이동 + 경로 자동 생성
+			
+			// 파일 DB에서 제거
+			deleteFile(files.get(i).getFile_idx());
+		}
 	}
 }

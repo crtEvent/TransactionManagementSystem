@@ -88,4 +88,7 @@ public interface TransactionService {
 	/* UPDATE - 파일 수정 */
 	public void updateTransactionFiles(String date, String company_idx, String transaction_idx
 			, MultipartHttpServletRequest multipartRequest, JSONArray existingFilejsonArray) throws Exception;
+	
+	/* 거래 내역 삭제 - transaction_idx에 해당하는 item, memo, file 모두 삭제 */
+	public void deleteTransaction(String transaction_idx) throws Exception;
 }

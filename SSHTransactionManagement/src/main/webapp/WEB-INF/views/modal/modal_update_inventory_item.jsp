@@ -98,7 +98,7 @@
 					onclick="fn_resetIventroyModal('update')">리셋</button>
 				<button type="button" class="btn btn-info"
 					onclick="fn_addInvenFile('update')">파일+</button>
-				<button type="button" class="btn btn-primary"
+				<button type="button" class="btn btn-primary" name="updateBtn"
 					onclick="updateInventory()">수정하기</button>
 			</div>
 			

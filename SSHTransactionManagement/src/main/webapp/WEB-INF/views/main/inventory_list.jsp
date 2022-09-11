@@ -34,7 +34,7 @@
 						<c:when test="${fn:length(inventoryList) > 0}">
 							<c:forEach var="row_item" varStatus="status"
 								items="${inventoryList}">
-								<tr onclick="fn_openUpdateInventoryModal(${row_item.item_idx})">
+								<tr onclick="fn_openUpdateInventoryModal(${row_item.item_idx}, 'datatable')">
 									<td>${row_item.company_name}</td>
 									<td>${row_item.item_code}</td>
 									<td>${row_item.content}</td>

@@ -59,7 +59,7 @@
 				{name:"current_quantity", title:"현재고", type:"text", align:"center", width: 25}
 			],
 			rowClick: function(args) {
-       	    	
+       	    	fn_openUpdateInventoryModal(args.item.item_idx, 'jsgrid');
       	  	}
 		}); // jsGrid end
 	}); // .done() end
@@ -145,7 +145,7 @@
  }
  
  /* 재고 품목 수정 Modal 창 열기 */
- function fn_openUpdateInventoryModal(item_idx) {
+ function fn_openUpdateInventoryModal(item_idx, tableType) {
  	
  	isCompanyIdxTrue = false;
  	isItemCodeTrue = false;
@@ -188,6 +188,9 @@
 	
 				$('#update_inventory_file_div').append(addFileTag);
 			} // .for - end
+			
+			// tableType 전달
+			updateInventoryItemModal.find('[name=updateBtn]').attr('onclick', 'updateInventory("'+tableType+'")')
 			
 			updateInventoryItemModal.modal('show');
 		},
@@ -353,7 +356,7 @@ function fn_addInvenFile(insertOrUpdate) {
  } // .function - end
  
  /* 재고 품목 UPDATE */
- function updateInventory() {
+ function updateInventory(tableType) {
  	
  	var itemIdxTag = updateInventoryItemModal.find('input[name=item_idx]');
  	var itemCodeTag = updateInventoryItemModal.find('input[name=item_code]');
@@ -420,7 +423,17 @@ function fn_addInvenFile(insertOrUpdate) {
 		enctype : 'multipart/form-data',
 		success: function(result){
 			fn_resetIventroyModal('update');
-			fn_getInventoryListByCompany($('#mainDetailsCard').find('input[name=company_idx]').eq(0).val());
+			
+			switch(tableType) {
+			case 'jsgrid' : 
+				fn_loadInventoryItemListTable();
+				break;
+			case 'datatable' :
+				fn_getInventoryListByCompany($('#mainDetailsCard').find('input[name=company_idx]').eq(0).val());
+				break;
+			default :
+				break;
+			}
 		},
 		error: function(){
 			alert("updateInventoryItem() 에러");

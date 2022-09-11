@@ -19,6 +19,10 @@ public class InventoryDAO {
 		return session.selectOne(namespace+"countItemCode", item_code);
 	}
 	
+	public InventoryItemDTO selectInventoryItemByCode(String item_code) throws Exception {
+		return session.selectOne(namespace+"selectInventoryItemByCode", item_code);
+	}
+	
 	public InventoryItemDTO selectInventoryItem(String item_idx) throws Exception {
 		return session.selectOne(namespace+"selectInventoryItem", item_idx);
 	}

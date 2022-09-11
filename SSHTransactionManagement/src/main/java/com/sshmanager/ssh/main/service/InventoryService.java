@@ -14,6 +14,9 @@ public interface InventoryService {
 	 *  품목코드가 중복이면 false, 중복이 아니면 true */
 	public boolean checkDupItemCode(String item_code) throws Exception;
 	
+	/* 품목코드(item_code)로 재고품목 정보 가져오기 */
+	public InventoryItemDTO getInventoryItemByCode(String item_code) throws Exception;
+	
 	/** 재고 품목 내용 및 파일 리스트를 불러오는 메서드.
 	 *  item_dx에 해당하는 재고 품목 내용 및 파일 리스트를 불러온다.
 	 * */

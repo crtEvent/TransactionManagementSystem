@@ -4,6 +4,7 @@ public class ItemDTO {
 	
 	private String item_idx;
 	private String transaction_idx;
+	private String inventory_item_idx;
 	private String item_code;
 	private String content;
 	private String amount;
@@ -29,6 +30,12 @@ public class ItemDTO {
 	}
 	public void setItem_code(String item_code) {
 		this.item_code = item_code;
+	}
+	public String getInventory_item_idx() {
+		return inventory_item_idx;
+	}
+	public void setInventory_item_idx(String inventory_item_idx) {
+		this.inventory_item_idx = inventory_item_idx;
 	}
 	public String getContent() {
 		return content;

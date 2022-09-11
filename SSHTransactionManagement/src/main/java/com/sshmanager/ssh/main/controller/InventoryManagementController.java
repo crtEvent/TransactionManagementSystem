@@ -43,6 +43,15 @@ public class InventoryManagementController {
 		return "/main/inventory_management";
 	}
 	
+	/**/
+	@RequestMapping("/get-inventory-item")
+	@ResponseBody
+	public InventoryItemDTO getInventoryItem(String item_code) throws Exception {
+		
+		return inventoryService.getInventoryItemByCode(item_code);
+	}
+	
+	
 	/* 재고 리스트 불러오기 (jsGrid) - 매개변수(company_idx)가 없는 경우*/
 	/* 업체별 재고 리스트 불러오기 (jsGrid) - 매개변수(company_idx)가 있는 경우 */
 	@RequestMapping("/inventory-item-list")

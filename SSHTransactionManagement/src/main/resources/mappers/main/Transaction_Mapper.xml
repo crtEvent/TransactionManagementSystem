@@ -38,16 +38,22 @@
 	<select id="selectItemList" parameterType="String" resultType="itemDTO">
 		<![CDATA[
 		SELECT 
-			ITEM_IDX
-			, TRANSACTION_IDX
-			, CONTENT
-			, AMOUNT
-			, UNIT_PRICE
-			, SUPPLY_PRICE
-			, TAX_PRICE
-			, TOTAL_PRICE
+			T1.ITEM_IDX
+			, T1.TRANSACTION_IDX
+			, T1.INVENTORY_ITEM_IDX
+			, T2.ITEM_CODE
+			, T1.CONTENT
+			, T1.AMOUNT
+			, T1.UNIT_PRICE
+			, T1.SUPPLY_PRICE
+			, T1.TAX_PRICE
+			, T1.TOTAL_PRICE
 		FROM
-			ITEM
+			ITEM T1
+		JOIN
+			INVENTORY_ITEM T2
+		ON
+			T1.INVENTORY_ITEM_IDX = T2.ITEM_IDX
 		WHERE
 			TRANSACTION_IDX = #{transaction_idx}
 		]]>
@@ -132,6 +138,7 @@
 		<![CDATA[
 		INSERT INTO 
 			ITEM(TRANSACTION_IDX
+				, INVENTORY_ITEM_IDX
 				, CONTENT
 				, AMOUNT
 				, UNIT_PRICE
@@ -140,6 +147,7 @@
 				, TOTAL_PRICE)
 		VALUES 
 			(#{transaction_idx}
+			, #{inventory_item_idx}
 			, #{content}
 			, #{amount}
 			, #{unit_price}
@@ -185,7 +193,8 @@
 		UPDATE
 			ITEM
 		SET
-			CONTENT = #{content}
+			INVENTORY_ITEM_IDX = #{inventory_item_idx}
+			, CONTENT = #{content}
 			, AMOUNT = #{amount}
 			, UNIT_PRICE = #{unit_price}
 			, SUPPLY_PRICE = #{sypply_price}

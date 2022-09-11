@@ -14,6 +14,22 @@
 		]]>
 	</select>
 	
+	<select id="selectInventoryItemByCode" parameterType="String" resultType="inventoryItemDTO">
+		<![CDATA[
+		SELECT
+			ITEM_IDX
+			, COMPANY_IDX
+			, ITEM_CODE
+			, CONTENT
+			, FORMAT(UNIT_PRICE, 0) UNIT_PRICE
+			, FORMAT(INITIAL_QUANTITY, 0) INITIAL_QUANTITY
+		FROM
+			INVENTORY_ITEM
+		WHERE
+			ITEM_CODE = #{value}
+		]]>
+	</select>
+	
 	<select id="selectInventoryItem" parameterType="String" resultType="inventoryItemDTO">
 		<![CDATA[
 		SELECT
@@ -55,7 +71,7 @@
 			  ON
 				ST1.TRANSACTION_IDX = ST2.TRANSACTION_IDX
 			  WHERE
-				ST1.ITEM_CODE = T1.ITEM_CODE), 0) CURRENT_QUANTITY
+				ST1.INVENTORY_ITEM_IDX = T1.ITEM_IDX), 0) CURRENT_QUANTITY
 		FROM
 			INVENTORY_ITEM T1
 		JOIN 

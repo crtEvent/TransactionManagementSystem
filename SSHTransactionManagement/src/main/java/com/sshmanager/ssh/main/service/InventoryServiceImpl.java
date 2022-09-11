@@ -47,6 +47,11 @@ public class InventoryServiceImpl implements InventoryService {
 		return true;
 	}
 	
+	/* 품목코드(item_code)로 재고품목 정보 가져오기 */
+	public InventoryItemDTO getInventoryItemByCode(String item_code) throws Exception {
+		return inventoryDAO.selectInventoryItemByCode(item_code);
+	}
+	
 	/* 재고 품목 내용 및 파일 리스트를 불러오는 메서드 */
 	public List<Object> getInventory(String item_idx) throws Exception {
 		

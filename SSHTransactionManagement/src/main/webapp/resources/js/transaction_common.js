@@ -41,6 +41,10 @@ function fn_addItem(insertOrUpdate) {
 	
 	var addItemTag = 
 	'<tr id="itemTag'+itemCnt+'">'+
+		'<td>' +
+			'<input type="text" name="item_code" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_getItemByCode($(this))">' +
+			'<input type="hidden" name="inventory_item_idx">' +
+		'</td>'+
 		'<td><input type="text" name="content" autocomplete="off" class="form-control form-control-sm"></td>'+
 		'<td><input type="text" name="amount" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputItemValue($(this))"></td>'+
 		'<td><input type="text" name="unit_price" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputItemValue($(this))"></td>'+
@@ -201,6 +205,33 @@ function fn_resetTransactionModal(insertOrUpdate) {
 		modalTag.find('input[name=total_total_price]').val('');
 }
 
+function fn_getItemByCode(codeTag) {
+
+	var itemTag = codeTag.parent().parent();
+	
+	
+	
+	/* Ajax 전송 */
+	$.ajax({
+		url: '/ssh/inventory/get-inventory-item',
+		type: 'post',
+		data: {item_code : codeTag.val()},
+		success: function(result) {
+			itemTag.find('input[name=inventory_item_idx]').val(result.item_idx);
+			itemTag.find('input[name=content]').val(result.content);
+			itemTag.find('input[name=unit_price]').val(result.unit_price);
+			
+			fn_autoInputItemValue(itemTag.find('input[name=unit_price]'));
+		},
+		error: function(error) {
+			alert('fn_getItemByCode() 에러');
+		}
+	});
+	
+	
+	
+}
+
 /* [Common 공통 함수] - END */
 
 
@@ -292,6 +323,7 @@ function fn_insertTransaction() {
 	for(var i = 0; i < item.length; i++) {
 		var itemData = new Object();
 		
+		itemData.inventory_item_idx = insertTransactionModal.find('input[name=inventory_item_idx]').eq(i).val();
 		itemData.content = insertTransactionModal.find('input[name=content]').eq(i).val();
 		itemData.amount = insertTransactionModal.find('input[name=amount]').eq(i).val();
 		itemData.unit_price = insertTransactionModal.find('input[name=unit_price]').eq(i).val();
@@ -377,6 +409,7 @@ function fn_updateTransaction() {
 	for(var i = 0; i < item.length; i++) {
 		var itemData = new Object();
 		
+		itemData.inventory_item_idx = updateTransactionModal.find('input[name=inventory_item_idx]').eq(i).val();
 		itemData.content = updateTransactionModal.find('input[name=content]').eq(i).val();
 		itemData.amount = updateTransactionModal.find('input[name=amount]').eq(i).val();
 		itemData.unit_price = updateTransactionModal.find('input[name=unit_price]').eq(i).val();

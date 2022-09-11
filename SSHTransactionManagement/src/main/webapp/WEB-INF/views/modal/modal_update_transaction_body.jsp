@@ -103,7 +103,8 @@
 			style="font-size: 14px;">
 			<thead>
 				<tr>
-					<th style="width: 45%">품목명</th>
+					<th style="width: 7%">코드</th>
+					<th style="width: 38%">품목명</th>
 					<th style="width: 7%">수량</th>
 					<th style="width: 10%">단가</th>
 					<th style="width: 10%">공급가</th>
@@ -117,6 +118,9 @@
 					<c:when test="${fn:length(itemList) > 0}">
 						<c:forEach var="row_item" varStatus="status" items="${itemList}">
 							<tr>
+								<td><input type="text" name="item_code" autocomplete="off"
+									class="form-control form-control-sm"
+									value="${row_item.item_code}"></td>
 								<td><input type="text" name="content" autocomplete="off"
 									class="form-control form-control-sm"
 									value="${row_item.content}"></td>

@@ -96,7 +96,8 @@
 							class="table table-sm table-hover table-bordered text-nowrap  mb-1" style="font-size:14px;">
 							<thead>
 								<tr>
-									<th style="width: 45%">품목명</th>
+									<th style="width: 7%">코드</th>
+									<th style="width: 38%">품목명</th>
 									<th style="width: 7%">수량</th>
 									<th style="width: 10%">단가</th>
 									<th style="width: 10%">공급가</th>

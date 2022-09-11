@@ -96,8 +96,17 @@ public class TransactionServiceimpl implements TransactionService {
 			
 			ItemDTO dto = new ItemDTO();
 			dto.setTransaction_idx(transaction_idx);
-			dto.setContent(obj.get("content").toString());
 			
+			if(obj.get("content").toString().equals("")) {
+				dto.setContent(null);
+			} else {
+				dto.setContent(obj.get("content").toString());
+			}
+			if(obj.get("inventory_item_idx").toString().equals("")) {
+				dto.setInventory_item_idx(null);
+			} else {
+				dto.setInventory_item_idx(obj.get("inventory_item_idx").toString());
+			}
 			if(obj.get("amount").toString().equals("")) {
 				dto.setAmount(null);
 			} else {

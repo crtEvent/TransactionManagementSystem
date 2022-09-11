@@ -26,7 +26,8 @@
 				<thead>
 					<tr>
 						<th style="width: 3%"></th>
-						<th style="width: 45%">품목명</th>
+						<th style="width: 7%">코드</th>
+						<th style="width: 43%">품목명</th>
 						<th style="width: 7%">수량</th>
 						<th style="width: 10%">단가</th>
 						<th style="width: 10%">공급가</th>
@@ -41,6 +42,7 @@
 										items="${itemList}">
 								<tr>
 									<td class="text-center">${status.index + 1}</td>
+									<td>${row_item.item_code}</td>
 									<td>${row_item.content}</td>
 									<td class="text-right">
 										<fmt:formatNumber value="${row_item.amount}" pattern="#,###" />
@@ -62,7 +64,7 @@
 						</c:when>
 						<c:otherwise>
 								<tr>
-									<th colspan="7">데이터가 없습니다.</th>
+									<th colspan="8">데이터가 없습니다.</th>
 								</tr>
 						</c:otherwise>
 					</c:choose>

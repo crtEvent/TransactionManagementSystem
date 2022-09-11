@@ -11,6 +11,9 @@
       <li class="nav-item d-none d-sm-inline-block" onclick="fn_getInventoryManagementPage()">
       	<button type="button" class="btn btn-block btn-default">재고관리</button>
       </li>
+      <li class="nav-item d-none d-sm-inline-block" onclick="fn_getSettingPage()">
+      	<button type="button" class="btn btn-block btn-default">설정</button>
+      </li>
     </ul>
 
     <!-- Right navbar links -->

@@ -14,4 +14,15 @@
 		]]>
 	</select>
 	
+	<update id="updatePathByPathName" parameterType="map">
+		<![CDATA[
+		UPDATE
+			PATH
+		SET
+			PATH = #{path}
+		WHERE
+			PATH_NAME = #{path_name}
+		]]>
+	</update>
+	
 </mapper>

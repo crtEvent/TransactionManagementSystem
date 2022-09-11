@@ -235,7 +235,7 @@
 		SET
 			FILE_NAME = #{file_name}
 		WHERE
-		 FILE_IDX = #{file_idx}
+			FILE_IDX = #{file_idx}
 		]]>
 	</update>
 	

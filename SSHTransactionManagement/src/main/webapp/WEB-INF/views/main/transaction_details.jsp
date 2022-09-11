@@ -40,7 +40,7 @@
 						<c:when test="${fn:length(itemList) > 0}">
 							<c:forEach var="row_item" varStatus="status"
 										items="${itemList}">
-								<tr>
+								<tr onclick="fn_openViewInventoryModal(${row_item.inventory_item_idx})">
 									<td class="text-center">${status.index + 1}</td>
 									<td>${row_item.item_code}</td>
 									<td>${row_item.content}</td>

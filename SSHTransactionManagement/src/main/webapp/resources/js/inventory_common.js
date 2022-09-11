@@ -127,6 +127,7 @@
  
  var insertinventoryItemModal = $('#insertInventoryItemModal');
  var updateInventoryItemModal = $('#updateInventoryItemModal');
+ var viewInventoryItemModal = $('#viewInventoryItemModal');
  
  /* 재고 품목 입력 Modal 창 열기 */
  function fn_openInsertInventoryModal() {
@@ -196,6 +197,66 @@
 		}
 	})// .ajax
  	
+ }
+ 
+ /* 재고 품목 보기 Modal창 열기 */
+ function fn_openViewInventoryModal(item_idx) {
+ 	
+ 	if(item_idx == null) {
+ 		return;
+ 	}
+ 	
+ 	isCompanyIdxTrue = false;
+ 	isItemCodeTrue = false;
+ 	
+ 	// select
+ 	$.ajax({
+		url: "/ssh/inventory/get-inventory",
+		type: 'post',
+		data: {item_idx : item_idx},
+		success: function(result){
+			
+			if(result[0] == null) {
+ 				return;
+ 			}
+		
+			fn_resetIventroyModal('view');
+
+			viewInventoryItemModal.find('input[name=item_idx]').val(result[0].item_idx);
+			viewInventoryItemModal.find('input[name=company_idx]').val(result[0].company_idx);
+			viewInventoryItemModal.find('input[name=item_code]').val(result[0].item_code);
+			viewInventoryItemModal.find('input[name=old_item_code]').val(result[0].item_code);
+			viewInventoryItemModal.find('input[name=content]').val(result[0].content);
+			viewInventoryItemModal.find('input[name=unit_price]').val(result[0].unit_price);
+			viewInventoryItemModal.find('input[name=initial_quantity]').val(result[0].initial_quantity);
+			
+			var companyIdxTag = viewInventoryItemModal.find('input[name=company_idx]');
+			var itemCodeTag = viewInventoryItemModal.find('input[name=item_code]');
+ 			fn_getCompanyName(companyIdxTag, 'view');
+ 			fn_checkItemCode(itemCodeTag, 'view');
+			
+			for(var i=0; i < result[1].length; i++) {
+				var addFileTag = 
+							'<div class="input-group">'+
+								'<div class="input-group-prepend">'+
+									'<span class="input-group-text"><i class="fas fa-paperclip"></i></span>'+
+								'</div>'+
+								'<input type="text" class="form-control bg-white" value="'+result[1][i].file_name+'" readonly '+
+									'onclick="fn_linkToDownloadFile('+result[1][i].file_idx+')">'+
+								'<input type="hidden" name="existingFile_idx" value="'+result[1][i].file_idx+'">'
+							'</div>';
+	
+				$('#view_inventory_file_div').append(addFileTag);
+			} // .for - end
+			
+			viewInventoryItemModal.modal('show');
+		},
+		error: function(){
+			alert("fn_openViewInventoryModal() 에러");
+			
+		}
+	})// .ajax
+	
  }
  
  function fn_linkToDownloadFile(file_idx) {
@@ -419,8 +480,8 @@ function fn_addInvenFile(insertOrUpdate) {
  		return;
  	}
  	
- 	if(insertOrUpdate = 'update') {
- 		if(itemCodeTag.val() == $('input[name=old_item_code]').val()) {
+ 	if(insertOrUpdate == 'update' || insertOrUpdate == 'view') {
+ 		if(itemCodeTag.val() == $('#'+insertOrUpdate+'InventoryItemModal').find('input[name=old_item_code]').val()) {
  			msgTag.text('기존의 아이템 코드').css('color', 'green');
  			isItemCodeTrue = true;
  			return;

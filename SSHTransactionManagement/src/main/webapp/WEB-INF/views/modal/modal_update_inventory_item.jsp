@@ -11,6 +11,11 @@
 			<div class="modal-header">
 				<!-- Modal 타이틀 -->
 				<h4 class="modal-title">재고 품목 수정</h4>
+				<!-- Modal 닫기 -->
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
 			</div>
 			
 			<div class="modal-body">

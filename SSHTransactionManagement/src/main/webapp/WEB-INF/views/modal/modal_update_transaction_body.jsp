@@ -120,7 +120,9 @@
 							<tr>
 								<td><input type="text" name="item_code" autocomplete="off"
 									class="form-control form-control-sm"
-									value="${row_item.item_code}"></td>
+									value="${row_item.item_code}">
+									<input type="hidden" name="inventory_item_idx" value="${row_item.inventory_item_idx}">	
+								</td>
 								<td><input type="text" name="content" autocomplete="off"
 									class="form-control form-control-sm"
 									value="${row_item.content}"></td>

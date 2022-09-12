@@ -120,6 +120,67 @@
 
  } // function end
  
+  /* 재고 품목 거래내역 item history 보기 */
+ function fn_getItemHistory(item_idx) {
+ 	
+ 	$.ajax({
+		type: "GET",
+		url: "/ssh/inventory/inventory-item-history", 
+		data: {item_idx : item_idx}
+	}).done(function(data) {
+		/* jsGrid */
+		$("#itemHistoryTable").jsGrid({
+			width: "100%",
+			height: "auto",
+			autoload:   true,
+			filtering: true,
+			sorting: true,
+			paging:     true,
+			pageSize:   10,
+			pageButtonCount: 5,
+			pageIndex:  1,
+			controller: {
+				loadData: function(filter) {
+					return $.grep(data, function(item) {
+                             return(!filter.company_name|| item.company_name.indexOf(filter.company_name) > -1)
+                             && (!filter.date|| item.date.indexOf(filter.date) > -1)
+        		             && (!filter.transaction_type|| item.transaction_type.indexOf(filter.transaction_type) > -1)
+        		             && (!filter.content|| item.content.indexOf(filter.content) > -1)
+        		             && (!filter.amount|| item.amount.indexOf(filter.amount) > -1)
+        		             && (!filter.unit_price|| item.unit_price.indexOf(filter.unit_price) > -1)
+        		             && (!filter.supply_price|| item.supply_price.indexOf(filter.supply_price) > -1)
+        		             && (!filter.tax_price|| item.tax_price.indexOf(filter.tax_price) > -1) 
+        		             && (!filter.total_price|| item.total_price.indexOf(filter.total_price) > -1)
+            	  			});
+	  	      
+				} // loadData end
+			},
+			fields: [
+				{name:"company_name", title:"업체명", type:"text", align:"center", width: 35},
+				{name:"date", title:"날짜", type:"text", align:"center", width: 25},
+				{itemTemplate: function(_, item) {  
+						if(item.transaction_type == '출고') {
+							return $("<small>").attr('class', 'badge badge-danger').text(item.transaction_type);
+						} else if(item.transaction_type == '입고') {
+							return $("<small>").attr('class', 'badge badge-info').text(item.transaction_type);
+						}
+					}, name:"transaction_type" , title:"입출고", type:"text", align:"center", width: 25},
+				{name:"content", title:"내용", type:"text", align:"center"},
+				{name:"amount", title:"수량", type:"text", align:"center", width: 25},
+				{name:"unit_price", title:"단가", type:"text", align:"center", width: 25},
+				{itemTemplate: function(_, item) {
+						return $('<button>')
+								.attr('class', 'btn btn-block btn-info btn-sm')
+								.attr('onclick', 'fn_findTransaction('+item.company_idx+','+item.transaction_idx+')')
+								.text('이동');
+					}, name:"btn", title:"이동", type:"text", align:"center", width: 10
+				}
+			]
+		}); // jsGrid end
+	}); // .done() end
+ 	
+ } // function end
+ 
  // ------------------- Modal ----------------------------------------
  
  var isCompanyIdxTrue = false;
@@ -261,6 +322,25 @@
 		}
 	})// .ajax
 	
+ }
+ 
+ function fn_openItemHistoryModal(updateOrView) {
+ 	
+ 	var itemCode = $('#'+updateOrView+'InventoryItemModal').find('input[name=item_code]').val();
+ 	$('#itemHistoryModal').find('.modal-title').text("[ "+itemCode+" ] - 재고 품목 거래 내역");
+ 
+ 	$('#itemHistoryModal').modal('show');
+ 	fn_getItemHistory($('#'+updateOrView+'InventoryItemModal').find('input[name=item_idx]').val());
+ }
+ 
+ function fn_findTransaction(company_idx, transaction_idx) {
+ 	
+ 	updateInventoryItemModal.modal('hide');
+ 	viewInventoryItemModal.modal('hide');
+ 	$('#itemHistoryModal').modal('hide');
+ 	
+ 	fn_getCompanyDetails(company_idx);
+ 	fn_getTransactionDetails(transaction_idx);
  }
  
  function fn_linkToDownloadFile(file_idx) {
@@ -575,4 +655,5 @@ function fn_addInvenFile(insertOrUpdate) {
  	$('#'+insertOrUpdate+'_inventory_file_div').empty();
  	fn_checkItemCode(tag.find('input[name=item_code]'), insertOrUpdate);
  }
+ 
  

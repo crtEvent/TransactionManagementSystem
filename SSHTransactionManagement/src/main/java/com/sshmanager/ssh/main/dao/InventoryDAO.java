@@ -1,12 +1,14 @@
 package com.sshmanager.ssh.main.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sshmanager.ssh.main.dto.InventoryItemDTO;
+import com.sshmanager.ssh.main.dto.ItemHistoryDTO;
 
 @Repository("inventoryDAO")
 public class InventoryDAO {
@@ -33,6 +35,10 @@ public class InventoryDAO {
 	
 	public List<InventoryItemDTO> selectInventoryList(String company_idx) throws Exception {
 		return session.selectList(namespace+"selectInventoryList", company_idx);
+	}
+	
+	public List<ItemHistoryDTO> selectInventoryItemHistory(String item_idx) throws Exception {
+		return session.selectList(namespace+"selectInventoryItemHistory", item_idx);
 	}
 	
 	public void insertInventroyItem(InventoryItemDTO dto) throws Exception {

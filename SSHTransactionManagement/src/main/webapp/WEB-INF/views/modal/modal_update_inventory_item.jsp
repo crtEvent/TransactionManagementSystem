@@ -99,8 +99,12 @@
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" 
 					onclick="fn_resetIventroyModal('update')">리셋</button>
-				<button type="button" class="btn btn-info"
-					onclick="fn_addInvenFile('update')">파일+</button>
+					<div>
+						<button type="button" class="btn btn-info"
+							onclick="fn_addInvenFile('update')">파일+</button>
+						<button type="button" class="btn btn-info"
+							onclick="fn_openItemHistoryModal('update')">거래내역</button>
+					</div>
 				<button type="button" class="btn btn-primary" name="updateBtn"
 					onclick="updateInventory()">수정하기</button>
 			</div>

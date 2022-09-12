@@ -19,6 +19,7 @@
 			</div>
 			
 			<div class="modal-body">
+				<input name="item_idx" type="hidden" value="">
 				
 				<!-- 1. 업체 IDX -->
 				<div class="row">
@@ -92,8 +93,9 @@
 				
 			</div>
 			
-			<div class="modal-footer text-right">
-				<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">닫기</button>
+			<div class="modal-footer text-center">
+				<button type="button" class="btn btn-info"
+							onclick="fn_openItemHistoryModal('view')">거래내역</button>
 			</div>
 			
 		</div>

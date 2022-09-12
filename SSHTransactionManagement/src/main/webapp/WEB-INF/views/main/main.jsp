@@ -32,6 +32,7 @@
 	<%@include file="../modal/modal_insert_inventory_item.jsp" %>
 	<%@include file="../modal/modal_update_inventory_item.jsp" %>
 	<%@include file="../modal/modal_view_inventory_item.jsp" %>
+	<%@include file="../modal/modal_item_history.jsp" %>
 	
 	<%@include file="../include/include_main_plugins.jsp" %>
 	<script type="text/javascript" src="<c:url value="/resources/js/common.js"/>"></script>

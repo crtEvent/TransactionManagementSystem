@@ -1,10 +1,12 @@
 package com.sshmanager.ssh.main.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.sshmanager.ssh.main.dto.InventoryItemDTO;
+import com.sshmanager.ssh.main.dto.ItemHistoryDTO;
 
 import net.sf.json.JSONArray;
 
@@ -27,6 +29,9 @@ public interface InventoryService {
 	 *  매개변수가 없으면 재고 품목 전체 검색 */
 	public List<InventoryItemDTO> getInventoryList() throws Exception;
 	public List<InventoryItemDTO> getInventoryList(String company_idx) throws Exception;
+	
+	/* 재고 품목 거래 내역 불러오는 메서드 */
+	public List<ItemHistoryDTO> getInventoryItemHistory(String item_idx) throws Exception;
 	
 	/* [INSERT] 재고 품목 등록 */
 	public String insertInventroyItem(InventoryItemDTO dto) throws Exception;

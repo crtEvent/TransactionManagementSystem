@@ -97,6 +97,42 @@
 		</choose>
 	</select>
 	
+	<select id="selectInventoryItemHistory" parameterType="String" resultType="itemHistoryDTO">
+		<![CDATA[
+		SELECT
+			T4.COMPANY_NAME
+			, T4.COMPANY_IDX
+			, T2.ITEM_CODE
+    		, T3.DATE
+			, T3.TRANSACTION_IDX
+    		, T3.TRANSACTION_TYPE
+    		, T1.CONTENT
+    		, T1.AMOUNT
+    		, T1.UNIT_PRICE
+    		, T1.SUPPLY_PRICE
+    		, T1.TAX_PRICE
+    		, T1.TOTAL_PRICE
+		FROM
+			ITEM T1
+		JOIN
+			INVENTORY_ITEM T2
+		ON
+			T1.INVENTORY_ITEM_IDX = T2.ITEM_iDX
+		JOIN
+			TRANSACTION T3
+		ON
+			T1.TRANSACTION_IDX = T3.TRANSACTION_IDX
+		JOIN
+			COMPANY T4
+		ON
+			T3.COMPANY_IDX = T4.COMPANY_IDX
+		WHERE
+			T2.ITEM_IDX = #{item_idx}
+		ORDER BY
+			T3.DATE DESC
+		]]>
+	</select>
+	
 	<insert id="insertInventroyItem" useGeneratedKeys="true" keyProperty="item_idx" parameterType="inventoryItemDTO">
 		<![CDATA[
 		INSERT INTO

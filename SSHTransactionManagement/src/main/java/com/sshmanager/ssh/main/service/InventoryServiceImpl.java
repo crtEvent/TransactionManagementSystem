@@ -20,6 +20,7 @@ import com.sshmanager.ssh.main.dao.PathDAO;
 import com.sshmanager.ssh.main.dto.CompanyDTO;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.dto.InventoryItemDTO;
+import com.sshmanager.ssh.main.dto.ItemHistoryDTO;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -66,9 +67,15 @@ public class InventoryServiceImpl implements InventoryService {
 	public List<InventoryItemDTO> getInventoryList() throws Exception {
 		return inventoryDAO.selectInventoryList();
 	}
+	
 	/* 재고 품목 리스트를 불러오는 메서드 */
 	public List<InventoryItemDTO> getInventoryList(String company_idx) throws Exception {
 		return inventoryDAO.selectInventoryList(company_idx);
+	}
+	
+	/* 재고 품목 거래 내역 불러오는 메서드 */
+	public List<ItemHistoryDTO> getInventoryItemHistory(String item_idx) throws Exception {
+		return inventoryDAO.selectInventoryItemHistory(item_idx);
 	}
 	
 	/* [INSERT] 재고 품목 등록 */

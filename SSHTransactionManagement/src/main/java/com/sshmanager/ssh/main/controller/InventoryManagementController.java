@@ -1,6 +1,7 @@
 package com.sshmanager.ssh.main.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sshmanager.ssh.main.dto.CompanyDTO;
 import com.sshmanager.ssh.main.dto.InventoryItemDTO;
+import com.sshmanager.ssh.main.dto.ItemHistoryDTO;
 import com.sshmanager.ssh.main.service.CompanyService;
 import com.sshmanager.ssh.main.service.InventoryService;
 
@@ -43,7 +45,7 @@ public class InventoryManagementController {
 		return "/main/inventory_management";
 	}
 	
-	/**/
+	/* 재고 품목 내용 불러오기 */
 	@RequestMapping("/get-inventory-item")
 	@ResponseBody
 	public InventoryItemDTO getInventoryItem(String item_code) throws Exception {
@@ -79,6 +81,14 @@ public class InventoryManagementController {
 		model.addAttribute("inventoryList", inventoryService.getInventoryList(company_idx));
 		
 		return "/main/inventory_list";
+	}
+	
+	/* 재고 품목의 거래 내역(History) 불러오기 (jsGrid용 ) */
+	@RequestMapping("/inventory-item-history")
+	@ResponseBody
+	public List<ItemHistoryDTO> getInventoryItemHistory(String item_idx) throws Exception {
+		
+		return inventoryService.getInventoryItemHistory(item_idx);
 	}
 	
 	/* 아이템 코드 중복 검사 */

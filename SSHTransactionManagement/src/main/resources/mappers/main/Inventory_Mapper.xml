@@ -79,12 +79,22 @@
 		ON 
 			T1.COMPANY_IDX = T2.COMPANY_IDX
 		]]>
-		<if test="value != null">
+		<choose>
+			<when test="value != null">
 			<![CDATA[
 			WHERE
 				T1.COMPANY_IDX = #{value}
+			ORDER BY
+				T1.ITEM_CODE
 			]]>
-		</if>
+			</when>
+			<otherwise>
+			<![CDATA[
+			ORDER BY
+				T2.COMPANY_NAME, T1.ITEM_CODE
+			]]>
+			</otherwise>
+		</choose>
 	</select>
 	
 	<insert id="insertInventroyItem" useGeneratedKeys="true" keyProperty="item_idx" parameterType="inventoryItemDTO">

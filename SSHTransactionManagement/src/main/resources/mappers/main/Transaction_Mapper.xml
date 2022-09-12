@@ -35,6 +35,20 @@
 		]]>
 	</select>
 	
+	<select id="selectTotalPrice" parameterType="String" resultType="totalPriceDTO">
+		<![CDATA[
+		SELECT
+			SUM(UNIT_PRICE) UNIT_PRICE
+			, SUM(SUPPLY_PRICE) SUPPLY_PRICE
+			, SUM(TAX_PRICE) TAX_PRICE
+			, SUM(TOTAL_PRICE) TOTAL_PRICE
+		FROM
+			ITEM
+		WHERE
+			TRANSACTION_IDX = #{transaction_idx}
+		]]>
+	</select>
+	
 	<select id="selectItemList" parameterType="String" resultType="itemDTO">
 		<![CDATA[
 		SELECT 

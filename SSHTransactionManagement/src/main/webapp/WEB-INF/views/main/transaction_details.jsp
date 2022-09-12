@@ -9,7 +9,17 @@
 <div class="card sticky-top">
 	<!-- <!-- Card-header -->
 	<div class="card-header py-2">
-		<span class="align-middle text-bold">${transactionDTO.date} [${transactionDTO.subject}]</span>
+		<span class="align-middle text-bold">
+			<c:choose>
+				<c:when test="${transactionDTO.transaction_type eq '출고'}">
+					<small class="badge badge-danger">출고</small>
+				</c:when>
+				<c:when test="${transactionDTO.transaction_type eq '입고'}">
+					<small class="badge badge-info">입고</small>
+				</c:when>
+			</c:choose>
+			&nbsp;${transactionDTO.date} [${transactionDTO.subject}]
+		</span>
 		<div class="card-tools">
 			<button class="btn btn-primary btn-sm" title="수정" onclick="fn_openUpdateTransactionModal(${transactionDTO.transaction_idx})">
 				<i class="fas fa-pencil-alt"></i>
@@ -71,6 +81,21 @@
 								</tr>
 						</c:otherwise>
 					</c:choose>
+					<tr>
+						<th  class="text-center" colspan="4"> 합 계 </th>
+						<th class="text-right">
+							<fmt:formatNumber value="${totalPriceDTO.unit_price}" pattern="#,###" />
+						</th>
+						<th class="text-right">
+							<fmt:formatNumber value="${totalPriceDTO.supply_price}" pattern="#,###" />
+						</th>
+						<th class="text-right">
+							<fmt:formatNumber value="${totalPriceDTO.tax_price}" pattern="#,###" />
+						</th>
+						<th class="text-right">
+							<fmt:formatNumber value="${totalPriceDTO.total_price}" pattern="#,###" />
+						</th>
+					<tr>
 				</tbody>
 			</table>
 		</div>

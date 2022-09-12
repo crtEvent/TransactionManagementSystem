@@ -14,6 +14,7 @@ import com.sshmanager.ssh.main.domain.FileType;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.dto.ItemDTO;
 import com.sshmanager.ssh.main.dto.MemoDTO;
+import com.sshmanager.ssh.main.dto.TotalPriceDTO;
 import com.sshmanager.ssh.main.dto.TransactionDTO;
 
 @Repository("transactionDAO")
@@ -29,6 +30,10 @@ public class TransactionDAO {
 	
 	public TransactionDTO selectTransaction(String transaction_idx) throws Exception {
 		return session.selectOne(namespace+"selectTransaction", transaction_idx);
+	}
+	
+	public TotalPriceDTO selectTotalPrice(String transaction_idx) throws Exception {
+		return session.selectOne(namespace+"selectTotalPrice", transaction_idx);
 	}
 	
 	public List<ItemDTO> selectItemList(String transaction_idx) throws Exception {

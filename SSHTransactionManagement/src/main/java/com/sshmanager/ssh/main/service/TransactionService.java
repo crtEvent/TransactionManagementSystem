@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.dto.ItemDTO;
 import com.sshmanager.ssh.main.dto.MemoDTO;
+import com.sshmanager.ssh.main.dto.TotalPriceDTO;
 import com.sshmanager.ssh.main.dto.TransactionDTO;
 
 import net.sf.json.JSONArray;
@@ -18,6 +19,9 @@ public interface TransactionService {
 	
 	/* 거래 정보 불러오기 */
 	public TransactionDTO getTransaction(String transaction_idx) throws Exception;
+	
+	/* 거래 내역 - 총 가격 정보 불러오기 */
+	public TotalPriceDTO getTotalPrice(String transaction_idx) throws Exception;
 	
 	/* 아이템 목록 불러오기 */
 	public List<ItemDTO> getItemList(String transaction_idx) throws Exception;

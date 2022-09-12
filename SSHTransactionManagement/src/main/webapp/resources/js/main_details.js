@@ -56,7 +56,13 @@ function fn_loadTransactionListTable(company_idx) {
 			},
 			fields: [
 				{name:"date", title:"날짜", type:"text", align:"center", width: 25},
-				{name:"transaction_type", title:"입출고", type:"text", align:"center", width: 25},
+				{itemTemplate: function(_, item) {  
+						if(item.transaction_type == '출고') {
+							return $("<small>").attr('class', 'badge badge-danger').text(item.transaction_type);
+						} else if(item.transaction_type == '입고') {
+							return $("<small>").attr('class', 'badge badge-info').text(item.transaction_type);
+						}
+					}, name:"transaction_type" , title:"입출고", type:"text", align:"center", width: 25},
 				{name:"subject", title:"제목", type:"text", align:"center"}
 			],
 			rowClick: function(args) {

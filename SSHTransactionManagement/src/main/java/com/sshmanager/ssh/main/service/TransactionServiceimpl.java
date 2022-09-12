@@ -22,6 +22,7 @@ import com.sshmanager.ssh.main.dto.CompanyDTO;
 import com.sshmanager.ssh.main.dto.FileDTO;
 import com.sshmanager.ssh.main.dto.ItemDTO;
 import com.sshmanager.ssh.main.dto.MemoDTO;
+import com.sshmanager.ssh.main.dto.TotalPriceDTO;
 import com.sshmanager.ssh.main.dto.TransactionDTO;
 
 import net.sf.json.JSONArray;
@@ -45,6 +46,10 @@ public class TransactionServiceimpl implements TransactionService {
 	
 	public TransactionDTO getTransaction(String transaction_idx) throws Exception {
 		return transactionDAO.selectTransaction(transaction_idx);
+	}
+	
+	public TotalPriceDTO getTotalPrice(String transaction_idx) throws Exception {
+		return transactionDAO.selectTotalPrice(transaction_idx);
 	}
 	
 	public List<ItemDTO> getItemList(String transaction_idx) throws Exception {

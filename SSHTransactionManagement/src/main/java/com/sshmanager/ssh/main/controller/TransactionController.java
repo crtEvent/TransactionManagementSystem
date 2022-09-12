@@ -56,8 +56,9 @@ public class TransactionController {
 	/* 거래 세부 내역 결과 */
 	@GetMapping("/transaction-details-result")
 	public String transactionDetailsResult(Model model ,String transaction_idx) throws Exception {
-	
+		
 		model.addAttribute("transactionDTO", transactionService.getTransaction(transaction_idx));
+		model.addAttribute("totalPriceDTO", transactionService.getTotalPrice(transaction_idx));
 		model.addAttribute("itemList", transactionService.getItemList(transaction_idx));
 		model.addAttribute("memoList", transactionService.getMemoList(transaction_idx));
 		model.addAttribute("quoteFileList", transactionService.getQuoteFileList(transaction_idx));

@@ -115,7 +115,7 @@ public class InventoryManagementController {
 	@RequestMapping("/insert-inventory-item")
 	@ResponseBody
 	public boolean insertInventory(InventoryItemDTO dto, MultipartHttpServletRequest multipartRequest) throws Exception {
-		
+		System.out.println("controller: "+dto);
 		String item_idx = inventoryService.insertInventroyItem(dto);
 		
 		inventoryService.insertinventoryFiles(dto.getCompany_idx(), item_idx, multipartRequest);

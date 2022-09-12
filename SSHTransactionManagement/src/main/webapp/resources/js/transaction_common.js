@@ -154,9 +154,9 @@ function fn_checkNumberOnly(obj) {
 	var inputVal = obj.val().replace(/[^0-9]/gi,'');
 	
 	// 자리수 제한
-    if(inputVal.length > 15) {
-    	alert("금액 값은 15자리수 까지만 입력 가능합니다.");
-    	inputVal = inputVal.slice(0, 15);
+    if(inputVal.length > 10) {
+    	alert("금액 값은 11자리수 까지만 입력 가능합니다.");
+    	inputVal = inputVal.slice(0, 11);
     }
     
     // 세 자리수 마다 콤마 찍기 + 값 입력

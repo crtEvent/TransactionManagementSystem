@@ -298,9 +298,9 @@ function fn_addInvenFile(insertOrUpdate) {
  	
  	var itemCodeTag = insertinventoryItemModal.find('input[name=item_code]');
  	var companyIdxTag = insertinventoryItemModal.find('input[name=company_idx]');
- 	var content = insertinventoryItemModal.find('input[name=content]').val();
- 	var unit_price = insertinventoryItemModal.find('input[name=unit_price]').val();
- 	var initial_quantity = insertinventoryItemModal.find('input[name=initial_quantity]').val();
+ 	var content = insertinventoryItemModal.find('input[name=content]').val() == ''? ' ' : insertinventoryItemModal.find('input[name=content]').val();
+ 	var unit_price = insertinventoryItemModal.find('input[name=unit_price]').val() == ''? '0' : insertinventoryItemModal.find('input[name=unit_price]').val();
+ 	var initial_quantity = insertinventoryItemModal.find('input[name=initial_quantity]').val() == ''? '0' : insertinventoryItemModal.find('input[name=initial_quantity]').val();
  	
  	/* 업체명 불러오기, 검사 */
  	if(!isCompanyIdxTrue) {
@@ -318,8 +318,14 @@ function fn_addInvenFile(insertOrUpdate) {
  	formData.append('company_idx', companyIdxTag.val());
  	formData.append('item_code', itemCodeTag.val());
  	formData.append('content', content);
- 	formData.append('unit_price', unit_price);
- 	formData.append('initial_quantity', initial_quantity);
+ 	formData.append('unit_price', Number(unit_price.split(',').join("")));
+ 	formData.append('initial_quantity', Number(initial_quantity.split(',').join("")));
+ 	
+ 	console.log("formData: "+formData.get("company_idx"));
+ 	console.log("formData: "+formData.get("item_code"));
+ 	console.log("formData: "+formData.get("content"));
+ 	console.log("formData: "+formData.get("unit_price"));
+ 	console.log("formData: "+formData.get("initial_quantity"));
  	
  	/* [file 넣기] */
 	var inputFiles = insertinventoryItemModal.find('input[type=file]'); // input[type=file] 여러개 다 가져옴
@@ -362,9 +368,9 @@ function fn_addInvenFile(insertOrUpdate) {
  	var itemIdxTag = updateInventoryItemModal.find('input[name=item_idx]');
  	var itemCodeTag = updateInventoryItemModal.find('input[name=item_code]');
  	var companyIdxTag = updateInventoryItemModal.find('input[name=company_idx]');
- 	var content = updateInventoryItemModal.find('input[name=content]').val();
- 	var unit_price = updateInventoryItemModal.find('input[name=unit_price]').val();
- 	var initial_quantity = updateInventoryItemModal.find('input[name=initial_quantity]').val();
+ 	var content = updateInventoryItemModal.find('input[name=content]').val() == ''? ' ' : updateInventoryItemModal.find('input[name=content]').val();
+ 	var unit_price = updateInventoryItemModal.find('input[name=unit_price]').val() == ''? '0': updateInventoryItemModal.find('input[name=unit_price]').val();
+ 	var initial_quantity = updateInventoryItemModal.find('input[name=initial_quantity]').val() == ''? '0': updateInventoryItemModal.find('input[name=initial_quantity]').val();
  	
  	/* 업체명 불러오기, 검사 */
  	if(!isCompanyIdxTrue) {

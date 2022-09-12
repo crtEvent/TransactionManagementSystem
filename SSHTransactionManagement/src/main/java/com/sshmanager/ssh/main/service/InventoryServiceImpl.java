@@ -258,4 +258,10 @@ public class InventoryServiceImpl implements InventoryService {
 		// 품목 리스트 삭제
 		inventoryDAO.deleteInventoryItem(item_idx);
 	}
+	
+	/* 재고 품목 삭제 */
+	public void deleteInventoryItemByCompany(String item_idx) throws Exception {
+		
+		
+	}
 }

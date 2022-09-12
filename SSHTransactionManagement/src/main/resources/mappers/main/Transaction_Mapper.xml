@@ -301,4 +301,61 @@
 		]]>
 	</delete>
 	
+	<delete id="deleteItemListByCompany" parameterType="String">
+		<![CDATA[
+		DELETE 
+			T1
+		FROM
+			ITEM T1
+		JOIN
+			TRANSACTION T2
+		ON 
+			T1.TRANSACTION_IDX = T2.TRANSACTION_IDX
+		JOIN
+			COMPANY T3
+		ON
+			T2.COMPANY_IDX = T3.COMPANY_IDX
+		WHERE
+			T3.COMPANY_IDX =  #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteMemoListByCompany" parameterType="String">
+		<![CDATA[
+		DELETE 
+			T1
+		FROM
+			MEMO T1
+		JOIN
+			TRANSACTION T2
+		ON 
+			T1.TRANSACTION_IDX = T2.TRANSACTION_IDX
+		JOIN
+			COMPANY T3
+		ON
+			T2.COMPANY_IDX = T3.COMPANY_IDX
+		WHERE
+			T3.COMPANY_IDX =  #{value}
+		]]>
+	</delete>
+	
+	<delete id="deleteFileListByCompany" parameterType="String">
+		<![CDATA[
+		DELETE 
+			T1
+		FROM
+			FILE T1
+		JOIN
+			TRANSACTION T2
+		ON 
+			T1.TRANSACTION_IDX = T2.TRANSACTION_IDX
+		JOIN
+			COMPANY T3
+		ON
+			T2.COMPANY_IDX = T3.COMPANY_IDX
+		WHERE
+			T3.COMPANY_IDX =  #{value}
+		]]>
+	</delete>
+	
 </mapper>

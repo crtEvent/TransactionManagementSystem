@@ -109,4 +109,23 @@
 		]]>
 	</delete>
 	
+	<delete id="deleteInventoryFileList" parameterType="String">
+		<![CDATA[
+		DELETE 
+			T1
+		FROM 
+			INVENTORY_FILE T1
+		JOIN
+			INVENTORY_ITEM T2
+		ON
+			T1.ITEM_IDX = T2.ITEM_IDX
+		JOIN
+			COMPANY T3
+		ON
+			T2.COMPANY_IDX = T3.COMPANY_IDX
+		WHERE
+			T3.COMPANY_IDX = #{value}
+		]]>
+	</delete>
+	
 </mapper>

@@ -14,8 +14,6 @@ import com.sshmanager.ssh.main.dao.InventoryFileDAO;
 import com.sshmanager.ssh.main.dao.PathDAO;
 import com.sshmanager.ssh.main.dao.TransactionDAO;
 import com.sshmanager.ssh.main.dto.CompanyDTO;
-import com.sshmanager.ssh.main.dto.FileDTO;
-import com.sshmanager.ssh.main.dto.InventoryItemDTO;
 import com.sshmanager.ssh.main.dto.TransactionDTO;
 
 @Service("companyService")
@@ -29,9 +27,6 @@ public class CompanyServiceImpl implements CompanyService{
 	
 	@Autowired
 	private TransactionService transactionService;
-	
-	@Autowired
-	private InventoryService inventoryService;
 	
 	@Autowired
 	private InventoryDAO inventoryDAO;
@@ -108,26 +103,14 @@ public class CompanyServiceImpl implements CompanyService{
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteCompany(String company_idx) throws Exception {
 		
-		// company_idx에 해당하는 거래 list 삭제
-		String transaction_idx;
-		List<TransactionDTO> tList = transactionDAO.selectTransactionList(company_idx);
-		 
-		for(int i = 0; i < tList.size(); i++) {
-			transaction_idx = tList.get(i).getTransaction_idx();
-			transactionService.deleteTransaction(transaction_idx);
-
-		}
+		// 해당 업체의 거래 목록 삭제  - DB에서만 삭제(item, memo, file)
+		transactionDAO.deleteTransactionByCompany(company_idx);
 		
-		// company_idx에 해당하는 재고 품목 list 삭제
-		String item_idx;
-		List<InventoryItemDTO> iList = inventoryService.getInventoryList(company_idx);
+		// 재고품목 삭제
+		inventoryFileDAO.deleteInventoryFilesByCompany(company_idx);
+		inventoryDAO.deleteInventoryItemList(company_idx);
 		
-		for(int i = 0; i < iList.size(); i++) {
-			item_idx = iList.get(i).getItem_idx();
-			inventoryService.deleteInventoryItem(item_idx);
-		}
-		
-		// company 삭제
+		// company 삭제 - 업체 폴더까지 통째로 삭제
 		companyDAO.deleteCompany(company_idx);
 		
 	}

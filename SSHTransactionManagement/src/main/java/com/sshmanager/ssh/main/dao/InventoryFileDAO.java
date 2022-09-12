@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.sshmanager.ssh.main.dto.CompanyDTO;
 import com.sshmanager.ssh.main.dto.FileDTO;
 
 @Repository("inventoryFileDAO")
@@ -64,4 +65,9 @@ public class InventoryFileDAO {
 			deleteInventroyFile(files.get(i).getFile_idx().toString());
 		}
 	}
+	
+	public void deleteInventoryFilesByCompany(String company_idx) throws Exception {
+		session.delete(namespace+"deleteInventoryFileList", company_idx);
+	}
+
 }

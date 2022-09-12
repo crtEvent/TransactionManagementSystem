@@ -136,4 +136,14 @@ public class TransactionDAO {
 			deleteFile(files.get(i).getFile_idx());
 		}
 	}
+	
+	/* 해당 업체의 거래 목록 삭제  - DB에서만 삭제(item, memo, file) */
+	public void deleteTransactionByCompany(String company_idx) throws Exception {
+		
+		session.delete(namespace+"deleteItemListByCompany", company_idx);
+		session.delete(namespace+"deleteMemoListByCompany", company_idx);
+		session.delete(namespace+"deleteFileListByCompany", company_idx);
+		
+		session.delete(namespace+"deleteTransactionList", company_idx);
+	}
 }

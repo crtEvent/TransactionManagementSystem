@@ -66,4 +66,14 @@ public class SettingController {
 		return true;
 
 	}
+	
+	/* DB ¹é¾÷ */
+	@RequestMapping("/update-path")
+	@ResponseBody
+	public boolean updateRootPath(String path) throws Exception {
+		
+		pathDAO.updateFileRootPath(path);
+		
+		return true;
+	}
 }

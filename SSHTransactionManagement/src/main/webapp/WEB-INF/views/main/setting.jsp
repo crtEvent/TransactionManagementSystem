@@ -36,12 +36,13 @@
 					<div class="card-body py-2">
 						
 						<div class="form-group">
-							<div class="input-group mb-3">
+							<div class="input-group mb-1">
                   				<input type="text" class="form-control" name="root_path" value="${root_path}">
-                  				<div class="input-group-append">
+                  				<div class="input-group-append" onclick="fn_updatePath()">
                    					<span class="input-group-text">수 정</span>
                  				</div>
                 			</div>
+                			<div class="text-center">예시) C:\ssh</div>
 						</div>
 
 					</div>

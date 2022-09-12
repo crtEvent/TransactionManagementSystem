@@ -22,7 +22,7 @@
 								<button class="btn btn-primary btn-sm" title="수정" onclick="fn_openUpdateCompanyModal(${companyDTO.company_idx})">
 									<i class="fas fa-pencil-alt"></i>
 								</button>
-								<button class="btn btn-danger btn-sm" title="삭제" onclick="fn_deleteCompany(${companyDTO.company_idx})">
+								<button class="btn btn-danger btn-sm" title="삭제" onclick="fn_openDeleteConfirmModal(${companyDTO.company_idx})">
 									<i class="fas fa-trash-alt"></i>
 								</button>
 							</div>

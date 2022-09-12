@@ -48,6 +48,13 @@ function fn_openUpdateCompanyModal(company_idx) {
 	
 }
 
+function fn_openDeleteConfirmModal(company_idx) {
+	
+	$('#confirmModal').find('#confirmBtn').attr('onclick', 'fn_deleteCompany('+company_idx+')');
+	
+	$('#confirmModal').modal("show"); // Modal창 열기
+}
+
 /* 다시 입력 - 입력된 내용 초기화 */
 $('#resetInsertCompanyModalBtn').on('click', function() {
 	fn_resetCompanyModal(insertCompanyModal);
@@ -234,6 +241,7 @@ function fn_deleteCompany(company_idx) {
 			alert("삭제되었습니다.");
 			fn_searchCompany();
 			$('#contentWrapper').empty();
+			$('#confirmModal').modal("hide");
 		},
 		error: function(){
 			alert("fn_deleteCompany() 에러");

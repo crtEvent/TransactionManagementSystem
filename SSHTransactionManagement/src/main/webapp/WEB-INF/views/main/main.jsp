@@ -24,6 +24,7 @@
 	</div>
 	<!-- /.wrapper -->
 	
+	<%@include file="../modal/modal_confirm.jsp" %>
 	<%@include file="../modal/modal_insert_company.jsp" %>
 	<%@include file="../modal/modal_update_company.jsp" %>
 	<%@include file="../modal/modal_insert_transaction.jsp" %>

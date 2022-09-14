@@ -40,6 +40,10 @@ public class InventoryServiceImpl implements InventoryService {
 	@Autowired
 	private PathDAO pathDAO;
 	
+	private static final String[] ALLOWED_EXTENSION = new String[] {".hwp", ".doc", ".docx", ".ppt", ".pptx", 
+   			".xls", ".xlsx", ".txt", ".csv", ".jpg", 
+			".jpeg", ".gif", ".png", ".bmp", ".pdf"};
+	
 	/* 품목코드(item_code) 중복 검사 */
 	public boolean checkDupItemCode(String item_code) throws Exception {
 		if(inventoryDAO.countItemCode(item_code) > 0) {
@@ -112,6 +116,13 @@ public class InventoryServiceImpl implements InventoryService {
 			String fileName = fileNames.next(); // front단에서 받아온 input[type=file]의 name속성 값
 			MultipartFile multiFile = multipartRequest.getFile(fileName); // 업로드 된 파일 하나를 MultipartFile 객체에 임시 저장
 			
+			// 파일 확장자 확인
+			String extension = multiFile.getOriginalFilename().substring(multiFile.getOriginalFilename().lastIndexOf("."));
+			if(!checkFileExtension(extension)) {
+				// 조건 중 하나라도 false면 업로드 X
+				continue;
+			}
+			
 			// 저장될 파일명 지정
 			String storedFileName = multiFile.getOriginalFilename();
 			String path = file_root + File.separator
@@ -137,6 +148,17 @@ public class InventoryServiceImpl implements InventoryService {
 		} // .while() - end
 		
 	} // .insertinventoryFiles() - end
+	
+	/* 파일 확장자 검사 */
+	public boolean checkFileExtension(String extension) {
+		// 확장자 유효성 검사
+		for(int i = 0; 0 < ALLOWED_EXTENSION.length; i++) {
+			if(extension.equals(ALLOWED_EXTENSION[i])) {
+				return true; // 업로드 할 수 있는 확장자 true
+			}
+		}
+		return false; // 업로드 할 수 없는 확장자 false
+	}
 	
 	/** 중복된 파일의 이름을 변경하는 메서드
 	* 해당 경로(path)에 동일한 파일명(fileName)의 파일이 존재하는지 확인하여
@@ -195,59 +217,43 @@ public class InventoryServiceImpl implements InventoryService {
 		
 		boolean isFileExist= false; // 
 		
-		System.out.println("시작 전 - storedFileList - "+storedFileList.toString());
-		System.out.println("시작 전 - existingFilejsonArray - "+existingFilejsonArray);
-		
 		for(int i = 0; i < storedFileList.size(); i++) {
-			System.out.println("1. storedFileList.get(i).getFile_idx(): "+storedFileList.get(i).getFile_idx());
 			isFileExist = false;
 			
 			for(int j = 0; j < existingFilejsonArray.size(); j++){
 				//JSONArray 형태의 값을 가져와 JSONObject로 풀어준다.    
 				JSONObject obj = (JSONObject)existingFilejsonArray.get(j);
-				System.out.println(" 1-1. obj.get(\"file_idx\"): "+obj.get("file_idx"));
 				
 				if(storedFileList.get(i).getFile_idx().equals(obj.get("file_idx"))) {
 					// 넘어온 file_idx 중에 기존에 존재하던 파일(DB에 저장된 값)이 있는 경우
 					isFileExist = true;
-					System.out.println("   넘어온 file_idx 중에 기존에 존재하던 파일(DB에 저장된 값)이 있는 경우 isFileExist: "+isFileExist);
+					
 					// 업체가 변경된 경우 파일 위치 변경
-					if(!old_company_idx.equals(new_company_idx)) {System.out.println("    업체 변경됨 - 파일 위치 변경");
+					if(!old_company_idx.equals(new_company_idx)) {
 						oldFile = FileUtils.getFile(file_root + File.separator
 								+ oldCompanyFolderName + File.separator
 								+ "전용품목" + File.separator
-								+ storedFileList.get(i).getFile_name());System.out.println("    업체 변경됨 - oldfile: "+file_root + File.separator
-										+ oldCompanyFolderName + File.separator
-										+ "전용품목" + File.separator
-										+ storedFileList.get(i).getFile_name());
+								+ storedFileList.get(i).getFile_name());
 						newFile = FileUtils.getFile(storedFileList.get(i).getFile_path() + File.separator 
-								+ storedFileList.get(i).getFile_name());System.out.println("    업체 변경됨 - newfile: "+storedFileList.get(i).getFile_path() + File.separator 
-										+ storedFileList.get(i).getFile_name());
+								+ storedFileList.get(i).getFile_name());
 						FileUtils.moveFile(oldFile, newFile); // 파일 이동 + 경로 자동 생성
 					}
-					System.out.println("   그대로 내비둠");
 				} // .if() - end
 				
 			} // .for - existingFilejsonArray.size() - end
 			
-			if(!isFileExist) {System.out.println("   기존에 존재하던 파일이 삭제된 경우 - DB와 실제 파일 삭제 isFileExist: "+isFileExist);
+			if(!isFileExist) {
 				// 기존에 존재하던 파일이 삭제된 경우 - DB와 실제 파일 삭제
 				// 파일 휴지통으로 이동
 				oldFile = FileUtils.getFile(file_root+File.separator
 						+oldCompanyFolderName+File.separator
 						+"전용품목"+File.separator
-						+storedFileList.get(i).getFile_name());System.out.println("    휴지통 old - "+file_root+File.separator
-								+oldCompanyFolderName+File.separator
-								+"전용품목"+File.separator
-								+storedFileList.get(i).getFile_name());
+						+storedFileList.get(i).getFile_name());
 						newFile = FileUtils.getFile(file_root+File.separator+"휴지통"+File.separator+"("+storedFileList.get(i).getFile_idx()+")"+storedFileList.get(i).getFile_name());
-						System.out.println("    휴지통 new - "+file_root+File.separator+"휴지통"+File.separator+"("+storedFileList.get(i).getFile_idx()+")"+storedFileList.get(i).getFile_name());
-						FileUtils.moveFile(oldFile, newFile); // 파일 이동 + 경로 자동 생성
+				FileUtils.moveFile(oldFile, newFile); // 파일 이동 + 경로 자동 생성
 			
-						System.out.println("휴지통에 버리고 DB에서도 삭제할 거임");
-						// 파일 DB에서 제거
-						System.out.println("버릴 idx값: "+storedFileList.get(i).getFile_idx());
-						inventoryFileDAO.deleteInventroyFile(storedFileList.get(i).getFile_idx());
+				// 파일 DB에서 제거
+				inventoryFileDAO.deleteInventroyFile(storedFileList.get(i).getFile_idx());
 			} // .if(!isFileExist) - end
 			
 		} // .for - storedFileList.size() - end

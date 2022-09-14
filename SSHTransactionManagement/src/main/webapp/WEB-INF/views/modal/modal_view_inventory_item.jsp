@@ -66,7 +66,7 @@
 				<!-- 4. 공급가 -->
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
-						<button type="button" class="btn btn-default">공&nbsp;&nbsp;급&nbsp;&nbsp;가&nbsp;</button>
+						<button type="button" class="btn btn-default">단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가</button>
 					</div>
 					<input name="unit_price" type="text" autocomplete="off" readonly
 						class="form-control" onkeyup="fn_checkNumberOnly($(this))">

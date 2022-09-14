@@ -54,7 +54,7 @@
 				{name:"company_name", title:"업체명", type:"text", align:"center", width: 40},
 				{name:"item_code", title:"품목코드", type:"text", align:"center", width: 25},
 				{name:"content", title:"내용", type:"text", align:"center"},
-				{name:"unit_price", title:"공급가", type:"text", align:"center", width: 25},
+				{name:"unit_price", title:"단가", type:"text", align:"center", width: 25},
 				{name:"initial_quantity", title:"초기수량", type:"text", align:"center", width: 25},
 				{name:"current_quantity", title:"현재고", type:"text", align:"center", width: 25}
 			],

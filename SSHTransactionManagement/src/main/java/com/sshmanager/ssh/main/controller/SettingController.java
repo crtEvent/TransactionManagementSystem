@@ -53,7 +53,8 @@ public class SettingController {
 	        String dateTime = (new SimpleDateFormat("yyyyMMddHHmmss").format(date));
 			
 			String path = pathDAO.selectFileRootPath()+File.separator+"backup"+File.separator+dateTime+"ssh_db.sql";
-			System.out.println(path);
+			File file = new File(pathDAO.selectFileRootPath()+File.separator+"backup");
+			file.mkdirs();
 			
 			Runtime runtime = Runtime.getRuntime();
 			runtime.exec("cmd /c mysqldump --user=ssh --password=1234 ssh_db > "+path);
@@ -67,7 +68,7 @@ public class SettingController {
 
 	}
 	
-	/* DB 백업 */
+	/* 파일저장소 경로 변경 */
 	@RequestMapping("/update-path")
 	@ResponseBody
 	public boolean updateRootPath(String path) throws Exception {

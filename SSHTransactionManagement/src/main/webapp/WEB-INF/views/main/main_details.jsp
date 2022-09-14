@@ -33,12 +33,6 @@
 									<button type="button" class="btn btn-default btn-flat" onclick="fn_getCompanyDetails(${companyDTO.company_idx})">
 										목 록
 									</button>
-									<button type="button" class="btn btn-default btn-flat">
-										지서서
-									</button>
-									<button type="button" class="btn btn-default btn-flat">
-										견적서
-									</button>
 									<button type="button" class="btn btn-default btn-flat" onclick="fn_viewImageFiles(${companyDTO.company_idx}, '')">
 										사 진
 									</button>

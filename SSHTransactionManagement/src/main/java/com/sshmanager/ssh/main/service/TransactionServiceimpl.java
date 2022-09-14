@@ -40,6 +40,10 @@ public class TransactionServiceimpl implements TransactionService {
 	@Autowired
 	private PathDAO pathDAO;
 	
+	private static final String[] ALLOWED_EXTENSION = new String[] {".hwp", ".doc", ".docx", ".ppt", ".pptx", 
+   			".xls", ".xlsx", ".txt", ".csv", ".jpg", 
+			".jpeg", ".gif", ".png", ".bmp", ".pdf"};
+	
 	public List<TransactionDTO> getTransactionList(String company_name) throws Exception {
 		return transactionDAO.selectTransactionList(company_name);
 	}
@@ -275,6 +279,13 @@ public class TransactionServiceimpl implements TransactionService {
 			String fileName = fileNames.next(); // front단에서 받아온 input[type=file]의 name속성 값
 			MultipartFile multiFile = multipartRequest.getFile(fileName); // 업로드 된 파일 하나를 MultipartFile 객체에 임시 저장
 			
+			// 파일 확장자 확인
+			String extension = multiFile.getOriginalFilename().substring(multiFile.getOriginalFilename().lastIndexOf("."));
+			if(!checkFileExtension(extension)) {
+				// 조건 중 하나라도 false면 업로드 X
+				continue;
+			}
+			
 			// 저장될 파일명 지정
 			String storedFileName = prependDateToFileName(multiFile.getOriginalFilename(), date);
 			String middle_root = date.substring(0, 4); // yyyy -> 후에 yyyy/fileType으로 변경됨
@@ -334,6 +345,17 @@ public class TransactionServiceimpl implements TransactionService {
 			} // .if
 		} // .while
 		
+	}
+	
+	/* 파일 확장자 검사 */
+	public boolean checkFileExtension(String extension) {
+		// 확장자 유효성 검사
+		for(int i = 0; 0 < ALLOWED_EXTENSION.length; i++) {
+			if(extension.equals(ALLOWED_EXTENSION[i])) {
+				return true; // 업로드 할 수 있는 확장자 true
+			}
+		}
+		return false; // 업로드 할 수 없는 확장자 false
 	}
 
 	

@@ -25,7 +25,7 @@
 						<th style="width: 17%;">업체명</th>
 						<th style="width: 12%;">품목코드</th>
 						<th style="width: 51%;">내용</th>
-						<th style="width: 10%;">공급가</th>
+						<th style="width: 10%;">단가</th>
 						<th style="width: 10%;">현재고</th>
 					</tr>
 				</thead>

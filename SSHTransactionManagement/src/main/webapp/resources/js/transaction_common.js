@@ -177,8 +177,38 @@ function fn_inputComma(price) {
 
 /* 파일 체크 - 파일 등록 시 이름 보여주기 */
 function fn_showFileName(inputName, file, attachFileCnt) {
+	
+	var allowedExtensions = [];
+	var msg;
+	
+	if(inputName == 'imageFileName') {
+		allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp'];
+		msg = "해당 파일은 업로드 할 수 없습니다."
+			+"\n - 업로드 가능한 파일 확장자 : jpg, jpeg, gif, png, bmp";
+	} else {
+		allowedExtensions = ['hwp', 'doc', 'docx', 'ppt', 'pptx', 
+			'xls', 'xlsx', 'txt', 'csv', 'jpg', 
+			'jpeg', 'gif', 'png', 'bmp', 'pdf'];
+		msg = "해당 파일은 업로드 할 수 없습니다."
+			+"\n - 업로드 가능한 파일 확장자 : hwp, doc, docx, ppt, pptx, xls, xlsx, txt, csv, jpg, jpeg, gif, png, bmp, pdf";
+	}
+	
 	var fileName = file.files[0].name;
-	$('input[name='+inputName+attachFileCnt+']').val(fileName);
+	var fileLength = fileName.length;
+	var fileDotIndex = fileName.lastIndexOf(".");
+	var fileExtension = fileName.substring(fileDotIndex+1, fileLength).toLowerCase();
+	
+	for(var i = 0; i < allowedExtensions.length; i++) {
+		if(fileExtension == allowedExtensions[i]){
+			// 유효한 확장자인 경우 - 함수 끝
+			var fileName = file.files[0].name;
+			$('input[name='+inputName+attachFileCnt+']').val(fileName);
+			return;
+		}
+	}
+	
+	alert(msg);
+	
 }
 
 /* 전체 리셋 - 아이템, 메모, 파일 모두 제거 */

@@ -14,7 +14,7 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.sshmanager.ssh" additivity="false">
-		<level value="info" />
+		<level value="debug" />
 		<appender-ref ref="console" />
 	</logger>
 
@@ -42,7 +42,7 @@
 	</logger>
 	
 	<logger name="jdbc.sqlonly" additivity="false">
-		<level value="info" />
+		<level value="warn" />
 		<appender-ref ref="console" />
 	</logger>
 	
@@ -57,7 +57,7 @@
 	</logger>
 	     
 	<logger name="jdbc.resultsettable" additivity="false">
-		<level value="info" />
+		<level value="warn" />
 		<appender-ref ref="console" />
 	</logger>
 	

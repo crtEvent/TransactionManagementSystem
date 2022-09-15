@@ -63,7 +63,7 @@
 						<button type="button" class="btn btn-default">내&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;용</button>
 					</div>
 					<input name="content" type="text" autocomplete="off"
-						maxlength="1000" class="form-control">
+						maxlength="300" class="form-control">
 				</div>
 				
 				<!-- 4. 공급가 -->

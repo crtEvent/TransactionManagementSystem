@@ -17,7 +17,7 @@
 						<div class="input-group-prepend">
 							<button type="button" class="btn btn-default">제목</button>
 						</div>
-						<input type="text" name="subject" class="form-control" autocomplete="off">
+						<input type="text" name="subject" class="form-control" autocomplete="off" onkeyup="fn_checkTextLength($(this))">
 					</div>
 				</div>
 				<!-- Modal 닫기 -->

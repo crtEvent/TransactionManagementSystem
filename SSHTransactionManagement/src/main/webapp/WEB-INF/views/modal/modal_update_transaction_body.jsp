@@ -17,7 +17,7 @@
 				<button type="button" class="btn btn-default">제목</button>
 			</div>
 			<input type="text" name="subject" class="form-control"
-				autocomplete="off" value="${transactionDTO.subject}">
+				autocomplete="off" value="${transactionDTO.subject}" onkeyup="fn_checkTextLength($(this))">
 		</div>
 	</div>
 	<!-- Modal 닫기 -->

@@ -45,7 +45,7 @@ function fn_addItem(insertOrUpdate) {
 			'<input type="text" name="item_code" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_getItemByCode($(this))">' +
 			'<input type="hidden" name="inventory_item_idx">' +
 		'</td>'+
-		'<td><input type="text" name="content" autocomplete="off" class="form-control form-control-sm"></td>'+
+		'<td><input type="text" name="content" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_checkTextLength($(this))"></td>'+
 		'<td><input type="text" name="amount" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputItemValue($(this))"></td>'+
 		'<td><input type="text" name="unit_price" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputItemValue($(this))"></td>'+
 		'<td><input type="text" name="supply_price" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_autoInputTotalValue($(this))"></td>'+
@@ -77,7 +77,7 @@ function fn_addMemo(insertOrUpdate) {
 				'<div class="btn btn-warning btn-sm">메모</div>'+
 			'</td>'+
 			'<td>'+
-				'<input type="text" name="memo" autocomplete="off" class="form-control form-control-sm">'+
+				'<input type="text" name="memo" autocomplete="off" class="form-control form-control-sm" onkeyup="fn_checkTextLength($(this))">'+
 			'</td>'+
 			'<td style="width: 3%" class="text-center">'+
 				'<button class="btn btn-sm" onclick="fn_deleteParentParent($(this))">'+
@@ -149,6 +149,14 @@ function fn_deleteFile(obj) {
 }
 
 /* 유효성 검사 - 숫자만 입력 가능, 자리수 제한, 세 자리수 콤마 */
+function fn_checkTextLength(obj) {
+	if(obj.val().length > 300) {
+		alert("300자 까지만 입력 가능합니다.");
+    	obj.val(obj.val().slice(0, 300));
+	}
+}
+
+/* 유효성 검사 - 숫자만 입력 가능, 자리수 제한, 세 자리수 콤마 */
 function fn_checkNumberOnly(obj) {
 	// 정규식 - 숫자만 입력 가능
 	var inputVal = obj.val().replace(/[^0-9]/gi,'');
@@ -162,7 +170,7 @@ function fn_checkNumberOnly(obj) {
     // 세 자리수 마다 콤마 찍기 + 값 입력
     obj.val(fn_inputComma(inputVal));
     
-} /* 유효성 검사 function-end */
+}
 
 /* 유효성 검사 - 세 자리수 마다 콤마 찍기 */
 function fn_inputComma(price) {
@@ -345,6 +353,11 @@ function fn_insertTransaction() {
 	formData.append('company_idx', company_idx);
 	formData.append('transaction_type', transaction_type);
 	formData.append('subject', subject);
+	
+	if(subject == '') {
+		alert('제목을 입력해 주세요.');
+		return;
+	}
 
 	/* [item 넣기] */
 	var itemList = new Array() ;

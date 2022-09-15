@@ -24,7 +24,7 @@ public class IpTracker  extends HandlerInterceptorAdapter {
 	         if (ip == null || ip.length() == 0) {
 	             ip = request.getHeader("Proxy-Client-IP");
 	         }
-	 
+
 	         //웹로직 서버일 경우
 	         if (ip == null || ip.length() == 0) {
 	             ip = request.getHeader("WL-Proxy-Client-IP");

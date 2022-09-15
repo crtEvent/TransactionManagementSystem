@@ -43,6 +43,11 @@ function fn_loadTransactionListTable(company_idx) {
 			pageSize:   25,
 			pageButtonCount: 5,
 			pageIndex:  1,
+			pageNextText: "다음",
+			pagePrevText: "이전",
+			pageFirstText: "처음",
+			pageLastText: "마지막",
+			pagerFormat: "페이지: {first} {prev} {pages} {next} {last}    ( {pageIndex} / {pageCount} )",
 		 
 			controller: {
 				loadData: function(filter) {

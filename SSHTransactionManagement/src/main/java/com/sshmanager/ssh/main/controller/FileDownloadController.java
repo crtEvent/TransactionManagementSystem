@@ -2,6 +2,7 @@ package com.sshmanager.ssh.main.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URLEncoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -83,9 +84,10 @@ public class FileDownloadController {
 
 			Resource resource = resourceLoader.getResource("file:/"+filePath);
 			File file = resource.getFile();
+			String fileName = URLEncoder.encode(file.getName(), "UTF-8").replaceAll("\\+", "%20");;
 
 			return ResponseEntity.ok()
-					.header(HttpHeaders.CONTENT_DISPOSITION, disposition+"; filename=\"" + file.getName() + "\"")
+					.header(HttpHeaders.CONTENT_DISPOSITION, disposition+"; filename=\"" + fileName + "\"")
 					.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()))
 					.header(HttpHeaders.CONTENT_TYPE, mediaType.toString()).body(resource);
 		} catch (FileNotFoundException e) {

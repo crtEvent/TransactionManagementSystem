@@ -33,6 +33,7 @@
 	<%@include file="../modal/modal_update_inventory_item.jsp" %>
 	<%@include file="../modal/modal_view_inventory_item.jsp" %>
 	<%@include file="../modal/modal_item_history.jsp" %>
+	<%@include file="../modal/modal_login.jsp" %>
 	
 	<%@include file="../include/include_main_plugins.jsp" %>
 	<script type="text/javascript" src="<c:url value="/resources/js/common.js"/>"></script>
@@ -43,5 +44,11 @@
 	<script type="text/javascript" src="<c:url value="/resources/js/view_files.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/inventory_common.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/setting.js"/>"></script>
+	
+	<c:if test="${empty userSession.user_idx}">
+		<script type="text/javascript">
+			$('#loginModal').modal({ keyboard: false, backdrop: 'static' });
+		</script>
+	</c:if>
 </body>
 </html>

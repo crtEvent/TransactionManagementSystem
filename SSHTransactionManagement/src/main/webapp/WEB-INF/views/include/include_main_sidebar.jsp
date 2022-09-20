@@ -37,12 +37,22 @@
                     </tr>
                   </thead>
                   <tbody>
-                  	<c:forEach var="row_company" items="${searchCompanyList}">
-                   		<tr class="text-center" onclick="fn_getCompanyDetails(${row_company.COMPANY_IDX})">
-                    		<td>${row_company.COMPANY_IDX }</td>
-                    		<td>${row_company.COMPANY_NAME }</td>
-                    	</tr>
-                    </c:forEach>
+                  	<c:choose>
+                  		<c:when test="${not empty userSession.user_idx}">
+                  			<c:forEach var="row_company" items="${searchCompanyList}">
+                   				<tr class="text-center" onclick="fn_getCompanyDetails(${row_company.COMPANY_IDX})">
+                    				<td>${row_company.COMPANY_IDX }</td>
+                    				<td>${row_company.COMPANY_NAME }</td>
+                    			</tr>
+                    		</c:forEach>
+                  		</c:when>
+                  		<c:otherwise>
+                  			<tr>
+                  				<td colspan="2" class="text-center">로그인 하세요.</td>
+                  			</tr>
+                  		</c:otherwise>
+                  	</c:choose>
+                  
                   </tbody>
                 </table>
 

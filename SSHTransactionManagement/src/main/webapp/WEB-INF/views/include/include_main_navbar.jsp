@@ -17,10 +17,9 @@
     </ul>
 
     <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      
+    <ul class="navbar-nav ml-auto" id="rightNavBar">
       <li class="nav-item">
-        
+      	<div class="nav-link"><i class="fas fa-user"></i><span id="userInfo">&nbsp;</span></div>
       </li>
     </ul>
   </nav>

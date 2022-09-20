@@ -11,5 +11,6 @@
 		<typeAlias type="com.sshmanager.ssh.main.dto.InventoryItemDTO" alias="inventoryItemDTO"/>
 		<typeAlias type="com.sshmanager.ssh.main.dto.TotalPriceDTO" alias="totalPriceDTO"/>
 		<typeAlias type="com.sshmanager.ssh.main.dto.ItemHistoryDTO" alias="itemHistoryDTO"/>
+		<typeAlias type="com.sshmanager.ssh.user.dto.UserDTO" alias="userDTO"/>
 	</typeAliases>
 </configuration>

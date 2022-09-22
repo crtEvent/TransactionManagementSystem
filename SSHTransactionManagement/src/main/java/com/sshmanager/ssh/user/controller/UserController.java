@@ -29,8 +29,6 @@ public class UserController {
 	public String login(String user_id, String user_password, String remember_id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
-		System.out.println(user_id +", "+user_password+", "+remember_id);
-
 		UserDTO user = userService.getUser(user_id, user_password);
 
 		if (user == null) {
@@ -47,17 +45,14 @@ public class UserController {
 			cookie.setPath("/");
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
-			log.debug("cookie 삭제");
 		} else {
 			// cookie 저장
 			Cookie cookie = new Cookie("remember_user", user.getUser_id());
 			cookie.setPath("/");
 			cookie.setMaxAge(60 * 60 * 24 * 365); // 1년
 			response.addCookie(cookie);
-			log.debug("cookie 저장");
 		}
 		
-		log.debug("로그인 성공, user_id: "+user.getUser_id());
 		return user.getUser_id();
 	}
 	

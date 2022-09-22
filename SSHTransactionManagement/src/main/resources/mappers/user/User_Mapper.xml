@@ -27,8 +27,42 @@
 		]]>
 	</select>
 	
-	<!-- selectUserList -->
-	<!-- insertUser -->
-	<!-- deleteUser -->
+	<select id="selectUserList" resultType="userDTO">
+		<![CDATA[
+		SELECT
+			USER_IDX, USER_ID, USER_PASSWORD
+		FROM
+			USER
+		]]>
+	</select>
+	
+	<insert id="insertUser" parameterType="userDTO">
+		<![CDATA[
+		INSERT INTO
+			USER(USER_ID, USER_PASSWORD)
+		VALUES
+			(#{user_id}, #{user_password})
+		]]>
+	</insert>
+	
+	<update id="updateUser" parameterType="userDTO">
+		<![CDATA[
+		UPDATE
+			USER
+		SET
+			USER_PASSWORD = #{user_password}
+		WHERE
+			USER_IDX = #{user_idx}
+		]]>
+	</update>
+	
+	<delete id="deleteUser" parameterType="String">
+		<![CDATA[
+		DELETE FROM
+			USER
+		WHERE
+			USER_IDX = #{user_idx}
+		]]>
+	</delete>
 	
 </mapper>

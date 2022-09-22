@@ -1,5 +1,7 @@
 package com.sshmanager.ssh.user.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,21 @@ public class UserServiceImpl implements UserService {
 		
 		UserDTO user = userDAO.selectUser(user_id, user_password);
 		return user;
+	}
+	
+	public List<UserDTO> getUserList() throws Exception {
+		return userDAO.selectUserList();
+	}
+	
+	public void insertUser(UserDTO dto) throws Exception {
+		userDAO.insertUser(dto);
+	}
+
+	public void updateUser(UserDTO dto) throws Exception {
+		userDAO.updateUser(dto);
+	}
+
+	public void deleteUser(String user_idx) throws Exception {
+		userDAO.deleteUser(user_idx);
 	}
 }

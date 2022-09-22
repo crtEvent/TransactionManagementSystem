@@ -35,5 +35,12 @@
             <beans:bean id="login" class="com.sshmanager.ssh.common.interceptor.LoginInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
+    
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/setting/**"/>
+            <beans:bean id="admin" class="com.sshmanager.ssh.common.interceptor.AdminInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans:beans>

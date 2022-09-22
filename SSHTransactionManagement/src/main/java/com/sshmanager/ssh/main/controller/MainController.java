@@ -24,14 +24,6 @@ public class MainController {
 
 		model.addAttribute("searchCompanyList", searchCompanyService.searchCompanyList(null, 20));
 
-		// 로그인된 상채가 아니면 로그인 modal창을 띄움
-		HttpSession session = request.getSession(true);
-		Object userSession = session.getAttribute("userSession");
-
-		if (userSession == null) {
-			//model.addAttribute("", "");
-		}
-
 		return "/main/main";
 	}
 }

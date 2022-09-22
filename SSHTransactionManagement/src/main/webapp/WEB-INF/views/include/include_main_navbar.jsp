@@ -19,8 +19,20 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto" id="rightNavBar">
       <li class="nav-item">
-      	<div class="nav-link"><i class="fas fa-user"></i><span id="userInfo">&nbsp;</span></div>
+      	<div class="nav-link">
+      		<i class="fas fa-user"></i>
+      		<span id="userInfo">&nbsp;
+      			<c:if test="${not empty userSession.user_idx}">
+      				${userSession.user_id}
+      			</c:if>
+      		</span>
+      	</div>
       </li>
+      <c:if test="${not empty userSession.user_idx}">
+      	<li id="logoutLiTag" class="nav-item">
+      		<div class="nav-link" onclick="fn_logout()">로그아웃</div>
+      	</li>
+      </c:if>
     </ul>
   </nav>
   <!-- /.navbar -->
